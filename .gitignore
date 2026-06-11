@@ -1,0 +1,29 @@
+# ── 비공개 자료 — 이 레포는 공개 GitHub Pages이므로 아래 항목은 절대 커밋 금지 ──
+
+# 자소서·지원 자료 (개인정보 포함)
+자소서/
+apply/
+jr/
+*.pdf
+
+# 작업·계획 문서 (비공개 메모)
+ㄷ.md
+계획.md
+plan.md
+think.md
+analysis.md
+study_plan.md
+introduce.md
+resume-info.md
+README_draft_trading_case_study.md
+자소서_이력서_포트폴리오_점검_체크리스트.md
+index-preview.html
+wanted_native_resume_preview.png
+
+# 미사용 개인 사진 (사이트에서 참조 시 이 줄 제거)
+assets/profile.jpeg
+
+# 도구·세션 파일
+.playwright-mcp/
+.mcp.json
+.claude/

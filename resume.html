@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>김민형 - AI 엔지니어 이력서</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>"/>
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --ink: #0f172a;
+            --ink-soft: #1e293b;
+            --muted: #64748b;
+            --muted-soft: #94a3b8;
+            --line: #e2e8f0;
+            --line-soft: #f1f5f9;
+            --surface: #ffffff;
+            --surface-soft: #f8fafc;
+            --accent: #2563eb;
+            --accent-soft: #eff6ff;
+        }
+
+        body {
+            font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.65;
+            color: var(--ink);
+            background: var(--surface-soft);
+            font-feature-settings: 'ss01', 'tnum';
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 880px;
+            margin: 0 auto;
+            background: var(--surface);
+            padding: 72px 72px 56px;
+        }
+
+        /* Header */
+        .header {
+            margin-bottom: 40px;
+        }
+
+        .name {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--ink);
+            letter-spacing: -0.02em;
+            margin-bottom: 8px;
+        }
+
+        .name .en {
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--muted);
+            margin-left: 8px;
+            letter-spacing: 0;
+        }
+
+        .tagline {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--ink-soft);
+            line-height: 1.55;
+            margin-bottom: 20px;
+            max-width: 640px;
+        }
+
+        .tagline .accent {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .contact {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            font-size: 13px;
+            color: var(--muted);
+            padding-top: 20px;
+            border-top: 1px solid var(--line);
+        }
+
+        .contact-item a {
+            color: var(--ink-soft);
+            text-decoration: none;
+            transition: color 0.15s;
+        }
+
+        .contact-item a:hover {
+            color: var(--accent);
+        }
+
+        /* Section */
+        .section {
+            margin-bottom: 48px;
+        }
+
+        .section-title {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--line);
+        }
+
+        /* Metrics */
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .metric {
+            padding: 20px 0;
+            border-top: 2px solid var(--ink);
+        }
+
+        .metric-value {
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--ink);
+            letter-spacing: -0.02em;
+            margin-bottom: 6px;
+            line-height: 1.1;
+        }
+
+        .metric-label {
+            font-size: 13px;
+            color: var(--ink-soft);
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .metric-sub {
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        /* Summary */
+        .summary {
+            font-size: 15px;
+            line-height: 1.75;
+            color: var(--ink-soft);
+            margin-bottom: 20px;
+        }
+
+        .summary strong {
+            color: var(--ink);
+            font-weight: 600;
+        }
+
+        /* Competencies */
+        .competencies {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .comp-item {
+            display: grid;
+            grid-template-columns: 180px 1fr;
+            gap: 28px;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--line-soft);
+        }
+
+        .comp-item:last-child {
+            border-bottom: none;
+        }
+
+        .comp-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--ink);
+        }
+
+        .comp-body {
+            font-size: 14px;
+            color: var(--ink-soft);
+            line-height: 1.7;
+        }
+
+        .comp-body .num {
+            color: var(--accent);
+            font-weight: 600;
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* Projects */
+        .project {
+            margin-bottom: 36px;
+            padding-bottom: 36px;
+            border-bottom: 1px solid var(--line-soft);
+        }
+
+        .project:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .project-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 6px;
+        }
+
+        .project-title {
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--ink);
+            letter-spacing: -0.01em;
+        }
+
+        .project-period {
+            font-size: 12px;
+            color: var(--muted);
+            font-variant-numeric: tabular-nums;
+            white-space: nowrap;
+        }
+
+        .project-role {
+            font-size: 13px;
+            color: var(--muted);
+            margin-bottom: 18px;
+        }
+
+        .project-outcome {
+            background: var(--surface-soft);
+            border-left: 2px solid var(--accent);
+            padding: 14px 18px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            line-height: 1.7;
+            color: var(--ink-soft);
+        }
+
+        .project-outcome strong {
+            color: var(--ink);
+            font-weight: 600;
+        }
+
+        .project-outcome .num {
+            color: var(--accent);
+            font-weight: 600;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .subhead {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-top: 22px;
+            margin-bottom: 12px;
+        }
+
+        .decision {
+            margin-bottom: 14px;
+            padding-left: 14px;
+            border-left: 2px solid var(--line);
+            font-size: 13.5px;
+            line-height: 1.7;
+            color: var(--ink-soft);
+        }
+
+        .decision strong {
+            display: block;
+            color: var(--ink);
+            font-weight: 600;
+            margin-bottom: 4px;
+            font-size: 14px;
+        }
+
+        .project-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .project-list li {
+            font-size: 13.5px;
+            color: var(--ink-soft);
+            margin-bottom: 8px;
+            padding-left: 16px;
+            position: relative;
+            line-height: 1.7;
+        }
+
+        .project-list li:before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 10px;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--muted-soft);
+        }
+
+        .project-list li strong {
+            color: var(--ink);
+            font-weight: 600;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 14px;
+        }
+
+        .tech-tag {
+            display: inline-block;
+            background: var(--surface-soft);
+            color: var(--ink-soft);
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 11.5px;
+            font-weight: 500;
+        }
+
+        .project-links {
+            margin-top: 14px;
+            font-size: 13px;
+            display: flex;
+            gap: 16px;
+        }
+
+        .project-links a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .project-links a:hover {
+            text-decoration: underline;
+        }
+
+        /* Secondary Projects */
+        .secondary-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 28px;
+            margin-top: 16px;
+        }
+
+        .secondary-item h5 {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--ink);
+            margin-bottom: 10px;
+        }
+
+        .secondary-item ul {
+            list-style: none;
+            font-size: 13px;
+            color: var(--ink-soft);
+            line-height: 1.7;
+        }
+
+        .secondary-item li {
+            padding-left: 12px;
+            position: relative;
+            margin-bottom: 4px;
+        }
+
+        .secondary-item li:before {
+            content: "–";
+            position: absolute;
+            left: 0;
+            color: var(--muted-soft);
+        }
+
+        .secondary-item li strong {
+            color: var(--ink);
+            font-weight: 600;
+        }
+
+        /* Skills */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px 40px;
+        }
+
+        .skill-category h4 {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 10px;
+            letter-spacing: 0;
+        }
+
+        .skill-category ul {
+            list-style: none;
+            font-size: 13px;
+            color: var(--ink-soft);
+            line-height: 1.85;
+        }
+
+        /* Education / Certs / Languages */
+        .edu-item {
+            font-size: 14px;
+            color: var(--ink-soft);
+            line-height: 1.7;
+        }
+
+        .edu-item strong {
+            color: var(--ink);
+            font-weight: 600;
+        }
+
+        .edu-item .note {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .cert-list {
+            list-style: none;
+            font-size: 13.5px;
+            color: var(--ink-soft);
+            line-height: 1.9;
+        }
+
+        .cert-list li strong {
+            color: var(--ink);
+            font-weight: 600;
+        }
+
+        .cert-list .date {
+            color: var(--muted);
+            font-variant-numeric: tabular-nums;
+            margin-left: 4px;
+        }
+
+        .languages {
+            display: flex;
+            gap: 32px;
+            font-size: 13.5px;
+            color: var(--ink-soft);
+            flex-wrap: wrap;
+        }
+
+        .language strong {
+            color: var(--ink);
+            font-weight: 600;
+            margin-right: 6px;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 48px;
+            padding-top: 20px;
+            border-top: 1px solid var(--line);
+            text-align: center;
+            color: var(--muted-soft);
+            font-size: 11px;
+        }
+
+        @media print {
+            body {
+                background: white;
+            }
+            .container {
+                max-width: 100%;
+                padding: 40px;
+            }
+            .project,
+            .comp-item,
+            .secondary-item,
+            .skill-category,
+            .edu-item {
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+            .section-title,
+            .project-title,
+            .subhead {
+                page-break-after: avoid;
+                break-after: avoid;
+            }
+            .header {
+                page-break-after: avoid;
+                break-after: avoid;
+            }
+            a {
+                color: var(--ink) !important;
+                text-decoration: none !important;
+            }
+            .print-hint {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 32px 24px;
+            }
+            .name {
+                font-size: 26px;
+            }
+            .tagline {
+                font-size: 15px;
+            }
+            .metrics, .skills-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+            .comp-item {
+                grid-template-columns: 1fr;
+                gap: 6px;
+            }
+            .contact {
+                gap: 10px;
+            }
+            .secondary-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            .project-head {
+                flex-direction: column;
+                gap: 4px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1 class="name">김민형<span class="en">Minhyung Kim</span></h1>
+            <p class="tagline">
+                LLM의 유창함과 신뢰성 사이의 간극을 <span class="accent">엔지니어링으로 메우는</span> AI 엔지니어.
+                외부 API 서비스의 <span class="accent">비용·안정성·관측성</span> 개선에 기여할 신입 포지션을 희망합니다.
+            </p>
+            <div class="contact">
+                <div class="contact-item"><a href="mailto:minhyung9013@gmail.com">minhyung9013@gmail.com</a></div>
+                <div class="contact-item">010-9013-1904</div>
+                <div class="contact-item"><a href="https://github.com/mh9013" target="_blank">GitHub</a></div>
+                <div class="contact-item"><a href="https://www.linkedin.com/in/minhyung-kim-1877b83aa" target="_blank">LinkedIn</a></div>
+                <div class="contact-item"><a href="https://mh9013.github.io/" target="_blank">Portfolio</a></div>
+            </div>
+        </header>
+
+        <!-- Metrics -->
+        <section class="metrics">
+            <div class="metric">
+                <div class="metric-value">99.89%</div>
+                <div class="metric-label">외부 API 호출 절감</div>
+                <div class="metric-sub">주식 자동매매 · KIS Open API · 2025.12–2026.03 적용 전·후 비교</div>
+            </div>
+            <div class="metric">
+                <div class="metric-value">10s → 0.05s</div>
+                <div class="metric-label">평균 응답 시간 단축</div>
+                <div class="metric-sub">주식 자동매매 조회 경로 · TTL 다층 캐싱 적용 후</div>
+            </div>
+            <div class="metric">
+                <div class="metric-value">86.37%</div>
+                <div class="metric-label">테스트 커버리지</div>
+                <div class="metric-sub">Analysis Bot · Jest 리포트 (2026.04 기준)</div>
+            </div>
+        </section>
+
+        <!-- Summary -->
+        <section class="section">
+            <div class="section-title">About</div>
+            <p class="summary">
+                <strong>전기공학 전공으로 쌓은 회로·신호 처리 사고를 소프트웨어 안정성과 성능 최적화에 적용해 왔습니다.</strong>
+                RAG 파이프라인을 단독으로 설계·구현했고, TTL 다층 캐싱으로 외부 API 호출을 크게 줄였으며,
+                Kubernetes + ArgoCD 기반 배포 파이프라인과 멀티 프로바이더 폴백 구조로 외부 의존성 장애에도
+                서비스가 이어지도록 구성해 왔습니다. 개발 종료 이후의 운영·장애 대응까지 설계 범위에 포함시키는 편입니다.
+            </p>
+        </section>
+
+        <!-- Core Competencies -->
+        <section class="section">
+            <div class="section-title">Core Competencies</div>
+            <div class="competencies">
+                <div class="comp-item">
+                    <div class="comp-label">비용 · 성능 최적화</div>
+                    <div class="comp-body">
+                        외부 API 의존도가 높은 서비스에서 TTL 다층 캐싱·배치 호출 재설계로 호출량과 지연을 함께 낮춥니다.
+                        <span class="num">주식 자동매매에서 호출 99.89% 절감, 응답 10s → 0.05s.</span>
+                        인프라 증설보다 호출 경로 자체를 줄이는 방향을 먼저 검토합니다.
+                    </div>
+                </div>
+                <div class="comp-item">
+                    <div class="comp-label">장애 복원력 설계</div>
+                    <div class="comp-body">
+                        멀티 프로바이더 폴백(OpenAI → Claude → Gemini), Blue-Green / Canary 배포, Fail-open 거래 로직을
+                        실제로 구성해 본 경험이 있습니다. 외부 키·쿼터·네트워크 이슈가 서비스 단절로 이어지지 않도록
+                        분기와 롤백 경로를 설계합니다.
+                    </div>
+                </div>
+                <div class="comp-item">
+                    <div class="comp-label">운영 가시성</div>
+                    <div class="comp-body">
+                        Prometheus · Grafana · OpenTelemetry · Sentry · Langfuse를 조합해 LLM 호출까지 포함한 시스템 상태를
+                        지표·추적·에러·토큰 비용 단위로 관찰 가능하게 만듭니다. 배포 직후 헬스체크·알림까지 기본 범위로 포함합니다.
+                    </div>
+                </div>
+                <div class="comp-item">
+                    <div class="comp-label">RAG 파이프라인 구현</div>
+                    <div class="comp-body">
+                        문서 업로드 → 하이브리드 검색(pgvector + tsvector) → 컨텍스트 패킹 → LLM 라우팅 → SSE 스트리밍까지
+                        전구간을 단독으로 구현할 수 있습니다. 가중치·프롬프트·리랭킹을 실제로 비교 실험하며 튜닝합니다.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Core Projects -->
+        <section class="section">
+            <div class="section-title">Projects</div>
+
+            <!-- Project 1: Analysis Bot -->
+            <div class="project">
+                <div class="project-head">
+                    <h3 class="project-title">Analysis Bot — RAG 문서 분석 챗봇</h3>
+                    <span class="project-period">2026.03 — 2026.04</span>
+                </div>
+                <div class="project-role">개인 프로젝트 · 풀스택 &amp; 인프라 책임</div>
+
+                <div class="subhead">문제</div>
+                <div class="decision" style="border-left-color: var(--line); margin-bottom: 22px;">
+                    사내 규정·계약서 같은 문서를 LLM에 질의할 때 단일 검색 방식만으로는 의미와 고유 표현(회사명·법적 용어)을 동시에 잡기 어렵고,
+                    OpenAI 같은 단일 프로바이더에 의존하면 API 키 누락·rate limit·장애 상황에서 서비스가 그대로 멈춥니다.
+                    여기에 수동 배포와 롤백까지 더해지면, 장애 발생 후 복구까지의 공백이 길어집니다.
+                </div>
+
+                <div class="subhead">해결</div>
+
+                <div class="decision">
+                    <strong>하이브리드 검색 — pgvector 0.7 + tsvector 0.3</strong>
+                    벡터·키워드 검색 결과를 가중합해 의미·표현 매칭을 동시에 확보했습니다. 가중치는 자체 샘플 문서로 반복 튜닝해 결정했습니다.
+                </div>
+
+                <div class="decision">
+                    <strong>멀티 프로바이더 자동 라우팅 — OpenAI → Claude → Gemini</strong>
+                    단일 프로바이더 의존을 제거하고, 로컬에서 키 제거·응답 지연 시나리오를 시뮬레이션해 전환 동작을 검증했습니다.
+                </div>
+
+                <div class="decision">
+                    <strong>Kubernetes + ArgoCD GitOps 배포</strong>
+                    Blue-Green·Canary로 신버전 트래픽 이동을 단계적으로 제어하고, Helm 차트·Argo 매니페스트를 Git으로 선언적 관리.
+                    헬스체크 실패 시 자동 롤백이 이루어지도록 파이프라인을 구성했습니다.
+                </div>
+
+                <div class="decision">
+                    <strong>Planner–Generator–Evaluator 자체 평가 루프</strong>
+                    단일 LLM 호출의 "유창하지만 검증 불가" 문제를 해결하기 위해, 질문 분해(Planner) → 응답 생성(Generator) →
+                    응답 검증(Evaluator) 3단계 에이전트 루프를 직접 구현. 응답을 자가 검증하고 실패 시 Self-Correction 경로로 재시도하되,
+                    <strong>최대 재시도 3회</strong>로 상한을 두어 토큰 비용 폭주를 방지합니다.
+                </div>
+
+                <div class="subhead">성과</div>
+                <ul class="project-list">
+                    <li>RAG 전구간(문서 업로드 → 하이브리드 검색 → LLM 라우팅 → SSE 스트리밍) <strong>엔드투엔드 구현</strong></li>
+                    <li>테스트 <strong>커버리지 86.37%</strong> (Jest 리포트 기준), 주요 경로 통합 테스트 포함</li>
+                    <li>8,192 토큰 컨텍스트 제약에서 greedy packing으로 <strong>응답용 2,048 토큰 확보</strong></li>
+                    <li>관측성 스택 함께 구성 — Prometheus · Grafana · Langfuse · OpenTelemetry · Sentry</li>
+                </ul>
+
+                <div class="tech-stack">
+                    <span class="tech-tag">TypeScript</span>
+                    <span class="tech-tag">Fastify 5</span>
+                    <span class="tech-tag">Next.js 16</span>
+                    <span class="tech-tag">PostgreSQL</span>
+                    <span class="tech-tag">pgvector</span>
+                    <span class="tech-tag">Redis</span>
+                    <span class="tech-tag">Claude API</span>
+                    <span class="tech-tag">Kubernetes</span>
+                    <span class="tech-tag">ArgoCD</span>
+                    <span class="tech-tag">Prometheus</span>
+                    <span class="tech-tag">Sentry</span>
+                </div>
+
+                <div class="project-links">
+                    <a href="https://noiseless-cress-ffd.notion.site/Analysis-Bot-RAG-334fd79b3afd8086bee5f5954974d886" target="_blank">Notion →</a>
+                </div>
+            </div>
+
+            <!-- Project 2: FireGenerators -->
+            <div class="project">
+                <div class="project-head">
+                    <h3 class="project-title">FireGenerators — AI 투자 추천 RAG 시스템</h3>
+                    <span class="project-period">2025.08 — 2025.09</span>
+                </div>
+                <div class="project-role">부트캠프 팀 프로젝트 · RAG 파이프라인 담당</div>
+
+                <div class="subhead">문제</div>
+                <div class="decision" style="border-left-color: var(--line); margin-bottom: 22px;">
+                    사용자의 투자 성향(보수/공격)은 임베딩 유사도만으로 반영되지 않아, 의미 유사도 기반 검색만으로는 적합도가 떨어진 추천이 섞여 들어왔습니다.
+                    동시에 로컬 실험과 프로덕션 전환 단계에서 벡터 스토어를 다르게 쓰면 코드 분기가 늘어나 실험 속도가 느려졌습니다.
+                </div>
+
+                <div class="subhead">해결</div>
+
+                <div class="decision">
+                    <strong>Pinecone + FAISS 이중화 (인터페이스 통일)</strong>
+                    개발에는 FAISS로 로컬에서 빠르게 실험하고 프로덕션에서는 Pinecone으로 전환하되, 인터페이스를 동일하게 유지해 코드 수정 없이 전환 가능하도록 구성했습니다.
+                </div>
+
+                <div class="decision">
+                    <strong>임베딩 검색 후 GPT-4o 리랭킹</strong>
+                    상위 N개 후보를 GPT-4o로 재정렬해 의미 관련도와 투자 성향 조건 적합도를 함께 반영했습니다.
+                </div>
+
+                <div class="subhead">성과</div>
+                <ul class="project-list">
+                    <li>RAG 플로우(투자 성향 → 임베딩 → Pinecone 검색 → GPT-4o 리랭킹 → 추천) <strong>설계·구현 주도</strong></li>
+                    <li><strong>100여 개 프롬프트 조합</strong> 비교 실험으로 응답 관련성·일관성 개선</li>
+                    <li>Supabase 사용자 관리 + yfinance 실시간 시세 연동</li>
+                </ul>
+
+                <div class="tech-stack">
+                    <span class="tech-tag">Python</span>
+                    <span class="tech-tag">RAG</span>
+                    <span class="tech-tag">GPT-4o</span>
+                    <span class="tech-tag">Pinecone</span>
+                    <span class="tech-tag">FAISS</span>
+                    <span class="tech-tag">LangChain</span>
+                    <span class="tech-tag">Streamlit</span>
+                </div>
+
+                <div class="project-links">
+                    <a href="https://github.com/GigaGaGaGagigo/FireGenerators" target="_blank">GitHub →</a>
+                </div>
+            </div>
+
+            <!-- Project 3: Trading -->
+            <div class="project">
+                <div class="project-head">
+                    <h3 class="project-title">자동매매 시리즈 — 주식 &amp; 암호화폐</h3>
+                    <span class="project-period">2025.12 — 2026.03</span>
+                </div>
+                <div class="project-role">개인 프로젝트 · 비용·안정성 최적화 중심</div>
+
+                <div class="subhead">문제</div>
+                <div class="decision" style="border-left-color: var(--line); margin-bottom: 22px;">
+                    KIS Open API·거래소 API는 호출 한도·과금이 있어, 수백 종목을 주기적으로 감시하는 구조에서는 비용과 응답 지연이 동시에 증가합니다.
+                    또한 텔레그램·외부 지표 같은 부가 API가 실패하면 주 거래 로직까지 함께 중단될 위험이 있어, 부가 경로와 주 경로를 분리할 필요가 있었습니다.
+                </div>
+
+                <div class="subhead">해결</div>
+
+                <div class="decision">
+                    <strong>TTL 다층 캐싱 + 조회 경로 배치화 (주식)</strong>
+                    동일 데이터 재호출을 캐시 계층에서 제거하고, 종목별 개별 호출을 배치로 묶어 라운드트립을 줄였습니다.
+                </div>
+
+                <div class="decision">
+                    <strong>Fail-open 설계 + 거래소 인터페이스 추상화 (암호화폐)</strong>
+                    부가 API 실패는 경고만 남기고 주 거래 로직은 이어가도록 경로를 분리했습니다.
+                    거래소 연동은 ABC 기반 인터페이스로 추상화해 업비트·바이낸스를 코드 수정 없이 교체할 수 있도록 했습니다.
+                    5단계 신호 필터 체인으로 오진입을 방지합니다.
+                </div>
+
+                <div class="subhead">성과</div>
+                <div class="secondary-grid">
+                    <div class="secondary-item">
+                        <h5>주식 자동매매 (KOSPI / NASDAQ)</h5>
+                        <ul>
+                            <li>외부 API <strong>호출 99.89% 절감</strong> (적용 전·후 비교)</li>
+                            <li>평균 응답 <strong>10s → 0.05s</strong> 단축</li>
+                            <li>KIS Open API + 8종 기술적 지표 자동 계산</li>
+                            <li>GCP e2-micro 상시 운영, 장애 시 Telegram 알림</li>
+                            <li>백테스팅 승률 <strong>63.6%</strong> (프로젝트 기간 내부 검증, 2025.12–2026.03)</li>
+                        </ul>
+                    </div>
+                    <div class="secondary-item">
+                        <h5>암호화폐 자동매매 (업비트 / 바이낸스)</h5>
+                        <ul>
+                            <li>거래소 교체 가능한 <strong>ABC 기반 추상화</strong></li>
+                            <li>5단계 신호 필터로 오진입 방지</li>
+                            <li>WebSocket으로 다중 심볼 실시간 감시</li>
+                            <li>Fail-open으로 부가 API 장애 시 주 거래 유지</li>
+                            <li>FastAPI 대시보드(8개 라우터) + Docker 배포</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="tech-stack">
+                    <span class="tech-tag">Python</span>
+                    <span class="tech-tag">FastAPI</span>
+                    <span class="tech-tag">KIS Open API</span>
+                    <span class="tech-tag">업비트 API</span>
+                    <span class="tech-tag">바이낸스 API</span>
+                    <span class="tech-tag">WebSocket</span>
+                    <span class="tech-tag">Docker</span>
+                    <span class="tech-tag">GCP</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills -->
+        <section class="section">
+            <div class="section-title">Technical Skills</div>
+            <div class="skills-grid">
+                <div class="skill-category" style="grid-column: 1 / -1;">
+                    <h4>Languages</h4>
+                    <ul style="display: flex; flex-wrap: wrap; gap: 4px 18px;">
+                        <li>Python</li>
+                        <li>TypeScript</li>
+                        <li>JavaScript</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h4>Data &amp; AI</h4>
+                    <ul>
+                        <li>RAG 설계 · 하이브리드 검색 구현</li>
+                        <li>Prompt Engineering · 비교 실험</li>
+                        <li>멀티 프로바이더 라우팅 (OpenAI / Claude / Gemini)</li>
+                        <li>LLM 컨텍스트 관리 · greedy packing</li>
+                        <li>LangChain, Langfuse</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h4>Infrastructure &amp; DevOps</h4>
+                    <ul>
+                        <li>Kubernetes, Helm</li>
+                        <li>ArgoCD GitOps</li>
+                        <li>Docker, Docker Compose</li>
+                        <li>Blue-Green · Canary 배포</li>
+                        <li>GCP (Compute Engine, Cloud Run)</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h4>Backend &amp; Data</h4>
+                    <ul>
+                        <li>FastAPI, Fastify 5</li>
+                        <li>PostgreSQL, pgvector, Redis, MongoDB</li>
+                        <li>Prisma ORM</li>
+                        <li>WebSocket 실시간 처리</li>
+                        <li>TTL 다층 캐싱 설계</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h4>Observability</h4>
+                    <ul>
+                        <li>Prometheus, Grafana</li>
+                        <li>OpenTelemetry 분산 추적</li>
+                        <li>Sentry 에러 추적</li>
+                        <li>Langfuse LLM 모니터링</li>
+                        <li>SLO · 헬스체크 기반 배포 검증</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Education -->
+        <section class="section">
+            <div class="section-title">Education</div>
+            <div class="edu-item" style="margin-bottom: 16px;">
+                <strong>구름 AI 부트캠프 수료</strong> <span class="note">(2025.03 — 2025.09)</span><br>
+                <span class="note">Python · AI/ML · LLM 활용 개발 · 팀 프로젝트(FireGenerators RAG 추천 시스템)</span>
+            </div>
+            <div class="edu-item">
+                <strong>신안산대학교</strong> · 전문학사, 전기과 <span class="note">(2017.02 — 2021.02)</span><br>
+                <span class="note">회로 설계 · 신호 처리 기반 사고를 소프트웨어 안정성 및 성능 최적화에 활용</span>
+            </div>
+        </section>
+
+        <!-- Certifications -->
+        <section class="section">
+            <div class="section-title">Certifications</div>
+            <ul class="cert-list">
+                <li><strong>네트워크관리사 2급</strong> · 한국정보통신자격협회 <span class="date">(2019.06)</span></li>
+                <li><strong>PC정비사 2급</strong> · 한국정보통신자격협회 <span class="date">(2019.07)</span></li>
+            </ul>
+        </section>
+
+        <!-- Languages -->
+        <section class="section">
+            <div class="section-title">Languages</div>
+            <div class="languages">
+                <div class="language"><strong>한국어</strong>모국어</div>
+                <div class="language"><strong>영어</strong>기술 문서 · 공식 문서 독해 가능</div>
+            </div>
+        </section>
+
+        <div class="footer">
+            Last updated 2026.06<span class="print-hint"> · 인쇄 시 Ctrl + P 로 PDF 저장</span>
+        </div>
+    </div>
+</body>
+</html>

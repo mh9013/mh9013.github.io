@@ -8,7 +8,18 @@
   <meta property="og:title" content="MH — AI Engineer Portfolio"/>
   <meta property="og:description" content="전기공학에서 AI 엔지니어로. RAG, 자동매매 시스템, LLM 서비스 개발 포트폴리오."/>
   <meta property="og:type" content="website"/>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>"/>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <script>
+    (function() {
+      try {
+        var saved = localStorage.getItem('theme');
+        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var isDark = saved ? saved === 'dark' : prefersDark;
+        document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+      } catch (e) {}
+    })();
+  </script>
   <style>
     :root {
       --bg: #f7f5f0;
@@ -99,25 +110,28 @@
 
     /* ── HERO ── */
     #home {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      min-height: 100vh;
-    }
-    .hero-left {
-      position: sticky; top: var(--nav-h);
-      height: calc(100vh - var(--nav-h));
-      overflow: hidden;
-    }
-    .hero-left img {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      filter: grayscale(100%) contrast(1.05);
-      display: block;
-    }
-    .hero-right {
       display: flex; flex-direction: column; justify-content: center;
+      min-height: 100vh;
       padding: 80px 64px;
       background: var(--bg);
+    }
+    .hero-inner {
+      max-width: 980px; width: 100%; margin: 0 auto;
+    }
+    .hero-metrics {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 24px; margin-bottom: 40px;
+      padding: 24px 0; border-top: 2px solid var(--fg); border-bottom: 1px solid var(--border);
+    }
+    .hero-metric-value {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(1.6rem, 2.8vw, 2.4rem);
+      line-height: 1.1; margin-bottom: 6px;
+    }
+    .hero-metric-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--fg2);
     }
     .hero-eyebrow {
       font-family: 'JetBrains Mono', monospace;
@@ -129,6 +143,7 @@
       font-size: clamp(2.8rem, 5vw, 4.5rem);
       line-height: 1.05;
       margin-bottom: 16px;
+      word-break: keep-all;
     }
     .hero-name em { font-style: italic; color: var(--fg2); }
     .hero-title {
@@ -138,8 +153,23 @@
     }
     .hero-desc {
       font-size: 1rem; line-height: 1.75; color: var(--fg2);
-      max-width: 440px; margin-bottom: 48px;
+      max-width: 440px; margin-bottom: 24px;
     }
+    .hero-goal {
+      display: inline-flex; align-items: center; gap: 12px;
+      padding: 10px 16px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      font-size: 0.85rem; color: var(--fg2);
+      margin-bottom: 32px;
+    }
+    .hero-goal-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem; letter-spacing: 0.12em;
+      padding: 3px 8px; border-radius: 4px;
+      background: var(--fg); color: var(--bg);
+    }
+    .hero-goal strong { color: var(--fg); font-weight: 600; }
     .hero-cta {
       display: flex; gap: 16px; flex-wrap: wrap;
     }
@@ -203,7 +233,29 @@
       font-size: 0.75rem; border-radius: 2px;
       background: var(--card-bg); border: 1px solid var(--border);
       color: var(--fg2);
+      display: inline-flex; align-items: center; gap: 6px;
     }
+    .skill-tag .dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--border); flex-shrink: 0;
+    }
+    .skill-tag.lvl-prod .dot { background: var(--tag-ai-fg); }
+    .skill-tag.lvl-proj .dot { background: var(--tag-web-fg); }
+    .skill-tag.lvl-learn .dot { background: var(--fg2); opacity: 0.4; }
+    .skills-legend {
+      display: flex; gap: 16px; flex-wrap: wrap;
+      margin-bottom: 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem; letter-spacing: 0.04em;
+      color: var(--fg2);
+    }
+    .skills-legend span { display: inline-flex; align-items: center; gap: 6px; }
+    .skills-legend .dot {
+      width: 6px; height: 6px; border-radius: 50%;
+    }
+    .skills-legend .lvl-prod .dot { background: var(--tag-ai-fg); }
+    .skills-legend .lvl-proj .dot { background: var(--tag-web-fg); }
+    .skills-legend .lvl-learn .dot { background: var(--fg2); opacity: 0.4; }
 
     /* ── PROJECTS ── */
     #projects { background: var(--bg); }
@@ -250,7 +302,9 @@
     .card-thumb-placeholder {
       width: 100%; height: 100%;
       display: flex; align-items: center; justify-content: center;
-      font-size: 3rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.1rem; letter-spacing: 0.18em;
+      color: var(--fg); font-weight: 600;
     }
     .card-body { padding: 24px; }
     .card-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
@@ -290,6 +344,40 @@
 
     /* hidden project card */
     .project-card.hidden { display: none; }
+
+    /* ── CREDENTIALS ── */
+    .credentials-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+    }
+    .cred-block-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--fg2); margin-bottom: 18px;
+      padding-bottom: 10px; border-bottom: 1px solid var(--border);
+    }
+    .cred-list { list-style: none; }
+    .cred-list li {
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .cred-list li:last-child { border-bottom: none; }
+    .cred-name {
+      font-size: 0.95rem; font-weight: 600; color: var(--fg);
+      margin-bottom: 4px;
+    }
+    .cred-meta {
+      font-size: 0.82rem; color: var(--fg2); line-height: 1.55;
+      margin-bottom: 4px;
+    }
+    .cred-date {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem; color: var(--fg2); letter-spacing: 0.04em;
+    }
+    @media (max-width: 768px) {
+      .credentials-grid { grid-template-columns: 1fr; gap: 32px; }
+    }
 
     /* ── VIDEO MODAL ── */
     .modal-backdrop {
@@ -346,12 +434,14 @@
     }
     .project-card:hover .card-play-overlay { background: rgba(0,0,0,0.35); }
     .play-icon {
-      width: 52px; height: 52px;
+      padding: 10px 22px;
       display: flex; align-items: center; justify-content: center;
       background: rgba(255,255,255,0.92);
-      border-radius: 50%;
-      font-size: 1.3rem;
-      opacity: 0; transform: scale(0.8);
+      color: #111;
+      border-radius: 2px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem; font-weight: 700; letter-spacing: 0.18em;
+      opacity: 0; transform: scale(0.9);
       transition: opacity 0.25s, transform 0.25s;
     }
     .project-card:hover .play-icon { opacity: 1; transform: scale(1); }
@@ -382,10 +472,12 @@
       transform: translateX(4px);
     }
     .contact-link-icon {
-      width: 40px; height: 40px;
+      width: 48px; height: 40px;
       display: flex; align-items: center; justify-content: center;
       background: var(--bg2); border-radius: 2px;
-      font-size: 1.2rem; flex-shrink: 0;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em;
+      color: var(--fg); flex-shrink: 0;
     }
     .contact-link-info { flex: 1; }
     .contact-link-label {
@@ -477,9 +569,8 @@
 
     /* ── RESPONSIVE ── */
     @media (max-width: 900px) {
-      #home { grid-template-columns: 1fr; }
-      .hero-left { display: none; }
-      .hero-right { padding: 60px 32px; }
+      #home { padding: 60px 32px; }
+      .hero-metrics { grid-template-columns: 1fr; gap: 16px; }
       .about-grid, .contact-inner { grid-template-columns: 1fr; gap: 48px; }
       section { padding: 72px 32px; }
       nav { padding: 0 24px; }
@@ -496,11 +587,11 @@
     <li><a href="#home" class="active">Home</a></li>
     <li><a href="#about">About</a></li>
     <li><a href="#projects">Projects</a></li>
+    <li><a href="#credentials">Credentials</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
   <button class="theme-toggle" id="themeToggle" aria-label="테마 전환">
-    <span class="icon">☀️</span>
-    <span class="label">Day</span>
+    <span class="label">DAY</span>
   </button>
 </nav>
 
@@ -508,24 +599,39 @@
 
   <!-- HERO -->
   <section id="home">
-    <div class="hero-left">
-      <!-- 원하는 사진으로 교체하세요 -->
-      <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80" alt="hero"/>
-    </div>
-    <div class="hero-right">
-      <p class="hero-eyebrow">AI Engineer · Full-Stack Developer</p>
+    <div class="hero-inner">
+      <p class="hero-eyebrow">AI Engineer / Kim Minhyung</p>
       <h1 class="hero-name">
-        Hello,<br/>
-        I'm <em>MH</em>
+        LLM의 유창함과 신뢰성 사이의 간극을<br/>
+        <em>엔지니어링으로 메운다.</em>
       </h1>
-      <p class="hero-title">// Building intelligent systems</p>
       <p class="hero-desc">
-        전기공학 배경을 바탕으로 AI 시스템을 설계하고 구현하는 개발자입니다.
-        RAG 기반 AI 서비스부터 금융 데이터 분석까지, 실질적인 가치를 만드는 프로젝트를 개발합니다.
+        외부 API 의존도가 높은 서비스의 비용·안정성·관측성을 책임지는 AI 엔지니어.
+        RAG 파이프라인을 엔드투엔드로 설계·구현하고, Kubernetes + ArgoCD로 무중단 배포까지 운영합니다.
       </p>
+      <p class="hero-goal">
+        <span class="hero-goal-tag">CAREER GOAL</span>
+        금융·AI 도메인 <strong>LLM 신뢰성 엔지니어</strong> — 신입 포지션, 즉시 합류 가능
+      </p>
+
+      <div class="hero-metrics">
+        <div>
+          <div class="hero-metric-value">99.89%</div>
+          <div class="hero-metric-label">External API calls reduced</div>
+        </div>
+        <div>
+          <div class="hero-metric-value">200×</div>
+          <div class="hero-metric-label">Response time improved</div>
+        </div>
+        <div>
+          <div class="hero-metric-value">86.37%</div>
+          <div class="hero-metric-label">Test coverage (Analysis Bot)</div>
+        </div>
+      </div>
+
       <div class="hero-cta">
         <a class="btn btn-primary" href="#projects">View Projects →</a>
-        <a class="btn btn-outline" href="#contact">Contact Me</a>
+        <a class="btn btn-outline" href="resume.html">View Resume</a>
       </div>
     </div>
   </section>
@@ -553,6 +659,7 @@
         </p>
         <p>
           "모델을 가져다 쓰는 사람"이 아니라 <strong>파이프라인을 설계하는 엔지니어</strong>를 목표로 합니다.
+          <strong>유창함은 모델이 주고, 신뢰성은 엔지니어링이 만든다</strong> — 말한 대로 작동하는 코드를 쓰는 것이 제 기준입니다.
         </p>
 
         <div class="timeline">
@@ -575,60 +682,70 @@
           <div class="timeline-item">
             <div class="timeline-dot"></div>
             <div>
-              <div class="timeline-date">2025.12 ~ 현재</div>
+              <div class="timeline-date">2025.12 ~ 2026.03</div>
               <div class="timeline-title">개인 프로젝트 — 자동매매 시스템</div>
               <div class="timeline-desc">주식·암호화폐 자동매매 시스템 설계·배포·운영. GCP 24/7, Docker, FastAPI, WebSocket</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div>
+              <div class="timeline-date">2026.03 ~ 2026.04</div>
+              <div class="timeline-title">개인 프로젝트 — Analysis Bot (RAG 문서 분석 챗봇)</div>
+              <div class="timeline-desc">하이브리드 검색 → 멀티 프로바이더 폴백 → K8s + ArgoCD GitOps 배포까지 엔드투엔드 구현. 테스트 커버리지 86.37%</div>
             </div>
           </div>
         </div>
       </div>
       <div class="skills-block">
+        <div class="skills-legend">
+          <span class="lvl-prod"><span class="dot"></span>Production (운영 경험)</span>
+          <span class="lvl-proj"><span class="dot"></span>프로젝트 적용</span>
+          <span class="lvl-learn"><span class="dot"></span>학습·도입 단계</span>
+        </div>
         <h4>AI / ML Stack</h4>
         <div class="skill-tags">
-          <span class="skill-tag">LangChain</span>
-          <span class="skill-tag">GPT-4o</span>
-          <span class="skill-tag">GPT-4o-mini</span>
-          <span class="skill-tag">RAG</span>
-          <span class="skill-tag">Pinecone</span>
-          <span class="skill-tag">FAISS</span>
-          <span class="skill-tag">text-embedding-3-small</span>
-          <span class="skill-tag">ko-sroberta</span>
-          <span class="skill-tag">bge-m3</span>
-          <span class="skill-tag">Claude API</span>
-          <span class="skill-tag">Multi-Agent</span>
-          <span class="skill-tag">pgvector</span>
-          <span class="skill-tag">Langfuse</span>
-          <span class="skill-tag">OpenTelemetry</span>
+          <span class="skill-tag lvl-proj"><span class="dot"></span>RAG</span>
+          <span class="skill-tag lvl-proj"><span class="dot"></span>LangChain</span>
+          <span class="skill-tag lvl-proj"><span class="dot"></span>GPT-4o</span>
+          <span class="skill-tag lvl-proj"><span class="dot"></span>Claude API</span>
+          <span class="skill-tag lvl-proj"><span class="dot"></span>Gemini</span>
+          <span class="skill-tag lvl-proj"><span class="dot"></span>text-embedding-3-small</span>
+          <span class="skill-tag lvl-proj"><span class="dot"></span>Pinecone</span>
+          <span class="skill-tag lvl-proj"><span class="dot"></span>FAISS</span>
+          <span class="skill-tag lvl-proj"><span class="dot"></span>pgvector</span>
+          <span class="skill-tag lvl-learn"><span class="dot"></span>Langfuse</span>
+          <span class="skill-tag lvl-learn"><span class="dot"></span>OpenTelemetry</span>
         </div>
         <h4>Web / Backend</h4>
         <div class="skill-tags">
-          <span class="skill-tag">Python</span>
-          <span class="skill-tag">Streamlit</span>
-          <span class="skill-tag">Supabase</span>
-          <span class="skill-tag">React</span>
-          <span class="skill-tag">JavaScript</span>
-          <span class="skill-tag">FastAPI</span>
-          <span class="skill-tag">TypeScript</span>
-          <span class="skill-tag">Node.js</span>
-          <span class="skill-tag">Next.js</span>
-          <span class="skill-tag">Fastify</span>
-          <span class="skill-tag">PostgreSQL</span>
-          <span class="skill-tag">Redis</span>
-          <span class="skill-tag">Prisma</span>
+          <span class="skill-tag lvl-prod"><span class="dot"></span>Python</span>
+          <span class="skill-tag lvl-prod"><span class="dot"></span>FastAPI</span>
+          <span class="skill-tag lvl-proj"><span class="dot"></span>Streamlit</span>
+          <span class="skill-tag lvl-proj"><span class="dot"></span>Supabase</span>
+          <span class="skill-tag lvl-proj"><span class="dot"></span>TypeScript</span>
+          <span class="skill-tag lvl-proj"><span class="dot"></span>JavaScript</span>
+          <span class="skill-tag lvl-proj"><span class="dot"></span>Next.js</span>
+          <span class="skill-tag lvl-proj"><span class="dot"></span>React</span>
+          <span class="skill-tag lvl-proj"><span class="dot"></span>Fastify</span>
+          <span class="skill-tag lvl-proj"><span class="dot"></span>Node.js</span>
+          <span class="skill-tag lvl-proj"><span class="dot"></span>PostgreSQL</span>
+          <span class="skill-tag lvl-proj"><span class="dot"></span>Redis</span>
+          <span class="skill-tag lvl-proj"><span class="dot"></span>Prisma</span>
         </div>
         <h4>Tools & Platform</h4>
         <div class="skill-tags">
-          <span class="skill-tag">GitHub</span>
-          <span class="skill-tag">GitHub Actions</span>
-          <span class="skill-tag">Docker</span>
-          <span class="skill-tag">Yahoo Finance API</span>
-          <span class="skill-tag">Google Cloud</span>
-          <span class="skill-tag">Android / iOS</span>
-          <span class="skill-tag">Kubernetes</span>
-          <span class="skill-tag">Helm</span>
-          <span class="skill-tag">ArgoCD</span>
-          <span class="skill-tag">Prometheus</span>
-          <span class="skill-tag">Grafana</span>
+          <span class="skill-tag lvl-prod"><span class="dot"></span>GitHub</span>
+          <span class="skill-tag lvl-prod"><span class="dot"></span>GitHub Actions</span>
+          <span class="skill-tag lvl-prod"><span class="dot"></span>Docker</span>
+          <span class="skill-tag lvl-prod"><span class="dot"></span>Google Cloud</span>
+          <span class="skill-tag lvl-prod"><span class="dot"></span>yfinance</span>
+          <span class="skill-tag lvl-learn"><span class="dot"></span>Kubernetes</span>
+          <span class="skill-tag lvl-learn"><span class="dot"></span>Helm</span>
+          <span class="skill-tag lvl-learn"><span class="dot"></span>ArgoCD</span>
+          <span class="skill-tag lvl-learn"><span class="dot"></span>Prometheus</span>
+          <span class="skill-tag lvl-learn"><span class="dot"></span>Grafana</span>
+          <span class="skill-tag lvl-learn"><span class="dot"></span>Sentry</span>
         </div>
       </div>
     </div>
@@ -650,26 +767,84 @@
 
     <div class="projects-grid">
 
-      <!-- 프로젝트 1: AI ETF/주식 추천 시스템 -->
+      <!-- 프로젝트 1: Analysis Bot (RAG 문서 분석 챗봇) — 대표 프로젝트 -->
+      <div class="project-card fade-in" data-category="ai">
+        <div class="card-thumb">
+          <div class="card-thumb-placeholder" style="background: linear-gradient(135deg,#eef2ff,#c8d4ff);">01 / RAG · INFRA</div>
+        </div>
+        <div class="card-body">
+          <div class="card-tags">
+            <span class="card-tag tag-ai">AI/ML</span>
+            <span class="card-tag tag-web">Backend</span>
+          </div>
+          <div class="card-period">2026.03 ~ 2026.04 · 개인 프로젝트 (엔드투엔드)</div>
+          <h3 class="card-title">Analysis Bot — RAG 문서 분석 챗봇</h3>
+          <div class="card-highlights">
+            <span class="card-highlight">테스트 커버리지 <span class="hl-value">86.37%</span></span>
+            <span class="card-highlight">Planner–Generator–Evaluator <span class="hl-value">자체 평가 루프 (최대 3회 재시도)</span></span>
+            <span class="card-highlight">3-mode 하이브리드 검색 & K8s GitOps</span>
+          </div>
+          <p class="card-desc">
+            사용자 문서 업로드 → pgvector(HNSW) cosine + tsvector keyword + hybrid(0.7/0.3) 3-mode 검색 → OpenAI/Anthropic/Gemini 멀티 프로바이더 자동 라우팅 → SSE 스트리밍 응답의 완전 RAG 파이프라인.
+            8,192 토큰 버짓 내 greedy packing, Kubernetes + ArgoCD GitOps blue-green/canary 무중단 배포, Prometheus/Grafana/Langfuse/OpenTelemetry/Sentry 관측성 구성.
+          </p>
+          <div class="card-challenge">
+            <div class="card-challenge-title">Technical Challenge</div>
+            <p>
+              <strong>토큰 버짓 관리 & 멀티 프로바이더 폴백</strong> — 8,192 토큰 한도 내 청크 삽입 시 2,048 토큰을 응답용으로 필수 예약하는 제약 조건에서 관련도 순으로 <strong>greedy packing</strong> 구현.
+              컨텍스트 완성 후 API 키 누락 발생 시 멀티 프로바이더 자동 폴백이 정확한 순서로 작동하도록 라우터의 사전 검증 설계로 해결.
+            </p>
+          </div>
+          <div class="card-stack">
+            <span class="stack-chip">Fastify 5</span>
+            <span class="stack-chip">TypeScript</span>
+            <span class="stack-chip">Next.js 16</span>
+            <span class="stack-chip">React 19</span>
+            <span class="stack-chip">pgvector</span>
+            <span class="stack-chip">PostgreSQL</span>
+            <span class="stack-chip">Prisma</span>
+            <span class="stack-chip">Redis</span>
+            <span class="stack-chip">MongoDB</span>
+            <span class="stack-chip">OpenAI</span>
+            <span class="stack-chip">Claude API</span>
+            <span class="stack-chip">Gemini</span>
+            <span class="stack-chip">Zod</span>
+            <span class="stack-chip">JWT / bcrypt</span>
+            <span class="stack-chip">Kubernetes</span>
+            <span class="stack-chip">Helm</span>
+            <span class="stack-chip">ArgoCD</span>
+            <span class="stack-chip">Prometheus</span>
+            <span class="stack-chip">Grafana</span>
+            <span class="stack-chip">OpenTelemetry</span>
+            <span class="stack-chip">Langfuse</span>
+            <span class="stack-chip">Sentry</span>
+          </div>
+          <div class="card-links">
+            <a class="card-link" href="https://noiseless-cress-ffd.notion.site/Analysis-Bot-RAG-334fd79b3afd8086bee5f5954974d886?source=copy_link" target="_blank">Notion ↗</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 프로젝트 2: AI ETF/주식 추천 시스템 -->
       <div class="project-card fade-in" data-category="ai fintech" data-video="1rvskLBZN11L3wtBukZaWJILo1JjA7RwA" data-video-title="AI 주식·ETF 맞춤 추천 시스템 (FireGenerators)">
         <div class="card-thumb">
-          <div class="card-thumb-placeholder" style="background: linear-gradient(135deg,#e8f4e8,#c8eac8);">📈</div>
-          <div class="card-play-overlay"><div class="play-icon">▶</div></div>
+          <div class="card-thumb-placeholder" style="background: linear-gradient(135deg,#e8f4e8,#c8eac8);">02 / RAG</div>
+          <div class="card-play-overlay"><div class="play-icon">PLAY</div></div>
         </div>
         <div class="card-body">
           <div class="card-tags">
             <span class="card-tag tag-ai">AI/ML</span>
             <span class="card-tag tag-web">Fintech</span>
           </div>
-          <div class="card-period">2025 · 부트캠프 팀 프로젝트 (추천 시스템 단독 구현)</div>
+          <div class="card-period">2025.08 ~ 2025.09 · 부트캠프 팀 프로젝트 (추천 시스템 담당)</div>
           <h3 class="card-title">AI 주식·ETF 맞춤 추천 시스템 (FireGenerators)</h3>
           <div class="card-highlights">
-            <span class="card-highlight">RAG 파이프라인 <span class="hl-value">단독 구현</span></span>
+            <span class="card-highlight">RAG 파이프라인 <span class="hl-value">엔드투엔드</span></span>
             <span class="card-highlight">유사도 <span class="hl-value">0.75+</span></span>
             <span class="card-highlight">API 호출 <span class="hl-value">80% 감소</span></span>
           </div>
           <p class="card-desc">
-            사용자 투자 성향 → OpenAI 임베딩 → Pinecone 벡터 검색(S&P500/ETF 멀티 인덱스) → GPT-4o 리랭킹으로 이어지는 전체 RAG 파이프라인 단독 구현.
+            사용자 투자 성향 → OpenAI 임베딩 → Pinecone 벡터 검색(S&P500/ETF 멀티 인덱스) → GPT-4o 리랭킹으로 이어지는 전체 RAG 파이프라인 설계·구현.
             Supabase로 사용자 프로필 관리, yfinance로 실시간 가격·수익률 보강.
           </p>
           <div class="card-challenge">
@@ -698,11 +873,11 @@
         </div>
       </div>
 
-      <!-- 프로젝트 2: 주식 자동매매 시스템 -->
+      <!-- 프로젝트 3: 주식 자동매매 시스템 -->
       <div class="project-card fade-in" data-category="ai fintech" data-video="16MtRCqC8qNZRmS4MuAh-HzL2Y08fp7G7" data-video-title="주식 자동매매 시스템">
         <div class="card-thumb">
-          <div class="card-thumb-placeholder" style="background: linear-gradient(135deg,#e8f8ee,#c8f0d8);">STOCK</div>
-          <div class="card-play-overlay"><div class="play-icon">▶</div></div>
+          <div class="card-thumb-placeholder" style="background: linear-gradient(135deg,#e8f8ee,#c8f0d8);">03 / STOCK</div>
+          <div class="card-play-overlay"><div class="play-icon">PLAY</div></div>
         </div>
         <div class="card-body">
           <div class="card-tags">
@@ -714,7 +889,7 @@
           <div class="card-highlights">
             <span class="card-highlight">API 호출 <span class="hl-value">99.89% 절감</span></span>
             <span class="card-highlight">응답 속도 <span class="hl-value">200배 개선</span></span>
-            <span class="card-highlight">백테스팅 승률 <span class="hl-value">63.6%</span></span>
+            <span class="card-highlight">백테스팅 승률 <span class="hl-value">63.6%</span> (프로젝트 기간 내부 검증)</span>
           </div>
           <p class="card-desc">
             KOSPI·KOSDAQ·미국주식(NASDAQ/NYSE) 대상. KIS Open API 연동, 8가지 기술적 분석 지표 자동 계산 및 매수·매도 신호 생성·실행.
@@ -732,7 +907,6 @@
             <span class="stack-chip">Python</span>
             <span class="stack-chip">KIS Open API</span>
             <span class="stack-chip">FastAPI</span>
-            <span class="stack-chip">GPT-4o</span>
             <span class="stack-chip">GCP</span>
             <span class="stack-chip">Docker</span>
             <span class="stack-chip">GitHub Actions</span>
@@ -746,11 +920,11 @@
         </div>
       </div>
 
-      <!-- 프로젝트 3: 암호화폐 자동매매 시스템 -->
+      <!-- 프로젝트 4: 암호화폐 자동매매 시스템 -->
       <div class="project-card fade-in" data-category="ai fintech" data-video="1OjqMcvj1ZOVKR4JZ3vDuvqhCGCPoa9PP" data-video-title="암호화폐 자동매매 시스템">
         <div class="card-thumb">
-          <div class="card-thumb-placeholder" style="background: linear-gradient(135deg,#fff8e8,#ffecc8);">₿</div>
-          <div class="card-play-overlay"><div class="play-icon">▶</div></div>
+          <div class="card-thumb-placeholder" style="background: linear-gradient(135deg,#fff8e8,#ffecc8);">04 / CRYPTO</div>
+          <div class="card-play-overlay"><div class="play-icon">PLAY</div></div>
         </div>
         <div class="card-body">
           <div class="card-tags">
@@ -792,77 +966,73 @@
         </div>
       </div>
 
-      <!-- 프로젝트 4: Analysis Bot (RAG 문서 분석 챗봇) -->
-      <div class="project-card fade-in" data-category="ai">
-        <div class="card-thumb">
-          <div class="card-thumb-placeholder" style="background: linear-gradient(135deg,#eef2ff,#c8d4ff);">🔍</div>
-        </div>
-        <div class="card-body">
-          <div class="card-tags">
-            <span class="card-tag tag-ai">AI/ML</span>
-            <span class="card-tag tag-web">Backend</span>
-          </div>
-          <div class="card-period">2026.03 ~ 현재 · 개인 프로젝트 (엔드투엔드)</div>
-          <h3 class="card-title">Analysis Bot</h3>
-          <div class="card-highlights">
-            <span class="card-highlight">3-mode <span class="hl-value">하이브리드 검색</span></span>
-            <span class="card-highlight">Multi-LLM <span class="hl-value">자동 라우팅</span></span>
-            <span class="card-highlight">K8s GitOps <span class="hl-value">배포</span></span>
-          </div>
-          <p class="card-desc">
-            문서 업로드 → pgvector(HNSW) + tsvector + 하이브리드(0.7/0.3) 3-mode RAG 파이프라인 → SSE 스트리밍 응답.
-            OpenAI·Anthropic·Gemini 멀티 프로바이더 티어 라우팅, Kubernetes ArgoCD GitOps blue-green/canary 배포.
-          </p>
-          <div class="card-challenge">
-            <div class="card-challenge-title">Technical Challenge</div>
-            <p>
-              <strong>토큰 버짓 관리</strong> — 8,192 토큰 한도 내 청크 삽입 시 2,048 토큰을 응답용으로 예약한 채
-              관련도 순 greedy packing 구현. API 키 누락 시 <strong>멀티 프로바이더 자동 폴백</strong>을 라우터 사전 검증으로 해결.
-            </p>
-          </div>
-          <div class="card-stack">
-            <span class="stack-chip">Fastify 5</span>
-            <span class="stack-chip">TypeScript</span>
-            <span class="stack-chip">Next.js 16</span>
-            <span class="stack-chip">pgvector</span>
-            <span class="stack-chip">PostgreSQL</span>
-            <span class="stack-chip">Prisma</span>
-            <span class="stack-chip">Redis</span>
-            <span class="stack-chip">OpenAI</span>
-            <span class="stack-chip">Claude API</span>
-            <span class="stack-chip">Gemini</span>
-            <span class="stack-chip">Kubernetes</span>
-            <span class="stack-chip">ArgoCD</span>
-            <span class="stack-chip">Langfuse</span>
-          </div>
-          <div class="card-links">
-            <a class="card-link" href="https://github.com/mh9013/t1" target="_blank">GitHub ↗</a>
-            <a class="card-link" href="https://noiseless-cress-ffd.notion.site/Analysis-Bot-RAG-334fd79b3afd8086bee5f5954974d886?source=copy_link" target="_blank">Notion ↗</a>
-          </div>
-        </div>
-      </div>
+    </div>
+  </section>
 
+  <!-- CREDENTIALS -->
+  <section id="credentials">
+    <div class="section-header fade-in">
+      <span class="section-label">03 — Credentials</span>
+      <h2 class="section-title">Education &amp; Certifications</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="credentials-grid fade-in">
+      <div class="cred-block">
+        <h4 class="cred-block-title">Education</h4>
+        <ul class="cred-list">
+          <li>
+            <div class="cred-name">구름 AI 부트캠프 수료</div>
+            <div class="cred-meta">Python · AI/ML · LLM 활용 개발 · 팀 프로젝트(FireGenerators RAG 추천 시스템)</div>
+            <div class="cred-date">2025.03 — 2025.09</div>
+          </li>
+          <li>
+            <div class="cred-name">신안산대학교 · 전기과 (전문학사)</div>
+            <div class="cred-meta">회로 설계·신호 처리 기반 사고를 소프트웨어 안정성·성능 최적화에 활용</div>
+            <div class="cred-date">2017.02 — 2021.02</div>
+          </li>
+        </ul>
+      </div>
+      <div class="cred-block">
+        <h4 class="cred-block-title">Certifications</h4>
+        <ul class="cred-list">
+          <li>
+            <div class="cred-name">네트워크관리사 2급</div>
+            <div class="cred-meta">한국정보통신자격협회</div>
+            <div class="cred-date">2019.06</div>
+          </li>
+          <li>
+            <div class="cred-name">PC정비사 2급</div>
+            <div class="cred-meta">한국정보통신자격협회</div>
+            <div class="cred-date">2019.07</div>
+          </li>
+          <li>
+            <div class="cred-name">ATC.CAD</div>
+            <div class="cred-meta">한국ATC센터</div>
+            <div class="cred-date">2017.03</div>
+          </li>
+        </ul>
+      </div>
     </div>
   </section>
 
   <!-- CONTACT -->
   <section id="contact">
     <div class="section-header fade-in">
-      <span class="section-label">03 — Contact</span>
+      <span class="section-label">04 — Contact</span>
       <h2 class="section-title">Get In Touch</h2>
       <div class="section-line"></div>
     </div>
     <div class="contact-inner fade-in">
       <div class="contact-text">
-        <h3>함께 일해요 👋</h3>
+        <h3>함께 일해요.</h3>
         <p>
-          AI Engineer 포지션 또는 흥미로운 프로젝트 협업 기회를 항상 환영합니다.
-          아래 채널로 편하게 연락 주세요!
+          AI Engineer 포지션 또는 프로젝트 협업 제안을 환영합니다.
+          이메일로 가장 빨리 답신드립니다.
         </p>
       </div>
       <div class="contact-links">
         <a class="contact-link-row" href="mailto:minhyung9013@gmail.com">
-          <div class="contact-link-icon">✉️</div>
+          <div class="contact-link-icon">01</div>
           <div class="contact-link-info">
             <div class="contact-link-label">Email</div>
             <div class="contact-link-value">minhyung9013@gmail.com</div>
@@ -870,7 +1040,7 @@
           <span class="contact-link-arrow">→</span>
         </a>
         <a class="contact-link-row" href="https://github.com/mh9013" target="_blank">
-          <div class="contact-link-icon">🐙</div>
+          <div class="contact-link-icon">02</div>
           <div class="contact-link-info">
             <div class="contact-link-label">GitHub</div>
             <div class="contact-link-value">github.com/mh9013</div>
@@ -878,15 +1048,15 @@
           <span class="contact-link-arrow">→</span>
         </a>
         <a class="contact-link-row" href="https://linkedin.com/in/minhyung-kim-1877b83aa" target="_blank">
-          <div class="contact-link-icon">💼</div>
+          <div class="contact-link-icon">03</div>
           <div class="contact-link-info">
             <div class="contact-link-label">LinkedIn</div>
             <div class="contact-link-value">linkedin.com/in/minhyung-kim-1877b83aa</div>
           </div>
           <span class="contact-link-arrow">→</span>
         </a>
-        <a class="contact-link-row" href="https://social.wanted.co.kr//community/profile/QPhqBAupxKkqPuNjxBZqvb" target="_blank">
-          <div class="contact-link-icon">🎯</div>
+        <a class="contact-link-row" href="https://social.wanted.co.kr/community/profile/QPhqBAupxKkqPuNjxBZqvb" target="_blank">
+          <div class="contact-link-icon">04</div>
           <div class="contact-link-info">
             <div class="contact-link-label">Wanted</div>
             <div class="contact-link-value">김민형 프로필</div>
@@ -914,7 +1084,7 @@
 
 <!-- FOOTER -->
 <footer>
-  <span>Copyright © 2026 MH — Built with ❤️ & GitHub Pages</span>
+  <span>Copyright © 2026 MH — Built &amp; deployed via GitHub Pages</span>
 </footer>
 
 <script>
@@ -971,13 +1141,11 @@
 
   // ── Theme Toggle ──
   const themeToggle = document.getElementById('themeToggle');
-  const themeIcon = themeToggle.querySelector('.icon');
   const themeLabel = themeToggle.querySelector('.label');
 
   function setTheme(dark) {
     document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
-    themeIcon.textContent = dark ? '🌙' : '☀️';
-    themeLabel.textContent = dark ? 'Night' : 'Day';
+    themeLabel.textContent = dark ? 'NIGHT' : 'DAY';
     localStorage.setItem('theme', dark ? 'dark' : 'light');
   }
 
