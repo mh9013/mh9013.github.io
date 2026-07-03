@@ -570,9 +570,9 @@
                 <div class="metric-sub">주식 자동매매 조회 경로 · TTL 다층 캐싱 적용 후</div>
             </div>
             <div class="metric">
-                <div class="metric-value">86.37%</div>
+                <div class="metric-value">79.3%</div>
                 <div class="metric-label">테스트 커버리지</div>
-                <div class="metric-sub">Analysis Bot · Jest 리포트 (2026.04 기준)</div>
+                <div class="metric-sub">Analysis Bot · Jest 리포트 · 공개 레포에서 재현 가능</div>
             </div>
         </section>
 
@@ -671,7 +671,7 @@
                 <div class="subhead">성과</div>
                 <ul class="project-list">
                     <li>RAG 전구간(문서 업로드 → 하이브리드 검색 → LLM 라우팅 → SSE 스트리밍) <strong>엔드투엔드 구현</strong></li>
-                    <li>테스트 <strong>커버리지 86.37%</strong> (Jest 리포트 기준), 주요 경로 통합 테스트 포함</li>
+                    <li>테스트 <strong>327개 통과 · 커버리지 79.3%</strong> (Jest 리포트 · 공개 레포에서 재현 가능), 주요 경로 통합 테스트 포함</li>
                     <li>8,192 토큰 컨텍스트 제약에서 greedy packing으로 <strong>응답용 2,048 토큰 확보</strong></li>
                     <li>관측성 스택 함께 구성 — Prometheus · Grafana · Langfuse · OpenTelemetry · Sentry</li>
                 </ul>
@@ -691,6 +691,7 @@
                 </div>
 
                 <div class="project-links">
+                    <a href="https://github.com/mh9013/analysis-bot" target="_blank">GitHub →</a>
                     <a href="https://noiseless-cress-ffd.notion.site/Analysis-Bot-RAG-334fd79b3afd8086bee5f5954974d886" target="_blank">Notion →</a>
                 </div>
             </div>
@@ -780,7 +781,7 @@
                             <li>평균 응답 <strong>10s → 0.05s</strong> 단축</li>
                             <li>KIS Open API + 8종 기술적 지표 자동 계산</li>
                             <li>GCP e2-micro 상시 운영, 장애 시 Telegram 알림</li>
-                            <li>백테스팅 승률 <strong>63.6%</strong> (프로젝트 기간 내부 검증, 2025.12–2026.03)</li>
+                            <li>백테스팅 파이프라인 구축 — 기간·전략별 성과 반복 검증 (2025.12–2026.03)</li>
                         </ul>
                     </div>
                     <div class="secondary-item">
