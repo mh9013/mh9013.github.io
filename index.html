@@ -1,1180 +1,1574 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>MH — AI Engineer Portfolio</title>
-  <meta name="description" content="AI Engineer 김민형의 포트폴리오. RAG 파이프라인, 자동매매 시스템, LLM 기반 서비스 개발."/>
-  <meta property="og:title" content="MH — AI Engineer Portfolio"/>
-  <meta property="og:description" content="전기공학에서 AI 엔지니어로. RAG, 자동매매 시스템, LLM 서비스 개발 포트폴리오."/>
-  <meta property="og:type" content="website"/>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>"/>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
-  <script>
-    (function() {
-      try {
-        var saved = localStorage.getItem('theme');
-        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        var isDark = saved ? saved === 'dark' : prefersDark;
-        document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
-      } catch (e) {}
-    })();
-  </script>
-  <style>
-    :root {
-      --bg: #f7f5f0;
-      --bg2: #eeeae1;
-      --fg: #1a1814;
-      --fg2: #6b6560;
-      --accent: #1a1814;
-      --card-bg: #ffffff;
-      --tag-ai: #e8f4e8;
-      --tag-ai-fg: #2d6a2d;
-      --tag-web: #e8eef8;
-      --tag-web-fg: #2d4a8a;
-      --border: #e0dbd0;
-      --nav-h: 64px;
-    }
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>김민형 — AI Engineer Portfolio</title>
+<meta name="description" content="AI Engineer 김민형의 포트폴리오. RAG 파이프라인 엔드투엔드 설계, 자동매매 시스템 24/7 운영, Kubernetes + ArgoCD 무중단 배포."/>
+<meta name="author" content="Kim Minhyung"/>
+<meta name="theme-color" content="#f8f6f1" media="(prefers-color-scheme: light)"/>
+<meta name="theme-color" content="#0d0c0a" media="(prefers-color-scheme: dark)"/>
+<meta property="og:title" content="김민형 — AI Engineer Portfolio"/>
+<meta property="og:description" content="유창함은 모델이 주고, 신뢰성은 엔지니어링이 만든다. RAG · 자동매매 · LLM 서비스 개발 포트폴리오."/>
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="https://mh9013.github.io/"/>
+<meta property="og:locale" content="ko_KR"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="김민형 — AI Engineer Portfolio"/>
+<meta name="twitter:description" content="유창함은 모델이 주고, 신뢰성은 엔지니어링이 만든다. RAG · 자동매매 · LLM 서비스 개발 포트폴리오."/>
+<link rel="canonical" href="https://mh9013.github.io/"/>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>"/>
 
-    [data-theme="dark"] {
-      --bg: #0f0e0c;
-      --bg2: #1a1916;
-      --fg: #f0ece4;
-      --fg2: #8a8480;
-      --accent: #f0ece4;
-      --card-bg: #1e1c19;
-      --tag-ai: #1a2e1a;
-      --tag-ai-fg: #6dba6d;
-      --tag-web: #1a2040;
-      --tag-web-fg: #6d96e0;
-      --border: #2e2b26;
-    }
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin/>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@400;500;600&display=swap"/>
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+<script>
+  /* 테마 플래시 방지 — 렌더 전에 data-theme 확정 */
+  (function () {
+    try {
+      var saved = localStorage.getItem('theme');
+      var dark = saved ? saved === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+    } catch (e) {}
+  })();
+</script>
 
-    html { scroll-behavior: smooth; }
+<style>
+/* ═══════════════════════════════════════════════
+   1. TOKENS
+   ═══════════════════════════════════════════════ */
+:root {
+  --paper:      #f8f6f1;
+  --paper-2:    #f1eee5;
+  --surface:    #fffefb;
+  --ink:        #15130f;
+  --ink-2:      #4c463d;
+  --ink-3:      #837c70;
+  --line:       #e4dfd2;
+  --line-2:     #eeeae0;
+  --accent:     #1c6d5a;
+  --accent-2:   #a35f30;
+  --accent-3:   #3f5a8f;
+  --accent-soft: rgba(28,109,90,.09);
+  --shadow-sm:  0 1px 2px rgba(21,19,15,.04), 0 10px 30px -18px rgba(21,19,15,.22);
+  --shadow-lg:  0 32px 80px -32px rgba(21,19,15,.34);
+  --nav-bg:     rgba(248,246,241,.78);
 
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background: var(--bg);
-      color: var(--fg);
-      overflow-x: hidden;
-    }
+  --font-sans:  'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, sans-serif;
+  --font-serif: 'DM Serif Display', 'Pretendard Variable', Georgia, serif;
+  --font-mono:  'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
 
-    /* ── NAVBAR ── */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      height: var(--nav-h);
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 48px;
-      background: rgba(247,245,240,0.88);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-      transition: background 0.3s, border-color 0.3s;
-    }
-    [data-theme="dark"] nav {
-      background: rgba(15,14,12,0.88);
-    }
+  --nav-h:      68px;
+  --gutter:     clamp(20px, 5vw, 72px);
+  --maxw:       1180px;
+  --radius:     3px;
+  --ease:       cubic-bezier(.22, .61, .36, 1);
+}
 
-    /* ── THEME TOGGLE ── */
-    .theme-toggle {
-      background: none; border: 1.5px solid var(--border);
-      border-radius: 20px; cursor: pointer;
-      display: flex; align-items: center; gap: 6px;
-      padding: 5px 12px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.72rem; letter-spacing: 0.06em;
-      color: var(--fg2);
-      transition: all 0.2s;
-    }
-    .theme-toggle:hover { border-color: var(--fg); color: var(--fg); }
-    .theme-toggle .icon { font-size: 0.9rem; transition: transform 0.4s; }
-    [data-theme="dark"] .theme-toggle .icon { transform: rotate(180deg); }
-    .nav-logo {
-      font-family: 'DM Serif Display', serif;
-      font-size: 1.3rem;
-      letter-spacing: 0.02em;
-      color: var(--fg);
-      text-decoration: none;
-    }
-    .nav-links { display: flex; gap: 36px; list-style: none; }
-    .nav-links a {
-      font-size: 0.875rem; font-weight: 500; letter-spacing: 0.05em;
-      color: var(--fg2); text-decoration: none; text-transform: uppercase;
-      transition: color 0.2s;
-    }
-    .nav-links a:hover, .nav-links a.active { color: var(--fg); }
+[data-theme="dark"] {
+  --paper:      #0d0c0a;
+  --paper-2:    #131210;
+  --surface:    #181713;
+  --ink:        #f5f2ea;
+  --ink-2:      #b9b3a6;
+  --ink-3:      #857e72;
+  --line:       #2b2924;
+  --line-2:     #211f1b;
+  --accent:     #6ecfae;
+  --accent-2:   #dc9e6d;
+  --accent-3:   #8aa9e0;
+  --accent-soft: rgba(110,207,174,.12);
+  --shadow-sm:  0 1px 2px rgba(0,0,0,.3), 0 10px 30px -18px rgba(0,0,0,.7);
+  --shadow-lg:  0 32px 80px -32px rgba(0,0,0,.8);
+  --nav-bg:     rgba(13,12,10,.76);
+}
 
-    /* ── LAYOUT ── */
-    .page { padding-top: var(--nav-h); }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    /* ── HERO ── */
-    #home {
-      display: flex; flex-direction: column; justify-content: center;
-      min-height: 100vh;
-      padding: 80px 64px;
-      background: var(--bg);
-    }
-    .hero-inner {
-      max-width: 980px; width: 100%; margin: 0 auto;
-    }
-    .hero-metrics {
-      display: grid; grid-template-columns: repeat(3, 1fr);
-      gap: 24px; margin-bottom: 40px;
-      padding: 24px 0; border-top: 2px solid var(--fg); border-bottom: 1px solid var(--border);
-    }
-    .hero-metric-value {
-      font-family: 'DM Serif Display', serif;
-      font-size: clamp(1.6rem, 2.8vw, 2.4rem);
-      line-height: 1.1; margin-bottom: 6px;
-    }
-    .hero-metric-label {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase;
-      color: var(--fg2);
-    }
-    .hero-eyebrow {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase;
-      color: var(--fg2); margin-bottom: 20px;
-    }
-    .hero-name {
-      font-family: 'DM Serif Display', serif;
-      font-size: clamp(2.8rem, 5vw, 4.5rem);
-      line-height: 1.05;
-      margin-bottom: 16px;
-      word-break: keep-all;
-    }
-    .hero-name em { font-style: italic; color: var(--fg2); }
-    .hero-title {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 1rem; color: var(--fg2);
-      margin-bottom: 32px;
-    }
-    .hero-desc {
-      font-size: 1rem; line-height: 1.75; color: var(--fg2);
-      max-width: 440px; margin-bottom: 24px;
-    }
-    .hero-goal {
-      display: inline-flex; align-items: center; gap: 12px;
-      padding: 10px 16px;
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      font-size: 0.85rem; color: var(--fg2);
-      margin-bottom: 32px;
-    }
-    .hero-goal-tag {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.65rem; letter-spacing: 0.12em;
-      padding: 3px 8px; border-radius: 4px;
-      background: var(--fg); color: var(--bg);
-    }
-    .hero-goal strong { color: var(--fg); font-weight: 600; }
-    .hero-cta {
-      display: flex; gap: 16px; flex-wrap: wrap;
-    }
-    .btn {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 12px 28px;
-      font-size: 0.875rem; font-weight: 600; letter-spacing: 0.04em;
-      text-decoration: none; border-radius: 2px;
-      transition: all 0.2s;
-      cursor: pointer; border: none;
-    }
-    .btn-primary {
-      background: var(--fg); color: var(--bg);
-    }
-    .btn-primary:hover { background: #333; transform: translateY(-1px); }
-    .btn-outline {
-      background: transparent; color: var(--fg);
-      border: 1.5px solid var(--fg);
-    }
-    .btn-outline:hover { background: var(--fg); color: var(--bg); }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--nav-h) + 24px); -webkit-text-size-adjust: 100%; }
 
-    /* ── SECTION COMMON ── */
-    section { padding: 96px 64px; }
-    .section-header {
-      display: flex; align-items: center; gap: 24px;
-      margin-bottom: 56px;
-    }
-    .section-label {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase;
-      color: var(--fg2);
-    }
-    .section-title {
-      font-family: 'DM Serif Display', serif;
-      font-size: clamp(2rem, 3.5vw, 3rem);
-    }
-    .section-line {
-      flex: 1; height: 1px; background: var(--border);
-    }
+body {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--ink);
+  background: var(--paper);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: 'ss01', 'tnum';
+  transition: background .4s var(--ease), color .4s var(--ease);
+}
 
-    /* ── ABOUT ── */
-    #about { background: var(--bg2); }
-    .about-grid {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
-      align-items: start;
-    }
-    .about-text p {
-      font-size: 1.05rem; line-height: 1.8; color: var(--fg2);
-      margin-bottom: 20px;
-    }
-    .skills-block { margin-top: 8px; }
-    .skills-block h4 {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase;
-      color: var(--fg2); margin-bottom: 16px;
-    }
-    .skill-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
-    .skill-tag {
-      padding: 6px 14px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.75rem; border-radius: 2px;
-      background: var(--card-bg); border: 1px solid var(--border);
-      color: var(--fg2);
-      display: inline-flex; align-items: center; gap: 6px;
-    }
-    .skill-tag .dot {
-      width: 6px; height: 6px; border-radius: 50%;
-      background: var(--border); flex-shrink: 0;
-    }
-    .skill-tag.lvl-prod .dot { background: var(--tag-ai-fg); }
-    .skill-tag.lvl-proj .dot { background: var(--tag-web-fg); }
-    .skill-tag.lvl-learn .dot { background: var(--fg2); opacity: 0.4; }
-    .skills-legend {
-      display: flex; gap: 16px; flex-wrap: wrap;
-      margin-bottom: 16px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.68rem; letter-spacing: 0.04em;
-      color: var(--fg2);
-    }
-    .skills-legend span { display: inline-flex; align-items: center; gap: 6px; }
-    .skills-legend .dot {
-      width: 6px; height: 6px; border-radius: 50%;
-    }
-    .skills-legend .lvl-prod .dot { background: var(--tag-ai-fg); }
-    .skills-legend .lvl-proj .dot { background: var(--tag-web-fg); }
-    .skills-legend .lvl-learn .dot { background: var(--fg2); opacity: 0.4; }
+/* 종이 질감 — 아주 옅은 그레인 */
+body::before {
+  content: ''; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  opacity: .32; mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
+}
+[data-theme="dark"] body::before { mix-blend-mode: screen; opacity: .14; }
 
-    /* ── PROJECTS ── */
-    #projects { background: var(--bg); }
-    .filter-tabs {
-      display: flex; gap: 4px; margin-bottom: 48px;
-    }
-    .filter-btn {
-      padding: 7px 20px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase;
-      background: transparent; border: 1px solid var(--border);
-      color: var(--fg2); cursor: pointer; border-radius: 2px;
-      transition: all 0.18s;
-    }
-    .filter-btn:hover { border-color: var(--fg); color: var(--fg); }
-    .filter-btn.active { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+::selection { background: var(--ink); color: var(--paper); }
 
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-      gap: 24px;
-    }
-    .project-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      overflow: hidden;
-      transition: transform 0.25s, box-shadow 0.25s;
-      cursor: pointer;
-    }
-    .project-card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 20px 48px rgba(0,0,0,0.1);
-    }
-    .card-thumb {
-      width: 100%; aspect-ratio: 16/9;
-      overflow: hidden; position: relative;
-    }
-    .card-thumb img {
-      width: 100%; height: 100%; object-fit: cover;
-      transition: transform 0.4s ease;
-    }
-    .project-card:hover .card-thumb img { transform: scale(1.04); }
-    .card-thumb-placeholder {
-      width: 100%; height: 100%;
-      display: flex; align-items: center; justify-content: center;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 1.1rem; letter-spacing: 0.18em;
-      color: var(--fg); font-weight: 600;
-    }
-    .card-body { padding: 24px; }
-    .card-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
-    .card-tag {
-      padding: 3px 10px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.68rem; border-radius: 2px; font-weight: 500;
-    }
-    .tag-ai { background: var(--tag-ai); color: var(--tag-ai-fg); }
-    .tag-web { background: var(--tag-web); color: var(--tag-web-fg); }
-    .tag-other { background: var(--bg2); color: var(--fg2); }
-    .card-title {
-      font-family: 'DM Serif Display', serif;
-      font-size: 1.25rem; margin-bottom: 10px;
-    }
-    .card-desc {
-      font-size: 0.88rem; line-height: 1.65; color: var(--fg2);
-      margin-bottom: 20px;
-    }
-    .card-stack {
-      display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 20px;
-    }
-    .stack-chip {
-      padding: 3px 8px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.65rem; background: var(--bg2);
-      border-radius: 2px; color: var(--fg2);
-    }
-    .card-links { display: flex; gap: 12px; }
-    .card-link {
-      font-size: 0.8rem; font-weight: 600; color: var(--fg);
-      text-decoration: none; display: flex; align-items: center; gap: 5px;
-      border-bottom: 1.5px solid var(--fg);
-      padding-bottom: 1px; transition: opacity 0.2s;
-    }
-    .card-link:hover { opacity: 0.55; }
+a { color: inherit; }
+img { max-width: 100%; display: block; }
+button { font: inherit; color: inherit; }
 
-    /* hidden project card */
-    .project-card.hidden { display: none; }
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
 
-    /* ── CREDENTIALS ── */
-    .credentials-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 48px;
-    }
-    .cred-block-title {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase;
-      color: var(--fg2); margin-bottom: 18px;
-      padding-bottom: 10px; border-bottom: 1px solid var(--border);
-    }
-    .cred-list { list-style: none; }
-    .cred-list li {
-      padding: 14px 0;
-      border-bottom: 1px solid var(--border);
-    }
-    .cred-list li:last-child { border-bottom: none; }
-    .cred-name {
-      font-size: 0.95rem; font-weight: 600; color: var(--fg);
-      margin-bottom: 4px;
-    }
-    .cred-meta {
-      font-size: 0.82rem; color: var(--fg2); line-height: 1.55;
-      margin-bottom: 4px;
-    }
-    .cred-date {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.7rem; color: var(--fg2); letter-spacing: 0.04em;
-    }
-    @media (max-width: 768px) {
-      .credentials-grid { grid-template-columns: 1fr; gap: 32px; }
-    }
+.skip-link {
+  position: absolute; left: 12px; top: -60px; z-index: 300;
+  background: var(--ink); color: var(--paper);
+  padding: 10px 18px; border-radius: var(--radius);
+  font-size: .82rem; font-weight: 600; text-decoration: none;
+  transition: top .2s var(--ease);
+}
+.skip-link:focus { top: 12px; }
 
-    /* ── VIDEO MODAL ── */
-    .modal-backdrop {
-      display: none;
-      position: fixed; inset: 0; z-index: 200;
-      background: rgba(0,0,0,0.78);
-      align-items: center; justify-content: center;
-      padding: 24px;
-    }
-    .modal-backdrop.open { display: flex; }
-    .modal-box {
-      position: relative;
-      width: 100%; max-width: 860px;
-      background: #111;
-      border-radius: 6px;
-      overflow: hidden;
-      box-shadow: 0 32px 80px rgba(0,0,0,0.6);
-      animation: modalIn 0.22s ease;
-    }
-    @keyframes modalIn {
-      from { opacity: 0; transform: scale(0.96) translateY(12px); }
-      to   { opacity: 1; transform: scale(1)    translateY(0); }
-    }
-    .modal-header {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 14px 20px;
-      background: #1a1a1a;
-    }
-    .modal-title {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.78rem; letter-spacing: 0.08em;
-      color: #aaa; text-transform: uppercase;
-    }
-    .modal-close {
-      background: none; border: none; cursor: pointer;
-      color: #aaa; font-size: 1.4rem; line-height: 1;
-      padding: 0 4px; transition: color 0.15s;
-    }
-    .modal-close:hover { color: #fff; }
-    .modal-video-wrap {
-      position: relative; width: 100%; aspect-ratio: 16/9;
-    }
-    .modal-video-wrap iframe {
-      position: absolute; inset: 0;
-      width: 100%; height: 100%; border: none;
-    }
+/* ═══════════════════════════════════════════════
+   2. 공통 타이포 / 레이아웃 유틸
+   ═══════════════════════════════════════════════ */
+.wrap { max-width: var(--maxw); margin: 0 auto; width: 100%; }
 
-    /* 카드 호버 시 재생 오버레이 */
-    .card-play-overlay {
-      position: absolute; inset: 0;
-      display: flex; align-items: center; justify-content: center;
-      background: rgba(0,0,0,0);
-      transition: background 0.25s;
-    }
-    .project-card:hover .card-play-overlay { background: rgba(0,0,0,0.35); }
-    .play-icon {
-      padding: 10px 22px;
-      display: flex; align-items: center; justify-content: center;
-      background: rgba(255,255,255,0.92);
-      color: #111;
-      border-radius: 2px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.78rem; font-weight: 700; letter-spacing: 0.18em;
-      opacity: 0; transform: scale(0.9);
-      transition: opacity 0.25s, transform 0.25s;
-    }
-    .project-card:hover .play-icon { opacity: 1; transform: scale(1); }
+.mono {
+  font-family: var(--font-mono);
+  font-size: .7rem; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--ink-3);
+}
 
-    /* ── CONTACT ── */
-    #contact { background: var(--bg2); }
-    .contact-inner {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
-      align-items: start;
-    }
-    .contact-text h3 {
-      font-family: 'DM Serif Display', serif;
-      font-size: 1.8rem; margin-bottom: 16px;
-    }
-    .contact-text p {
-      font-size: 1rem; line-height: 1.75; color: var(--fg2);
-    }
-    .contact-links { display: flex; flex-direction: column; gap: 16px; margin-top: 12px; }
-    .contact-link-row {
-      display: flex; align-items: center; gap: 16px;
-      padding: 18px 20px;
-      background: var(--card-bg); border: 1px solid var(--border);
-      border-radius: 4px; text-decoration: none;
-      color: var(--fg); transition: all 0.2s;
-    }
-    .contact-link-row:hover {
-      border-color: var(--fg);
-      transform: translateX(4px);
-    }
-    .contact-link-icon {
-      width: 48px; height: 40px;
-      display: flex; align-items: center; justify-content: center;
-      background: var(--bg2); border-radius: 2px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em;
-      color: var(--fg); flex-shrink: 0;
-    }
-    .contact-link-info { flex: 1; }
-    .contact-link-label {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase;
-      color: var(--fg2); margin-bottom: 2px;
-    }
-    .contact-link-value { font-size: 0.95rem; font-weight: 500; }
-    .contact-link-arrow { font-size: 1rem; color: var(--fg2); }
+.num { font-variant-numeric: tabular-nums; }
 
-    /* ── FOOTER ── */
-    footer {
-      text-align: center; padding: 32px;
-      border-top: 1px solid var(--border);
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.72rem; color: var(--fg2); letter-spacing: 0.08em;
-    }
+section { position: relative; z-index: 1; padding: clamp(72px, 10vw, 128px) var(--gutter); }
 
-    /* ── PROJECT HIGHLIGHTS ── */
-    .card-highlights {
-      display: flex; gap: 12px; flex-wrap: wrap;
-      margin-bottom: 16px;
-    }
-    .card-highlight {
-      display: flex; align-items: center; gap: 6px;
-      padding: 6px 12px;
-      background: var(--bg2); border-radius: 2px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.7rem; color: var(--fg);
-      font-weight: 500;
-    }
-    .card-highlight .hl-value {
-      color: var(--tag-ai-fg); font-weight: 600;
-    }
-    .card-period {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.68rem; color: var(--fg2);
-      margin-bottom: 8px; letter-spacing: 0.03em;
-    }
-    .card-challenge {
-      margin-top: 12px; padding: 14px 16px;
-      background: var(--bg2); border-left: 3px solid var(--tag-ai-fg);
-      border-radius: 0 4px 4px 0;
-      margin-bottom: 16px;
-    }
-    .card-challenge-title {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase;
-      color: var(--tag-ai-fg); margin-bottom: 6px; font-weight: 600;
-    }
-    .card-challenge p {
-      font-size: 0.82rem; line-height: 1.6; color: var(--fg2);
-    }
-    .card-challenge strong { color: var(--fg); }
+.sec-head {
+  display: flex; align-items: baseline; gap: 20px;
+  margin-bottom: clamp(40px, 6vw, 68px);
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--line);
+}
+.sec-head .idx {
+  font-family: var(--font-mono); font-size: .72rem; letter-spacing: .1em;
+  color: var(--ink-3); padding-top: 6px;
+}
+.sec-head h2 {
+  font-family: var(--font-serif); font-weight: 400;
+  font-size: clamp(1.8rem, 3.4vw, 2.8rem);
+  line-height: 1.1; letter-spacing: -.01em;
+}
+.sec-head .sub {
+  margin-left: auto; font-size: .85rem; color: var(--ink-3);
+  text-align: right; max-width: 300px; line-height: 1.5;
+  word-break: keep-all;
+}
 
-    /* ── TIMELINE ── */
-    .timeline { margin-top: 32px; }
-    .timeline-item {
-      display: flex; gap: 16px; margin-bottom: 20px;
-      position: relative;
-    }
-    .timeline-dot {
-      width: 10px; height: 10px;
-      background: var(--fg); border-radius: 50%;
-      flex-shrink: 0; margin-top: 6px;
-    }
-    .timeline-item:not(:last-child)::before {
-      content: '';
-      position: absolute; left: 4px; top: 18px; bottom: -12px;
-      width: 2px; background: var(--border);
-    }
-    .timeline-date {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.72rem; color: var(--fg2); margin-bottom: 2px;
-    }
-    .timeline-title {
-      font-size: 0.95rem; font-weight: 600; margin-bottom: 2px;
-    }
-    .timeline-desc {
-      font-size: 0.85rem; color: var(--fg2); line-height: 1.5;
-    }
+/* ═══════════════════════════════════════════════
+   3. NAV
+   ═══════════════════════════════════════════════ */
+header.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  height: var(--nav-h);
+  display: flex; align-items: center; gap: 24px;
+  padding: 0 var(--gutter);
+  background: var(--nav-bg);
+  backdrop-filter: saturate(180%) blur(16px);
+  -webkit-backdrop-filter: saturate(180%) blur(16px);
+  border-bottom: 1px solid transparent;
+  transition: border-color .3s var(--ease), background .4s var(--ease);
+}
+header.nav.scrolled { border-bottom-color: var(--line); }
 
-    /* ── ANIMATIONS ── */
-    .fade-in {
-      opacity: 0; transform: translateY(24px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-    .fade-in.visible { opacity: 1; transform: translateY(0); }
+.nav-logo {
+  font-family: var(--font-serif); font-size: 1.25rem; letter-spacing: .01em;
+  text-decoration: none; display: inline-flex; align-items: baseline; gap: 8px;
+}
+.nav-logo .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); display: inline-block; }
 
-    /* ── RESPONSIVE ── */
-    @media (max-width: 900px) {
-      #home { padding: 60px 32px; }
-      .hero-metrics { grid-template-columns: 1fr; gap: 16px; }
-      .about-grid, .contact-inner { grid-template-columns: 1fr; gap: 48px; }
-      section { padding: 72px 32px; }
-      nav { padding: 0 24px; }
-      .nav-links { gap: 20px; }
-    }
-  </style>
+.nav-links { display: flex; gap: 4px; list-style: none; margin: 0 auto; }
+.nav-links a {
+  position: relative; display: block;
+  padding: 8px 14px; border-radius: 999px;
+  font-size: .78rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase;
+  color: var(--ink-3); text-decoration: none;
+  transition: color .2s var(--ease), background .2s var(--ease);
+}
+.nav-links a:hover { color: var(--ink); }
+.nav-links a.active { color: var(--ink); background: var(--paper-2); }
+
+.nav-actions { display: flex; align-items: center; gap: 10px; }
+
+.icon-btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  height: 34px; padding: 0 13px;
+  background: transparent; border: 1px solid var(--line); border-radius: 999px;
+  font-family: var(--font-mono); font-size: .68rem; letter-spacing: .1em;
+  color: var(--ink-3); cursor: pointer;
+  transition: border-color .2s var(--ease), color .2s var(--ease), background .2s var(--ease);
+}
+.icon-btn:hover { border-color: var(--ink-3); color: var(--ink); }
+.icon-btn svg { width: 14px; height: 14px; }
+
+.theme-toggle .sun { display: none; }
+[data-theme="dark"] .theme-toggle .sun { display: block; }
+[data-theme="dark"] .theme-toggle .moon { display: none; }
+
+.nav-progress {
+  position: absolute; left: 0; bottom: -1px; height: 2px; width: 0%;
+  background: var(--accent); transition: width .1s linear;
+}
+
+.menu-btn { display: none; }
+
+/* 모바일 오버레이 메뉴 */
+.mobile-menu {
+  position: fixed; inset: 0; z-index: 99;
+  background: var(--paper);
+  padding: calc(var(--nav-h) + 32px) var(--gutter) 40px;
+  display: flex; flex-direction: column; gap: 4px;
+  opacity: 0; visibility: hidden; transform: translateY(-8px);
+  transition: opacity .25s var(--ease), transform .25s var(--ease), visibility .25s;
+}
+.mobile-menu.open { opacity: 1; visibility: visible; transform: none; }
+.mobile-menu a {
+  display: flex; align-items: baseline; gap: 14px;
+  padding: 18px 0; border-bottom: 1px solid var(--line-2);
+  font-family: var(--font-serif); font-size: 1.6rem;
+  text-decoration: none; color: var(--ink);
+}
+.mobile-menu a span { font-family: var(--font-mono); font-size: .7rem; color: var(--ink-3); }
+
+/* ═══════════════════════════════════════════════
+   4. HERO
+   ═══════════════════════════════════════════════ */
+#home {
+  min-height: 100svh;
+  display: flex; align-items: center;
+  padding-top: calc(var(--nav-h) + 48px);
+  padding-bottom: 56px;
+  overflow: hidden;
+}
+#home::after {
+  content: ''; position: absolute; z-index: -1;
+  width: min(780px, 90vw); aspect-ratio: 1;
+  right: -14%; top: -22%;
+  background: radial-gradient(circle at center, var(--accent-soft), transparent 66%);
+  pointer-events: none;
+}
+
+.hero-grid {
+  display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+  gap: clamp(40px, 6vw, 88px); align-items: center;
+}
+
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: var(--font-mono); font-size: .7rem; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--ink-3); margin-bottom: 26px;
+}
+.eyebrow .pulse {
+  width: 7px; height: 7px; border-radius: 50%; background: var(--accent);
+  box-shadow: 0 0 0 0 var(--accent);
+  animation: pulse 2.6s infinite;
+}
+@keyframes pulse {
+  0%   { box-shadow: 0 0 0 0 var(--accent-soft); }
+  70%  { box-shadow: 0 0 0 9px transparent; }
+  100% { box-shadow: 0 0 0 0 transparent; }
+}
+
+.hero h1 {
+  font-size: clamp(1.95rem, 4.2vw, 3.1rem);
+  font-weight: 700; letter-spacing: -.042em; line-height: 1.24;
+  word-break: keep-all; margin-bottom: 28px;
+}
+.hero h1 .accent {
+  position: relative; display: inline-block;
+  color: var(--accent);
+}
+.hero h1 .accent::after {
+  content: ''; position: absolute; left: -.04em; right: -.04em; bottom: .04em; height: .32em;
+  background: var(--accent-soft); z-index: -1;
+  transform: scaleX(0); transform-origin: left;
+  animation: swipe .9s var(--ease) .5s forwards;
+}
+@keyframes swipe { to { transform: scaleX(1); } }
+
+.hero-desc {
+  font-size: 1.02rem; line-height: 1.85; color: var(--ink-2);
+  max-width: 54ch; word-break: keep-all; margin-bottom: 28px;
+}
+.hero-desc strong { color: var(--ink); font-weight: 600; }
+
+.goal-pill {
+  display: inline-flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  padding: 9px 16px 9px 9px;
+  border: 1px solid var(--line); border-radius: 999px;
+  background: var(--surface);
+  font-size: .86rem; color: var(--ink-2); margin-bottom: 34px;
+  word-break: keep-all;
+}
+.goal-pill .tag {
+  font-family: var(--font-mono); font-size: .62rem; letter-spacing: .12em; text-transform: uppercase;
+  padding: 5px 10px; border-radius: 999px;
+  background: var(--ink); color: var(--paper);
+}
+.goal-pill strong { color: var(--ink); font-weight: 600; }
+
+.cta-row { display: flex; gap: 12px; flex-wrap: wrap; }
+.btn {
+  display: inline-flex; align-items: center; gap: 9px;
+  padding: 13px 24px; border-radius: 999px;
+  font-size: .88rem; font-weight: 600; letter-spacing: -.01em;
+  text-decoration: none; cursor: pointer; border: 1px solid transparent;
+  transition: transform .22s var(--ease), background .22s var(--ease),
+              color .22s var(--ease), border-color .22s var(--ease), box-shadow .22s var(--ease);
+}
+.btn .arw { transition: transform .22s var(--ease); }
+.btn:hover .arw { transform: translateX(4px); }
+.btn-solid { background: var(--ink); color: var(--paper); }
+.btn-solid:hover { transform: translateY(-2px); box-shadow: var(--shadow-sm); }
+.btn-ghost { background: transparent; color: var(--ink); border-color: var(--line); }
+.btn-ghost:hover { border-color: var(--ink); transform: translateY(-2px); }
+
+/* 히어로 우측 — 데이터시트 카드 */
+.spec-card {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: 6px; box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+.spec-head {
+  display: flex; align-items: center; gap: 8px;
+  padding: 12px 16px; border-bottom: 1px solid var(--line-2);
+  background: var(--paper-2);
+}
+.spec-head .lamp { width: 8px; height: 8px; border-radius: 50%; background: var(--line); }
+.spec-head .lamp:first-child { background: var(--accent); }
+.spec-head .t {
+  margin-left: 6px; font-family: var(--font-mono); font-size: .65rem;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3);
+}
+.spec-body { padding: 6px 16px 14px; }
+.spec-row {
+  display: flex; align-items: baseline; gap: 14px;
+  padding: 11px 0; border-bottom: 1px dashed var(--line-2);
+  font-size: .84rem;
+}
+.spec-row:last-child { border-bottom: none; }
+.spec-row dt {
+  font-family: var(--font-mono); font-size: .63rem; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3);
+  min-width: 76px; flex-shrink: 0;
+}
+.spec-row dd { color: var(--ink-2); word-break: keep-all; }
+.spec-row dd strong { color: var(--ink); font-weight: 600; }
+
+.scroll-cue {
+  position: absolute; left: var(--gutter); bottom: 26px;
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: var(--font-mono); font-size: .63rem; letter-spacing: .18em;
+  text-transform: uppercase; color: var(--ink-3);
+}
+.scroll-cue .bar {
+  width: 40px; height: 1px; background: var(--line); position: relative; overflow: hidden;
+}
+.scroll-cue .bar::after {
+  content: ''; position: absolute; inset: 0; background: var(--ink-3);
+  transform: translateX(-100%); animation: slide 2.2s var(--ease) infinite;
+}
+@keyframes slide { to { transform: translateX(100%); } }
+
+/* ═══════════════════════════════════════════════
+   5. METRICS BAND
+   ═══════════════════════════════════════════════ */
+#metrics { padding-top: 0; padding-bottom: clamp(56px, 7vw, 88px); }
+.metrics {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid var(--ink);
+  border-bottom: 1px solid var(--line);
+}
+.metric {
+  padding: 30px 28px 26px 0;
+  border-right: 1px solid var(--line);
+}
+.metric:last-child { border-right: none; padding-right: 0; }
+.metric-k {
+  font-family: var(--font-mono); font-size: .62rem; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 14px;
+}
+.metric-v {
+  font-family: var(--font-serif); font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1; letter-spacing: -.02em; margin-bottom: 10px;
+  font-variant-numeric: tabular-nums;
+}
+.metric-l { font-size: .95rem; font-weight: 600; margin-bottom: 6px; word-break: keep-all; }
+.metric-s { font-size: .78rem; color: var(--ink-3); line-height: 1.55; word-break: keep-all; }
+
+/* ═══════════════════════════════════════════════
+   6. ABOUT
+   ═══════════════════════════════════════════════ */
+#about { background: var(--paper-2); border-block: 1px solid var(--line); }
+.about-grid {
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(40px, 6vw, 80px); align-items: start;
+}
+.about-lead {
+  display: grid; grid-template-columns: 132px 1fr; gap: 28px;
+  align-items: center; margin-bottom: 34px;
+}
+.portrait {
+  border: 1px solid var(--line); border-radius: 4px;
+  background: var(--surface); padding: 7px; box-shadow: var(--shadow-sm);
+}
+.portrait img { border-radius: 2px; aspect-ratio: 3/4; object-fit: cover; width: 100%; height: auto; }
+.portrait figcaption {
+  font-family: var(--font-mono); font-size: .58rem; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3);
+  text-align: center; padding: 8px 0 3px;
+}
+.about-quote {
+  font-size: clamp(1.1rem, 1.9vw, 1.42rem); font-weight: 600;
+  line-height: 1.55; letter-spacing: -.035em; word-break: keep-all;
+  padding-left: 20px; border-left: 2px solid var(--accent);
+}
+.about-quote span { color: var(--ink-3); }
+.about-text p {
+  font-size: .96rem; line-height: 1.9; color: var(--ink-2);
+  margin-bottom: 17px; word-break: keep-all;
+}
+.about-text p:last-child { margin-bottom: 0; }
+.about-text strong { color: var(--ink); font-weight: 600; }
+
+/* 타임라인 */
+.tl-title, .sk-title {
+  font-family: var(--font-mono); font-size: .68rem; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--ink-3);
+  padding-bottom: 12px; margin-bottom: 20px; border-bottom: 1px solid var(--line);
+}
+.timeline { position: relative; padding-left: 22px; }
+.timeline::before {
+  content: ''; position: absolute; left: 3px; top: 8px; bottom: 8px;
+  width: 1px; background: linear-gradient(var(--line), var(--line) 70%, transparent);
+}
+.tl-item { position: relative; padding-bottom: 26px; }
+.tl-item:last-child { padding-bottom: 0; }
+.tl-item::before {
+  content: ''; position: absolute; left: -22px; top: 7px;
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--paper-2); border: 1.5px solid var(--ink-3);
+  transition: background .25s var(--ease), border-color .25s var(--ease);
+}
+.tl-item.now::before { background: var(--accent); border-color: var(--accent); }
+.tl-date {
+  font-family: var(--font-mono); font-size: .66rem; letter-spacing: .08em;
+  color: var(--ink-3); margin-bottom: 4px;
+}
+.tl-h { font-size: .95rem; font-weight: 600; margin-bottom: 4px; word-break: keep-all; }
+.tl-d { font-size: .84rem; line-height: 1.65; color: var(--ink-3); word-break: keep-all; }
+
+/* 스킬 */
+.skills { margin-top: 44px; }
+.legend {
+  display: flex; gap: 18px; flex-wrap: wrap; margin-bottom: 18px;
+  font-size: .76rem; color: var(--ink-3);
+}
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i, .chip i {
+  width: 6px; height: 6px; border-radius: 50%; background: var(--line); flex-shrink: 0;
+}
+.lv-1 i { background: var(--accent); }
+.lv-2 i { background: var(--accent-3); }
+.lv-3 i { background: var(--ink-3); opacity: .45; }
+
+.sk-group { margin-bottom: 22px; }
+.sk-group h4 {
+  font-family: var(--font-mono); font-size: .64rem; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 11px;
+}
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 6px 12px; border-radius: 999px;
+  background: var(--surface); border: 1px solid var(--line);
+  font-family: var(--font-mono); font-size: .71rem; color: var(--ink-2);
+  transition: border-color .2s var(--ease), transform .2s var(--ease);
+}
+.chip:hover { border-color: var(--ink-3); transform: translateY(-1px); }
+
+/* ═══════════════════════════════════════════════
+   7. PROJECTS
+   ═══════════════════════════════════════════════ */
+.filters { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
+.filter {
+  padding: 8px 17px; border-radius: 999px;
+  background: transparent; border: 1px solid var(--line);
+  font-family: var(--font-mono); font-size: .7rem; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--ink-3); cursor: pointer;
+  transition: all .2s var(--ease);
+}
+.filter:hover { border-color: var(--ink-3); color: var(--ink); }
+.filter[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+
+.project {
+  display: grid; grid-template-columns: 244px minmax(0, 1fr);
+  gap: clamp(24px, 4vw, 64px);
+  padding: clamp(32px, 4vw, 52px) 0;
+  border-top: 1px solid var(--line);
+  position: relative;
+}
+#projects { border-bottom: 1px solid var(--line); }
+.project.hide { display: none; }
+.project::before {
+  content: ''; position: absolute; left: calc(var(--gutter) * -.5); right: calc(var(--gutter) * -.5);
+  top: 0; bottom: 0; z-index: -1; border-radius: 6px;
+  background: var(--paper-2); opacity: 0;
+  transition: opacity .3s var(--ease);
+}
+.project:hover::before { opacity: .7; }
+
+.p-side { align-self: start; }
+@media (min-width: 901px) {
+  .p-side { position: sticky; top: calc(var(--nav-h) + 32px); }
+}
+.p-no {
+  font-family: var(--font-serif); font-size: 2.6rem; line-height: 1;
+  color: var(--ink-3); opacity: .45; margin-bottom: 16px;
+}
+.p-meta {
+  font-size: .8rem; color: var(--ink-3);
+  line-height: 1.75; margin-bottom: 14px; word-break: keep-all;
+}
+.p-meta b {
+  display: block; margin-bottom: 2px;
+  font-family: var(--font-mono); font-size: .68rem; letter-spacing: .04em;
+  color: var(--ink-2); font-weight: 500;
+}
+.tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.tag {
+  padding: 3px 10px; border-radius: 999px;
+  font-family: var(--font-mono); font-size: .63rem; letter-spacing: .06em;
+  border: 1px solid currentColor;
+}
+.tag.ai { color: var(--accent); }
+.tag.fin { color: var(--accent-2); }
+.tag.infra { color: var(--accent-3); }
+
+.p-title {
+  font-size: clamp(1.25rem, 2.2vw, 1.7rem); font-weight: 700;
+  letter-spacing: -.025em; line-height: 1.35; margin-bottom: 16px; word-break: keep-all;
+}
+.p-outcome {
+  display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px;
+}
+.stat {
+  display: inline-flex; align-items: baseline; gap: 8px;
+  padding: 8px 14px; border-radius: 4px;
+  background: var(--surface); border: 1px solid var(--line);
+  font-size: .78rem; color: var(--ink-3);
+}
+.stat b {
+  font-size: .84rem; font-weight: 700; letter-spacing: -.01em;
+  color: var(--accent); font-variant-numeric: tabular-nums;
+}
+.p-desc {
+  font-size: .93rem; line-height: 1.85; color: var(--ink-2);
+  margin-bottom: 20px; word-break: keep-all;
+}
+.p-desc strong { color: var(--ink); font-weight: 600; }
+
+.challenge {
+  padding: 18px 20px; margin-bottom: 20px;
+  background: var(--surface);
+  border: 1px solid var(--line); border-left: 2px solid var(--accent);
+  border-radius: 0 4px 4px 0;
+}
+.challenge h4 {
+  font-family: var(--font-mono); font-size: .63rem; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--accent); margin-bottom: 9px;
+}
+.challenge p { font-size: .87rem; line-height: 1.8; color: var(--ink-2); word-break: keep-all; }
+.challenge strong { color: var(--ink); font-weight: 600; }
+
+.stack { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 20px; }
+.stack span, .stack .more {
+  padding: 4px 9px; border-radius: 3px;
+  background: var(--paper-2); border: 1px solid var(--line-2);
+  font-family: var(--font-mono); font-size: .66rem; line-height: 1.6; color: var(--ink-3);
+}
+.stack .more {
+  background: transparent; border-style: dashed; cursor: pointer;
+  color: var(--ink-2); transition: border-color .2s var(--ease), color .2s var(--ease);
+}
+.stack .more:hover { border-color: var(--ink-3); color: var(--ink); }
+.stack .extra.hide { display: none; }
+
+.p-links { display: flex; flex-wrap: wrap; gap: 10px; }
+.plink {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 8px 15px; border-radius: 999px;
+  border: 1px solid var(--line); background: var(--surface);
+  font-size: .8rem; font-weight: 500; text-decoration: none; color: var(--ink-2);
+  cursor: pointer;
+  transition: border-color .2s var(--ease), color .2s var(--ease), transform .2s var(--ease);
+}
+.plink:hover { border-color: var(--ink); color: var(--ink); transform: translateY(-1px); }
+.plink svg { width: 13px; height: 13px; }
+.plink.play { border-color: var(--accent); color: var(--accent); }
+.plink.play:hover { background: var(--accent); color: var(--paper); border-color: var(--accent); }
+/* 클릭 대상이 아니라 상태 표시 — 링크와 확실히 구분되게 */
+.plink.locked {
+  border-style: dashed; background: transparent;
+  color: var(--ink-3); cursor: default;
+}
+.plink.locked:hover { transform: none; border-color: var(--line); color: var(--ink-3); }
+.plink.locked svg { opacity: .7; }
+
+/* ═══════════════════════════════════════════════
+   8. CREDENTIALS
+   ═══════════════════════════════════════════════ */
+#credentials { background: var(--paper-2); border-block: 1px solid var(--line); }
+.cred-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(32px, 5vw, 64px); }
+.cred-grid h3 {
+  font-family: var(--font-mono); font-size: .68rem; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--ink-3);
+  padding-bottom: 12px; margin-bottom: 6px; border-bottom: 1px solid var(--line);
+}
+.cred-list { list-style: none; }
+.cred-list li { padding: 16px 0; border-bottom: 1px solid var(--line-2); }
+.cred-list li:last-child { border-bottom: none; }
+.cred-row { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
+.cred-n { font-size: .95rem; font-weight: 600; word-break: keep-all; }
+.cred-d {
+  font-family: var(--font-mono); font-size: .66rem; color: var(--ink-3);
+  white-space: nowrap; letter-spacing: .04em;
+}
+.cred-m { font-size: .82rem; color: var(--ink-3); line-height: 1.6; margin-top: 5px; word-break: keep-all; }
+.lang-row { display: flex; gap: 28px; flex-wrap: wrap; margin-top: 20px; font-size: .85rem; color: var(--ink-2); }
+.lang-row b { color: var(--ink); font-weight: 600; margin-right: 7px; }
+
+/* ═══════════════════════════════════════════════
+   9. CONTACT
+   ═══════════════════════════════════════════════ */
+.contact-grid {
+  display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+  gap: clamp(36px, 6vw, 80px); align-items: start;
+}
+.contact-copy h3 {
+  font-size: clamp(1.5rem, 2.8vw, 2.1rem); font-weight: 700;
+  letter-spacing: -.04em; line-height: 1.3; margin-bottom: 16px; word-break: keep-all;
+}
+.contact-copy p { font-size: .95rem; line-height: 1.85; color: var(--ink-2); word-break: keep-all; }
+.contact-copy .mail {
+  display: inline-block; margin-top: 22px;
+  font-family: var(--font-mono); font-size: .9rem; color: var(--ink);
+  text-decoration: none; border-bottom: 1px solid var(--accent); padding-bottom: 3px;
+  transition: color .2s var(--ease);
+}
+.contact-copy .mail:hover { color: var(--accent); }
+
+.links { display: flex; flex-direction: column; }
+.link-row {
+  display: flex; align-items: center; gap: 18px;
+  padding: 20px 4px; border-bottom: 1px solid var(--line);
+  text-decoration: none; color: var(--ink);
+  transition: padding .25s var(--ease), border-color .25s var(--ease);
+}
+.link-row:first-child { border-top: 1px solid var(--line); }
+.link-row:hover { padding-left: 14px; border-color: var(--ink-3); }
+.link-row .n { font-family: var(--font-mono); font-size: .66rem; color: var(--ink-3); }
+.link-row .info { flex: 1; min-width: 0; }
+.link-row .lbl {
+  display: block;
+  font-family: var(--font-mono); font-size: .62rem; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px;
+}
+.link-row .val {
+  display: block; font-size: .92rem; font-weight: 500;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.link-row .arw { color: var(--ink-3); transition: transform .25s var(--ease), color .25s var(--ease); }
+.link-row:hover .arw { transform: translateX(5px); color: var(--ink); }
+
+/* ═══════════════════════════════════════════════
+   10. FOOTER
+   ═══════════════════════════════════════════════ */
+footer {
+  position: relative; z-index: 1;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; flex-wrap: wrap;
+  padding: 28px var(--gutter);
+  border-top: 1px solid var(--line);
+  font-family: var(--font-mono); font-size: .66rem; letter-spacing: .08em;
+  color: var(--ink-3);
+}
+footer a { color: var(--ink-3); text-decoration: none; transition: color .2s var(--ease); }
+footer a:hover { color: var(--ink); }
+.to-top { display: inline-flex; align-items: center; gap: 7px; }
+
+/* ═══════════════════════════════════════════════
+   11. MODAL
+   ═══════════════════════════════════════════════ */
+.modal {
+  position: fixed; inset: 0; z-index: 200;
+  display: none; align-items: center; justify-content: center;
+  padding: 24px; background: rgba(8,7,6,.82);
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+}
+.modal.open { display: flex; }
+.modal-box {
+  width: 100%; max-width: 900px;
+  background: #0f0e0d; border-radius: 8px; overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  animation: pop .24s var(--ease);
+}
+@keyframes pop { from { opacity: 0; transform: scale(.97) translateY(10px); } to { opacity: 1; transform: none; } }
+.modal-head {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding: 14px 18px; background: #171614; border-bottom: 1px solid #262421;
+}
+.modal-head h4 {
+  font-size: .82rem; letter-spacing: -.01em;
+  color: #cfc9bf; font-weight: 600;
+}
+.modal-close {
+  background: none; border: none; cursor: pointer; color: #a7a096;
+  width: 28px; height: 28px; border-radius: 50%; line-height: 1;
+  display: grid; place-items: center; transition: background .2s, color .2s;
+}
+.modal-close:hover { background: #262421; color: #fff; }
+.modal-video { position: relative; width: 100%; aspect-ratio: 16/9; }
+.modal-video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+
+/* ═══════════════════════════════════════════════
+   12. REVEAL / MOTION
+   ═══════════════════════════════════════════════ */
+[data-reveal] {
+  opacity: 0; transform: translateY(18px);
+  transition: opacity .7s var(--ease), transform .7s var(--ease);
+  transition-delay: var(--d, 0ms);
+}
+[data-reveal].in { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: .001ms !important; animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+  }
+  [data-reveal] { opacity: 1; transform: none; }
+  .hero h1 .accent::after { transform: scaleX(1); }
+}
+
+/* ═══════════════════════════════════════════════
+   13. RESPONSIVE
+   ═══════════════════════════════════════════════ */
+@media (max-width: 1080px) {
+  .hero-grid { grid-template-columns: 1fr; gap: 44px; }
+  .spec-card { max-width: 460px; }
+  .about-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 900px) {
+  .nav-links { display: none; }
+  .menu-btn { display: inline-flex; }
+  .project { grid-template-columns: 1fr; gap: 20px; }
+  .p-no { font-size: 1.6rem; margin-bottom: 8px; }
+  .p-side { display: grid; grid-template-columns: auto 1fr; gap: 6px 18px; align-items: center; }
+  .p-side .p-no { grid-row: span 2; margin: 0; }
+  .p-meta { margin-bottom: 0; }
+  .metrics { grid-template-columns: 1fr; border-bottom: none; }
+  .metric { border-right: none; border-bottom: 1px solid var(--line); padding-right: 0; }
+  .contact-grid, .cred-grid { grid-template-columns: 1fr; }
+  .sec-head { flex-wrap: wrap; }
+  .sec-head .sub { margin-left: 0; text-align: left; max-width: none; flex-basis: 100%; }
+}
+@media (max-width: 480px) {
+  .nav-actions a.icon-btn { display: none; }
+}
+@media (max-width: 560px) {
+  .about-lead { grid-template-columns: 1fr; gap: 20px; }
+  .portrait { max-width: 132px; }
+  .scroll-cue { display: none; }
+  .cred-row { flex-direction: column; gap: 3px; }
+  .hero h1 .accent { white-space: normal; }
+}
+
+@media print {
+  header.nav, .modal, .scroll-cue, .filters, footer .to-top, .mobile-menu { display: none !important; }
+  body { background: #fff; }
+  body::before { display: none; }
+  section { padding: 24px 0; }
+  [data-reveal] { opacity: 1 !important; transform: none !important; }
+  .project { break-inside: avoid; }
+}
+</style>
 </head>
 <body>
 
-<!-- NAVBAR -->
-<nav>
-  <a class="nav-logo" href="#home">MH.</a>
-  <ul class="nav-links">
-    <li><a href="#home" class="active">Home</a></li>
-    <li><a href="#about">About</a></li>
-    <li><a href="#projects">Projects</a></li>
-    <li><a href="#credentials">Credentials</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-  <button class="theme-toggle" id="themeToggle" aria-label="테마 전환">
-    <span class="label">DAY</span>
-  </button>
-</nav>
+<a class="skip-link" href="#main">본문 바로가기</a>
 
-<div class="page">
+<!-- ══ NAV ══ -->
+<header class="nav" id="nav">
+  <a class="nav-logo" href="#home" aria-label="홈으로">MH<span class="dot"></span></a>
+  <nav aria-label="주요 섹션">
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#work">Work</a></li>
+      <li><a href="#credentials">Credentials</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+  <div class="nav-actions">
+    <a class="icon-btn" href="resume.html">RESUME</a>
+    <button class="icon-btn theme-toggle" id="themeBtn" aria-label="다크 모드 전환">
+      <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      <span id="themeLabel">DARK</span>
+    </button>
+    <button class="icon-btn menu-btn" id="menuBtn" aria-expanded="false" aria-controls="mobileMenu">MENU</button>
+  </div>
+  <div class="nav-progress" id="progress"></div>
+</header>
 
-  <!-- HERO -->
-  <section id="home">
-    <div class="hero-inner">
-      <p class="hero-eyebrow">AI Engineer / Kim Minhyung</p>
-      <h1 class="hero-name">
-        LLM의 유창함과 신뢰성 사이의 간극을<br/>
-        <em>엔지니어링으로 메운다.</em>
-      </h1>
-      <p class="hero-desc">
-        외부 API 의존도가 높은 서비스의 비용·안정성·관측성을 책임지는 AI 엔지니어.
-        RAG 파이프라인을 엔드투엔드로 설계·구현하고, Kubernetes + ArgoCD로 무중단 배포까지 운영합니다.
-      </p>
-      <p class="hero-goal">
-        <span class="hero-goal-tag">CAREER GOAL</span>
-        금융·AI 도메인 <strong>LLM 신뢰성 엔지니어</strong> — 신입 포지션, 즉시 합류 가능
-      </p>
-
-      <div class="hero-metrics">
-        <div>
-          <div class="hero-metric-value">99.89%</div>
-          <div class="hero-metric-label">External API calls reduced</div>
-        </div>
-        <div>
-          <div class="hero-metric-value">200×</div>
-          <div class="hero-metric-label">Response time improved</div>
-        </div>
-        <div>
-          <div class="hero-metric-value">79.3%</div>
-          <div class="hero-metric-label">Test coverage (Analysis Bot)</div>
-        </div>
-      </div>
-
-      <div class="hero-cta">
-        <a class="btn btn-primary" href="#projects">View Projects →</a>
-        <a class="btn btn-outline" href="resume.html">View Resume</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ABOUT -->
-  <section id="about">
-    <div class="section-header fade-in">
-      <span class="section-label">01 — About</span>
-      <h2 class="section-title">About Me</h2>
-      <div class="section-line"></div>
-    </div>
-    <div class="about-grid fade-in">
-      <div class="about-text">
-        <p>
-          전기공학을 전공하며 신호 처리와 시스템 설계를 공부하는 과정에서,
-          데이터 기반 의사결정 구조에 깊은 관심을 갖게 되었습니다.
-          "노이즈를 걸러내고 의미 있는 패턴을 추출한다"는 신호 처리의 관점은
-          LLM 응답 파싱, 벡터 유사도 검색, 매매 신호 필터링 등
-          지금 하는 개발에서도 그대로 적용되고 있습니다.
-        </p>
-        <p>
-          구름 부트캠프에서 AI/ML에 입문한 뒤, RAG 기반 추천 시스템과
-          주식·암호화폐 자동매매 시스템을 프로토타입부터 GCP 클라우드 24/7 운영까지
-          <strong>전체 개발 사이클을 직접 경험</strong>했습니다.
-        </p>
-        <p>
-          "모델을 가져다 쓰는 사람"이 아니라 <strong>파이프라인을 설계하는 엔지니어</strong>를 목표로 합니다.
-          <strong>유창함은 모델이 주고, 신뢰성은 엔지니어링이 만든다</strong> — 말한 대로 작동하는 코드를 쓰는 것이 제 기준입니다.
-        </p>
-
-        <div class="timeline">
-          <div class="timeline-item">
-            <div class="timeline-dot"></div>
-            <div>
-              <div class="timeline-date">2017 ~ 2021</div>
-              <div class="timeline-title">전기공학 전공</div>
-              <div class="timeline-desc">회로 설계, 신호 처리, 수학적 사고력 기반 형성</div>
-            </div>
-          </div>
-          <div class="timeline-item">
-            <div class="timeline-dot"></div>
-            <div>
-              <div class="timeline-date">2025.03 ~ 2025.09</div>
-              <div class="timeline-title">구름 AI 부트캠프</div>
-              <div class="timeline-desc">Python, AI/ML, LLM 활용 개발 입문. 팀 프로젝트로 FireGenerators RAG 추천 시스템 구현</div>
-            </div>
-          </div>
-          <div class="timeline-item">
-            <div class="timeline-dot"></div>
-            <div>
-              <div class="timeline-date">2025.12 ~ 2026.03</div>
-              <div class="timeline-title">개인 프로젝트 — 자동매매 시스템</div>
-              <div class="timeline-desc">주식·암호화폐 자동매매 시스템 설계·배포·운영. GCP 24/7, Docker, FastAPI, WebSocket</div>
-            </div>
-          </div>
-          <div class="timeline-item">
-            <div class="timeline-dot"></div>
-            <div>
-              <div class="timeline-date">2026.03 ~ 2026.04</div>
-              <div class="timeline-title">개인 프로젝트 — Analysis Bot (RAG 문서 분석 챗봇)</div>
-              <div class="timeline-desc">하이브리드 검색 → 멀티 프로바이더 폴백 → K8s + ArgoCD GitOps 배포까지 엔드투엔드 구현. 테스트 327개 · 커버리지 79.3%</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="skills-block">
-        <div class="skills-legend">
-          <span class="lvl-prod"><span class="dot"></span>Production (운영 경험)</span>
-          <span class="lvl-proj"><span class="dot"></span>프로젝트 적용</span>
-          <span class="lvl-learn"><span class="dot"></span>학습·도입 단계</span>
-        </div>
-        <h4>AI / ML Stack</h4>
-        <div class="skill-tags">
-          <span class="skill-tag lvl-proj"><span class="dot"></span>RAG</span>
-          <span class="skill-tag lvl-proj"><span class="dot"></span>LangChain</span>
-          <span class="skill-tag lvl-proj"><span class="dot"></span>GPT-4o</span>
-          <span class="skill-tag lvl-proj"><span class="dot"></span>Claude API</span>
-          <span class="skill-tag lvl-proj"><span class="dot"></span>Gemini</span>
-          <span class="skill-tag lvl-proj"><span class="dot"></span>text-embedding-3-small</span>
-          <span class="skill-tag lvl-proj"><span class="dot"></span>Pinecone</span>
-          <span class="skill-tag lvl-proj"><span class="dot"></span>FAISS</span>
-          <span class="skill-tag lvl-proj"><span class="dot"></span>pgvector</span>
-          <span class="skill-tag lvl-learn"><span class="dot"></span>Langfuse</span>
-          <span class="skill-tag lvl-learn"><span class="dot"></span>OpenTelemetry</span>
-        </div>
-        <h4>Web / Backend</h4>
-        <div class="skill-tags">
-          <span class="skill-tag lvl-prod"><span class="dot"></span>Python</span>
-          <span class="skill-tag lvl-prod"><span class="dot"></span>FastAPI</span>
-          <span class="skill-tag lvl-proj"><span class="dot"></span>Streamlit</span>
-          <span class="skill-tag lvl-proj"><span class="dot"></span>Supabase</span>
-          <span class="skill-tag lvl-proj"><span class="dot"></span>TypeScript</span>
-          <span class="skill-tag lvl-proj"><span class="dot"></span>JavaScript</span>
-          <span class="skill-tag lvl-proj"><span class="dot"></span>Next.js</span>
-          <span class="skill-tag lvl-proj"><span class="dot"></span>React</span>
-          <span class="skill-tag lvl-proj"><span class="dot"></span>Fastify</span>
-          <span class="skill-tag lvl-proj"><span class="dot"></span>Node.js</span>
-          <span class="skill-tag lvl-proj"><span class="dot"></span>PostgreSQL</span>
-          <span class="skill-tag lvl-proj"><span class="dot"></span>Redis</span>
-          <span class="skill-tag lvl-proj"><span class="dot"></span>Prisma</span>
-        </div>
-        <h4>Tools & Platform</h4>
-        <div class="skill-tags">
-          <span class="skill-tag lvl-prod"><span class="dot"></span>GitHub</span>
-          <span class="skill-tag lvl-prod"><span class="dot"></span>GitHub Actions</span>
-          <span class="skill-tag lvl-prod"><span class="dot"></span>Docker</span>
-          <span class="skill-tag lvl-prod"><span class="dot"></span>Google Cloud</span>
-          <span class="skill-tag lvl-prod"><span class="dot"></span>yfinance</span>
-          <span class="skill-tag lvl-learn"><span class="dot"></span>Kubernetes</span>
-          <span class="skill-tag lvl-learn"><span class="dot"></span>Helm</span>
-          <span class="skill-tag lvl-learn"><span class="dot"></span>ArgoCD</span>
-          <span class="skill-tag lvl-learn"><span class="dot"></span>Prometheus</span>
-          <span class="skill-tag lvl-learn"><span class="dot"></span>Grafana</span>
-          <span class="skill-tag lvl-learn"><span class="dot"></span>Sentry</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- PROJECTS -->
-  <section id="projects">
-    <div class="section-header fade-in">
-      <span class="section-label">02 — Work</span>
-      <h2 class="section-title">Projects</h2>
-      <div class="section-line"></div>
-    </div>
-
-    <div class="filter-tabs fade-in">
-      <button class="filter-btn active" data-filter="all">All</button>
-      <button class="filter-btn" data-filter="ai">AI/ML</button>
-      <button class="filter-btn" data-filter="fintech">Fintech</button>
-    </div>
-
-    <div class="projects-grid">
-
-      <!-- 프로젝트 1: Analysis Bot (RAG 문서 분석 챗봇) — 대표 프로젝트 -->
-      <div class="project-card fade-in" data-category="ai">
-        <div class="card-thumb">
-          <div class="card-thumb-placeholder" style="background: linear-gradient(135deg,#eef2ff,#c8d4ff);">01 / RAG · INFRA</div>
-        </div>
-        <div class="card-body">
-          <div class="card-tags">
-            <span class="card-tag tag-ai">AI/ML</span>
-            <span class="card-tag tag-web">Backend</span>
-          </div>
-          <div class="card-period">2026.03 ~ 2026.04 · 개인 프로젝트 (엔드투엔드)</div>
-          <h3 class="card-title">Analysis Bot — RAG 문서 분석 챗봇</h3>
-          <div class="card-highlights">
-            <span class="card-highlight">테스트 <span class="hl-value">327개 · 커버리지 79.3%</span></span>
-            <span class="card-highlight">Planner–Generator–Evaluator <span class="hl-value">자체 평가 루프 (최대 3회 재시도)</span></span>
-            <span class="card-highlight">3-mode 하이브리드 검색 & K8s GitOps</span>
-          </div>
-          <p class="card-desc">
-            사용자 문서 업로드 → pgvector(HNSW) cosine + tsvector keyword + hybrid(0.7/0.3) 3-mode 검색 → OpenAI/Anthropic/Gemini 멀티 프로바이더 자동 라우팅 → SSE 스트리밍 응답의 완전 RAG 파이프라인.
-            8,192 토큰 버짓 내 greedy packing, Kubernetes + ArgoCD GitOps blue-green/canary 무중단 배포, Prometheus/Grafana/Langfuse/OpenTelemetry/Sentry 관측성 구성.
-          </p>
-          <div class="card-challenge">
-            <div class="card-challenge-title">Technical Challenge</div>
-            <p>
-              <strong>토큰 버짓 관리 & 멀티 프로바이더 폴백</strong> — 8,192 토큰 한도 내 청크 삽입 시 2,048 토큰을 응답용으로 필수 예약하는 제약 조건에서 관련도 순으로 <strong>greedy packing</strong> 구현.
-              컨텍스트 완성 후 API 키 누락 발생 시 멀티 프로바이더 자동 폴백이 정확한 순서로 작동하도록 라우터의 사전 검증 설계로 해결.
-            </p>
-          </div>
-          <div class="card-stack">
-            <span class="stack-chip">Fastify 5</span>
-            <span class="stack-chip">TypeScript</span>
-            <span class="stack-chip">Next.js 16</span>
-            <span class="stack-chip">React 19</span>
-            <span class="stack-chip">pgvector</span>
-            <span class="stack-chip">PostgreSQL</span>
-            <span class="stack-chip">Prisma</span>
-            <span class="stack-chip">Redis</span>
-            <span class="stack-chip">MongoDB</span>
-            <span class="stack-chip">OpenAI</span>
-            <span class="stack-chip">Claude API</span>
-            <span class="stack-chip">Gemini</span>
-            <span class="stack-chip">Zod</span>
-            <span class="stack-chip">JWT / bcrypt</span>
-            <span class="stack-chip">Kubernetes</span>
-            <span class="stack-chip">Helm</span>
-            <span class="stack-chip">ArgoCD</span>
-            <span class="stack-chip">Prometheus</span>
-            <span class="stack-chip">Grafana</span>
-            <span class="stack-chip">OpenTelemetry</span>
-            <span class="stack-chip">Langfuse</span>
-            <span class="stack-chip">Sentry</span>
-          </div>
-          <div class="card-links">
-            <a class="card-link" href="https://github.com/mh9013/analysis-bot" target="_blank">GitHub ↗</a>
-                    <a class="card-link" href="https://noiseless-cress-ffd.notion.site/Analysis-Bot-RAG-334fd79b3afd8086bee5f5954974d886?source=copy_link" target="_blank">Notion ↗</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- 프로젝트 2: AI ETF/주식 추천 시스템 -->
-      <div class="project-card fade-in" data-category="ai fintech" data-video="1rvskLBZN11L3wtBukZaWJILo1JjA7RwA" data-video-title="AI 주식·ETF 맞춤 추천 시스템 (FireGenerators)">
-        <div class="card-thumb">
-          <div class="card-thumb-placeholder" style="background: linear-gradient(135deg,#e8f4e8,#c8eac8);">02 / RAG</div>
-          <div class="card-play-overlay"><div class="play-icon">PLAY</div></div>
-        </div>
-        <div class="card-body">
-          <div class="card-tags">
-            <span class="card-tag tag-ai">AI/ML</span>
-            <span class="card-tag tag-web">Fintech</span>
-          </div>
-          <div class="card-period">2025.08 ~ 2025.09 · 부트캠프 팀 프로젝트 (추천 시스템 담당)</div>
-          <h3 class="card-title">AI 주식·ETF 맞춤 추천 시스템 (FireGenerators)</h3>
-          <div class="card-highlights">
-            <span class="card-highlight">RAG 파이프라인 <span class="hl-value">엔드투엔드</span></span>
-            <span class="card-highlight">S&amp;P500·ETF <span class="hl-value">멀티 인덱스</span></span>
-            <span class="card-highlight">FAISS → Pinecone <span class="hl-value">프로덕션 전환</span></span>
-          </div>
-          <p class="card-desc">
-            사용자 투자 성향 → OpenAI 임베딩 → Pinecone 벡터 검색(S&P500/ETF 멀티 인덱스) → GPT-4o 리랭킹으로 이어지는 전체 RAG 파이프라인 설계·구현.
-            Supabase로 사용자 프로필 관리, yfinance로 실시간 가격·수익률 보강.
-          </p>
-          <div class="card-challenge">
-            <div class="card-challenge-title">Technical Challenge</div>
-            <p>
-              <strong>LLM 응답 파싱 불안정</strong> — GPT가 순수 JSON을 반환하지 않는 문제 →
-              코드펜스 추출 → 원시 배열 추출 → 테이블 직접 파싱의 <strong>3단계 fallback 로직</strong>을 구현하여 서비스 무중단 확보.
-              프로토타입(FAISS 로컬) → 프로덕션(Pinecone 클라우드) 전체 전환 경험.
-            </p>
-          </div>
-          <div class="card-stack">
-            <span class="stack-chip">GPT-4o</span>
-            <span class="stack-chip">text-embedding-3-small</span>
-            <span class="stack-chip">Pinecone</span>
-            <span class="stack-chip">FAISS</span>
-            <span class="stack-chip">LangChain</span>
-            <span class="stack-chip">Supabase</span>
-            <span class="stack-chip">Streamlit</span>
-            <span class="stack-chip">Plotly</span>
-            <span class="stack-chip">yfinance</span>
-          </div>
-          <div class="card-links">
-            <a class="card-link" href="https://github.com/GigaGaGaGagigo/FireGenerators" target="_blank">GitHub ↗</a>
-            <a class="card-link" href="https://noiseless-cress-ffd.notion.site/FireGenerators-AI-ETF-325fd79b3afd81eb8098e6fb675faca3?source=copy_link" target="_blank">Notion ↗</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- 프로젝트 3: 주식 자동매매 시스템 -->
-      <div class="project-card fade-in" data-category="ai fintech" data-video="16MtRCqC8qNZRmS4MuAh-HzL2Y08fp7G7" data-video-title="주식 자동매매 시스템">
-        <div class="card-thumb">
-          <div class="card-thumb-placeholder" style="background: linear-gradient(135deg,#e8f8ee,#c8f0d8);">03 / STOCK</div>
-          <div class="card-play-overlay"><div class="play-icon">PLAY</div></div>
-        </div>
-        <div class="card-body">
-          <div class="card-tags">
-            <span class="card-tag tag-ai">AI/ML</span>
-            <span class="card-tag tag-web">Fintech</span>
-          </div>
-          <div class="card-period">2025.12 ~ 2026.03 · 개인 프로젝트 (엔드투엔드)</div>
-          <h3 class="card-title">주식 자동매매 시스템</h3>
-          <div class="card-highlights">
-            <span class="card-highlight">API 호출 <span class="hl-value">99.89% 절감</span></span>
-            <span class="card-highlight">응답 속도 <span class="hl-value">200배 개선</span></span>
-            <span class="card-highlight">API 호출 분당 <span class="hl-value">509회 → 0.57회</span></span>
-          </div>
-          <p class="card-desc">
-            KOSPI·KOSDAQ·미국주식(NASDAQ/NYSE) 대상. KIS Open API 연동, 8가지 기술적 분석 지표 자동 계산 및 매수·매도 신호 생성·실행.
-            GCP e2-micro VM 24/7 무중단 운영, Telegram Bot 실시간 알림.
-          </p>
-          <div class="card-challenge">
-            <div class="card-challenge-title">Technical Challenge</div>
-            <p>
-              <strong>API 호출 병목</strong> — 분당 509회 호출 발생 →
-              TTL 기반 다층 캐싱 시스템을 직접 구현하여 API 호출 <strong>99.89% 절감</strong>(분당 0.57회), 응답 속도 <strong>200배 개선</strong>(10초→0.05초).
-              포지션 사이징 3종 + 손절/익절 3종 + 연속 손실 자동 중단 등 체계적 리스크 관리.
-            </p>
-          </div>
-          <div class="card-stack">
-            <span class="stack-chip">Python</span>
-            <span class="stack-chip">KIS Open API</span>
-            <span class="stack-chip">FastAPI</span>
-            <span class="stack-chip">GCP</span>
-            <span class="stack-chip">Docker</span>
-            <span class="stack-chip">GitHub Actions</span>
-            <span class="stack-chip">Telegram Bot</span>
-            <span class="stack-chip">Streamlit</span>
-            <span class="stack-chip">yfinance</span>
-          </div>
-          <div class="card-links">
-            <a class="card-link" href="https://noiseless-cress-ffd.notion.site/325fd79b3afd810299f8eb10c86e7acb?source=copy_link" target="_blank">Notion ↗</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- 프로젝트 4: 암호화폐 자동매매 시스템 -->
-      <div class="project-card fade-in" data-category="ai fintech" data-video="1OjqMcvj1ZOVKR4JZ3vDuvqhCGCPoa9PP" data-video-title="암호화폐 자동매매 시스템">
-        <div class="card-thumb">
-          <div class="card-thumb-placeholder" style="background: linear-gradient(135deg,#fff8e8,#ffecc8);">04 / CRYPTO</div>
-          <div class="card-play-overlay"><div class="play-icon">PLAY</div></div>
-        </div>
-        <div class="card-body">
-          <div class="card-tags">
-            <span class="card-tag tag-ai">AI/ML</span>
-            <span class="card-tag tag-web">Crypto</span>
-          </div>
-          <div class="card-period">2026.01 ~ 2026.03 · 개인 프로젝트 (엔드투엔드)</div>
-          <h3 class="card-title">암호화폐 자동매매 시스템</h3>
-          <div class="card-highlights">
-            <span class="card-highlight">신호 필터 <span class="hl-value">5단계 체인</span></span>
-            <span class="card-highlight">멀티 거래소 <span class="hl-value">ABC 설계</span></span>
-            <span class="card-highlight">WebSocket <span class="hl-value">실시간 감시</span></span>
-          </div>
-          <p class="card-desc">
-            업비트·바이낸스 멀티 거래소 지원. 추상 클래스(ABC) 기반 인터페이스 설계로 거래소를 코드 변경 없이 교체 가능.
-            WebSocket 실시간 스트리밍으로 수백 개 심볼 동시 감시. FastAPI 웹 대시보드(8개 API 라우터) + Docker 배포.
-          </p>
-          <div class="card-challenge">
-            <div class="card-challenge-title">Technical Challenge</div>
-            <p>
-              <strong>거래소 종속 코드 제거</strong> — ABC 추상 클래스로 인터페이스 통일, 팩토리 패턴으로 런타임 거래소 전환.
-              <strong>5단계 신호 필터 체인</strong>(연속손실 → 주말 → 펀딩비 → 상위TF → 전략)으로 오진입 방지.
-              Binance API 장애 시에도 거래가 차단되지 않는 <strong>Fail-open 설계</strong> 적용.
-            </p>
-          </div>
-          <div class="card-stack">
-            <span class="stack-chip">Python</span>
-            <span class="stack-chip">업비트 API</span>
-            <span class="stack-chip">바이낸스 API</span>
-            <span class="stack-chip">WebSocket</span>
-            <span class="stack-chip">FastAPI</span>
-            <span class="stack-chip">Docker</span>
-            <span class="stack-chip">GCP</span>
-            <span class="stack-chip">Telegram Bot</span>
-          </div>
-          <div class="card-links">
-            <a class="card-link" href="https://noiseless-cress-ffd.notion.site/325fd79b3afd81108334e6487ad5ea3a?source=copy_link" target="_blank">Notion ↗</a>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- CREDENTIALS -->
-  <section id="credentials">
-    <div class="section-header fade-in">
-      <span class="section-label">03 — Credentials</span>
-      <h2 class="section-title">Education &amp; Certifications</h2>
-      <div class="section-line"></div>
-    </div>
-    <div class="credentials-grid fade-in">
-      <div class="cred-block">
-        <h4 class="cred-block-title">Education</h4>
-        <ul class="cred-list">
-          <li>
-            <div class="cred-name">구름 AI 부트캠프 수료</div>
-            <div class="cred-meta">Python · AI/ML · LLM 활용 개발 · 팀 프로젝트(FireGenerators RAG 추천 시스템)</div>
-            <div class="cred-date">2025.03 — 2025.09</div>
-          </li>
-          <li>
-            <div class="cred-name">신안산대학교 · 전기과 (전문학사)</div>
-            <div class="cred-meta">회로 설계·신호 처리 기반 사고를 소프트웨어 안정성·성능 최적화에 활용</div>
-            <div class="cred-date">2017.02 — 2021.02</div>
-          </li>
-        </ul>
-      </div>
-      <div class="cred-block">
-        <h4 class="cred-block-title">Certifications</h4>
-        <ul class="cred-list">
-          <li>
-            <div class="cred-name">네트워크관리사 2급</div>
-            <div class="cred-meta">한국정보통신자격협회</div>
-            <div class="cred-date">2019.06</div>
-          </li>
-          <li>
-            <div class="cred-name">PC정비사 2급</div>
-            <div class="cred-meta">한국정보통신자격협회</div>
-            <div class="cred-date">2019.07</div>
-          </li>
-          <li>
-            <div class="cred-name">ATC.CAD</div>
-            <div class="cred-meta">한국ATC센터</div>
-            <div class="cred-date">2017.03</div>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <!-- CONTACT -->
-  <section id="contact">
-    <div class="section-header fade-in">
-      <span class="section-label">04 — Contact</span>
-      <h2 class="section-title">Get In Touch</h2>
-      <div class="section-line"></div>
-    </div>
-    <div class="contact-inner fade-in">
-      <div class="contact-text">
-        <h3>함께 일해요.</h3>
-        <p>
-          AI Engineer 포지션 또는 프로젝트 협업 제안을 환영합니다.
-          이메일로 가장 빨리 답신드립니다.
-        </p>
-      </div>
-      <div class="contact-links">
-        <a class="contact-link-row" href="mailto:minhyung9013@gmail.com">
-          <div class="contact-link-icon">01</div>
-          <div class="contact-link-info">
-            <div class="contact-link-label">Email</div>
-            <div class="contact-link-value">minhyung9013@gmail.com</div>
-          </div>
-          <span class="contact-link-arrow">→</span>
-        </a>
-        <a class="contact-link-row" href="https://github.com/mh9013" target="_blank">
-          <div class="contact-link-icon">02</div>
-          <div class="contact-link-info">
-            <div class="contact-link-label">GitHub</div>
-            <div class="contact-link-value">github.com/mh9013</div>
-          </div>
-          <span class="contact-link-arrow">→</span>
-        </a>
-        <a class="contact-link-row" href="https://linkedin.com/in/minhyung-kim-1877b83aa" target="_blank">
-          <div class="contact-link-icon">03</div>
-          <div class="contact-link-info">
-            <div class="contact-link-label">LinkedIn</div>
-            <div class="contact-link-value">linkedin.com/in/minhyung-kim-1877b83aa</div>
-          </div>
-          <span class="contact-link-arrow">→</span>
-        </a>
-        <a class="contact-link-row" href="https://social.wanted.co.kr/community/profile/QPhqBAupxKkqPuNjxBZqvb" target="_blank">
-          <div class="contact-link-icon">04</div>
-          <div class="contact-link-info">
-            <div class="contact-link-label">Wanted</div>
-            <div class="contact-link-value">김민형 프로필</div>
-          </div>
-          <span class="contact-link-arrow">→</span>
-        </a>
-      </div>
-    </div>
-  </section>
-
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about"><span>01</span>About</a>
+  <a href="#work"><span>02</span>Work</a>
+  <a href="#credentials"><span>03</span>Credentials</a>
+  <a href="#contact"><span>04</span>Contact</a>
+  <a href="resume.html"><span>↗</span>Resume</a>
 </div>
 
-<!-- VIDEO MODAL -->
-<div class="modal-backdrop" id="videoModal">
-  <div class="modal-box">
-    <div class="modal-header">
-      <span class="modal-title" id="modalTitle"></span>
-      <button class="modal-close" id="modalClose">✕</button>
+<main id="main">
+
+  <!-- ══ HERO ══ -->
+  <section id="home">
+    <div class="wrap hero-grid">
+      <div class="hero">
+        <p class="eyebrow"><span class="pulse"></span>AI Engineer · Kim Minhyung · Available now</p>
+        <h1>
+          LLM의 유창함과<br/>
+          신뢰성 사이의 간극을<br/>
+          <span class="accent">엔지니어링으로 메웁니다.</span>
+        </h1>
+        <p class="hero-desc">
+          외부 API 의존도가 높은 서비스의 <strong>비용 · 안정성 · 관측성</strong>을 책임지는 AI 엔지니어.
+          RAG 파이프라인을 엔드투엔드로 설계·구현하고, Kubernetes + ArgoCD로 무중단 배포까지 운영합니다.
+        </p>
+        <p class="goal-pill">
+          <span class="tag">Career Goal</span>
+          금융 · AI 도메인 <strong>LLM 신뢰성 엔지니어</strong> — 신입 포지션
+        </p>
+        <div class="cta-row">
+          <a class="btn btn-solid" href="#work">프로젝트 보기 <span class="arw">→</span></a>
+          <a class="btn btn-ghost" href="resume.html">이력서 <span class="arw">→</span></a>
+        </div>
+      </div>
+
+      <aside class="spec-card" aria-label="요약 정보">
+        <div class="spec-head">
+          <span class="lamp"></span><span class="lamp"></span><span class="lamp"></span>
+          <span class="t">profile.yaml</span>
+        </div>
+        <dl class="spec-body">
+          <div class="spec-row"><dt>Role</dt><dd><strong>AI / Backend Engineer</strong></dd></div>
+          <div class="spec-row"><dt>Focus</dt><dd>RAG · LLM 신뢰성 · 관측성</dd></div>
+          <div class="spec-row"><dt>Domain</dt><dd>Fintech · 문서 분석</dd></div>
+          <div class="spec-row"><dt>Stack</dt><dd>Python · TypeScript · FastAPI · Fastify · K8s</dd></div>
+          <div class="spec-row"><dt>Projects</dt><dd><strong>4개</strong> — 전 과정 직접 설계·배포·운영</dd></div>
+          <div class="spec-row"><dt>Base</dt><dd>수도권 · 원격 협업 가능</dd></div>
+        </dl>
+      </aside>
     </div>
-    <div class="modal-video-wrap">
-      <iframe id="modalIframe" allowfullscreen allow="autoplay"></iframe>
+    <span class="scroll-cue"><span class="bar"></span>Scroll</span>
+  </section>
+
+  <!-- ══ METRICS ══ -->
+  <section id="metrics">
+    <div class="wrap">
+      <div class="metrics">
+        <div class="metric" data-reveal style="--d:0ms">
+          <div class="metric-k">01 / Cost</div>
+          <div class="metric-v">88.0%</div>
+          <div class="metric-l">외부 API 호출 절감</div>
+          <div class="metric-s">주식 자동매매 대시보드 경로 · 분당 72.0회 → 8.7회 · 벤치마크로 재현 가능</div>
+        </div>
+        <div class="metric" data-reveal style="--d:90ms">
+          <div class="metric-k">02 / Trade-off</div>
+          <div class="metric-v">59.5%</div>
+          <div class="metric-l">트레이딩 루프 호출 절감</div>
+          <div class="metric-s">손절 판단 지연 0초 유지 · 호출 지점별로 TTL을 분리한 결과</div>
+        </div>
+        <div class="metric" data-reveal style="--d:180ms">
+          <div class="metric-k">03 / Quality</div>
+          <div class="metric-v">79.3%</div>
+          <div class="metric-l">테스트 커버리지</div>
+          <div class="metric-s">Analysis Bot · 테스트 327개 · 공개 레포에서 재현 가능</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ ABOUT ══ -->
+  <section id="about">
+    <div class="wrap">
+      <div class="sec-head" data-reveal>
+        <span class="idx">01</span>
+        <h2>About</h2>
+        <p class="sub">신호 처리에서 출발해 LLM 파이프라인으로. 노이즈를 걸러 의미를 남기는 방식은 같습니다.</p>
+      </div>
+
+      <div class="about-grid">
+        <div data-reveal>
+          <div class="about-lead">
+            <figure class="portrait">
+              <img src="assets/profile.jpeg" alt="김민형 프로필 사진" width="360" height="480" loading="lazy" decoding="async"/>
+              <figcaption>Kim Minhyung</figcaption>
+            </figure>
+            <blockquote class="about-quote">
+              유창함은 모델이 주고,<br/>
+              <span>신뢰성은 엔지니어링이 만든다.</span>
+            </blockquote>
+          </div>
+          <div class="about-text">
+            <p>
+              전기공학을 전공하며 신호 처리와 시스템 설계를 공부하는 과정에서 데이터 기반 의사결정 구조에 깊은 관심을 갖게 되었습니다.
+              “노이즈를 걸러내고 의미 있는 패턴을 추출한다”는 신호 처리의 관점은 LLM 응답 파싱, 벡터 유사도 검색, 매매 신호 필터링 등
+              지금 하는 개발에도 그대로 적용되고 있습니다.
+            </p>
+            <p>
+              구름 부트캠프에서 AI/ML에 입문한 뒤, RAG 기반 추천 시스템과 주식·암호화폐 자동매매 시스템을
+              프로토타입부터 GCP 클라우드 24/7 운영까지 <strong>전체 개발 사이클을 직접 경험</strong>했습니다.
+            </p>
+            <p>
+              “모델을 가져다 쓰는 사람”이 아니라 <strong>파이프라인을 설계하는 엔지니어</strong>를 목표로 합니다.
+              말한 대로 작동하는 코드를 쓰는 것이 제 기준입니다.
+            </p>
+          </div>
+        </div>
+
+        <div data-reveal style="--d:120ms">
+          <h3 class="tl-title">Timeline</h3>
+          <div class="timeline">
+            <div class="tl-item">
+              <div class="tl-date">2017.02 — 2021.02</div>
+              <div class="tl-h">신안산대학교 전기과 (전문학사)</div>
+              <div class="tl-d">회로 설계, 신호 처리, 수학적 사고력 기반 형성</div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-date">2025.03 — 2025.09</div>
+              <div class="tl-h">구름 AI 부트캠프</div>
+              <div class="tl-d">Python · AI/ML · LLM 활용 개발 입문. 팀 프로젝트로 FireGenerators RAG 추천 시스템 구현</div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-date">2025.12 — 2026.03</div>
+              <div class="tl-h">개인 프로젝트 — 자동매매 시스템</div>
+              <div class="tl-d">주식·암호화폐 자동매매 시스템 설계·배포·운영. GCP 24/7, Docker, FastAPI, WebSocket</div>
+            </div>
+            <div class="tl-item now">
+              <div class="tl-date">2026.03 — 2026.04</div>
+              <div class="tl-h">개인 프로젝트 — Analysis Bot</div>
+              <div class="tl-d">하이브리드 검색 → 멀티 프로바이더 폴백 → K8s + ArgoCD GitOps 배포까지 엔드투엔드 구현. 테스트 327개 · 커버리지 79.3%</div>
+            </div>
+          </div>
+
+          <div class="skills">
+            <h3 class="sk-title">Technical Skills</h3>
+            <div class="legend">
+              <span class="lv-1"><i></i>운영 경험</span>
+              <span class="lv-2"><i></i>프로젝트 적용</span>
+              <span class="lv-3"><i></i>학습 · 도입 단계</span>
+            </div>
+
+            <div class="sk-group">
+              <h4>AI / ML</h4>
+              <div class="chips">
+                <span class="chip lv-2"><i></i>RAG</span>
+                <span class="chip lv-2"><i></i>LangChain</span>
+                <span class="chip lv-2"><i></i>GPT-4o</span>
+                <span class="chip lv-2"><i></i>Claude API</span>
+                <span class="chip lv-2"><i></i>Gemini</span>
+                <span class="chip lv-2"><i></i>text-embedding-3-small</span>
+                <span class="chip lv-2"><i></i>Pinecone</span>
+                <span class="chip lv-2"><i></i>FAISS</span>
+                <span class="chip lv-2"><i></i>pgvector</span>
+                <span class="chip lv-3"><i></i>Langfuse</span>
+                <span class="chip lv-3"><i></i>OpenTelemetry</span>
+              </div>
+            </div>
+
+            <div class="sk-group">
+              <h4>Web / Backend</h4>
+              <div class="chips">
+                <span class="chip lv-1"><i></i>Python</span>
+                <span class="chip lv-1"><i></i>FastAPI</span>
+                <span class="chip lv-2"><i></i>TypeScript</span>
+                <span class="chip lv-2"><i></i>Node.js</span>
+                <span class="chip lv-2"><i></i>Fastify</span>
+                <span class="chip lv-2"><i></i>Next.js</span>
+                <span class="chip lv-2"><i></i>React</span>
+                <span class="chip lv-2"><i></i>PostgreSQL</span>
+                <span class="chip lv-2"><i></i>Redis</span>
+                <span class="chip lv-2"><i></i>Prisma</span>
+                <span class="chip lv-2"><i></i>Supabase</span>
+                <span class="chip lv-2"><i></i>Streamlit</span>
+              </div>
+            </div>
+
+            <div class="sk-group">
+              <h4>Infra · DevOps · Observability</h4>
+              <div class="chips">
+                <span class="chip lv-1"><i></i>Docker</span>
+                <span class="chip lv-1"><i></i>GitHub Actions</span>
+                <span class="chip lv-1"><i></i>Google Cloud</span>
+                <span class="chip lv-2"><i></i>yfinance</span>
+                <span class="chip lv-3"><i></i>Kubernetes</span>
+                <span class="chip lv-3"><i></i>Helm</span>
+                <span class="chip lv-3"><i></i>ArgoCD</span>
+                <span class="chip lv-3"><i></i>Prometheus</span>
+                <span class="chip lv-3"><i></i>Grafana</span>
+                <span class="chip lv-3"><i></i>Sentry</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ WORK ══ -->
+  <section id="work">
+    <div class="wrap">
+      <div class="sec-head" data-reveal>
+        <span class="idx">02</span>
+        <h2>Selected Work</h2>
+        <p class="sub">4개 프로젝트 모두 설계 → 구현 → 배포 → 운영을 직접 수행했습니다.</p>
+      </div>
+
+      <div class="filters" data-reveal role="group" aria-label="프로젝트 필터">
+        <button class="filter" data-filter="all" aria-pressed="true">All · 4</button>
+        <button class="filter" data-filter="ai" aria-pressed="false">AI / RAG</button>
+        <button class="filter" data-filter="fintech" aria-pressed="false">Fintech</button>
+        <button class="filter" data-filter="infra" aria-pressed="false">Infra</button>
+      </div>
+
+      <div id="projects">
+
+        <!-- 01 Analysis Bot -->
+        <article class="project" data-cat="ai infra" data-reveal>
+          <div class="p-side">
+            <div class="p-no">01</div>
+            <div class="p-meta">
+              <b>2026.03 — 2026.04</b>
+              개인 프로젝트 · 엔드투엔드
+            </div>
+            <div class="tags">
+              <span class="tag ai">AI / RAG</span>
+              <span class="tag infra">Infra</span>
+            </div>
+          </div>
+          <div class="p-body">
+            <h3 class="p-title">Analysis Bot — RAG 문서 분석 챗봇</h3>
+            <div class="p-outcome">
+              <span class="stat">테스트 커버리지 <b>79.3%</b></span>
+              <span class="stat">테스트 <b>327개</b></span>
+              <span class="stat">자체 평가 루프 <b>최대 3회 재시도</b></span>
+            </div>
+            <p class="p-desc">
+              문서 업로드 → pgvector(HNSW) cosine + tsvector keyword + hybrid(0.7/0.3) <strong>3-mode 검색</strong> →
+              OpenAI / Anthropic / Gemini 멀티 프로바이더 자동 라우팅 → SSE 스트리밍 응답까지 이어지는 완전한 RAG 파이프라인.
+              Planner–Generator–Evaluator 자체 평가 루프를 두어 응답 품질이 기준 미달이면 재생성하고,
+              Kubernetes + ArgoCD GitOps로 blue-green / canary 무중단 배포와 자동 롤백을 구성했습니다.
+            </p>
+            <div class="challenge">
+              <h4>Technical Challenge</h4>
+              <p>
+                <strong>토큰 버짓 관리 &amp; 멀티 프로바이더 폴백</strong> — 8,192 토큰 한도 안에서 응답용 2,048 토큰을 필수 예약해야 하는 제약 때문에
+                관련도 순 <strong>greedy packing</strong>으로 청크를 채웠습니다. 컨텍스트 구성이 끝난 뒤 API 키 누락이 드러나면 폴백 순서가 깨지는 문제는,
+                라우터가 호출 전에 사용 가능한 프로바이더를 사전 검증하도록 설계해 <strong>OpenAI → Claude → Gemini</strong> 순서를 보장했습니다.
+              </p>
+            </div>
+            <div class="stack">
+              <span>Fastify 5</span><span>TypeScript</span><span>Next.js 16</span><span>React 19</span>
+              <span>PostgreSQL</span><span>pgvector</span><span>Prisma</span><span>Redis</span>
+              <span>MongoDB</span><span>OpenAI</span><span>Claude API</span><span>Gemini</span>
+              <span>Zod</span><span>JWT / bcrypt</span><span>Kubernetes</span><span>Helm</span>
+              <span>ArgoCD</span><span>Prometheus</span><span>Grafana</span><span>OpenTelemetry</span>
+              <span>Langfuse</span><span>Sentry</span>
+            </div>
+            <div class="p-links">
+              <a class="plink" href="https://github.com/mh9013/analysis-bot" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+              <a class="plink" href="https://noiseless-cress-ffd.notion.site/Analysis-Bot-RAG-334fd79b3afd8086bee5f5954974d886?source=copy_link" target="_blank" rel="noopener noreferrer">기술 문서 ↗</a>
+              <!-- 데모 영상: 아래 data-video="" 안에 링크를 그대로 붙여넣으면 됩니다.
+                   구글 드라이브(https://drive.google.com/file/d/…/view)와
+                   유튜브(https://youtu.be/… · watch?v=… · shorts/…) 링크 모두 자동 인식합니다.
+                   비워두면 이 버튼은 렌더링되지 않습니다. -->
+              <button class="plink play" data-video="https://drive.google.com/file/d/1XcNKnr9j4IzLCp9BFtzCFWWd0gtf3PqL/view?usp=sharing" data-video-title="Analysis Bot — RAG 문서 분석 챗봇 데모">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>데모 영상
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <!-- 02 FireGenerators -->
+        <article class="project" data-cat="ai fintech" data-reveal>
+          <div class="p-side">
+            <div class="p-no">02</div>
+            <div class="p-meta">
+              <b>2025.08 — 2025.09</b>
+              부트캠프 팀 프로젝트 · 추천 파이프라인 담당
+            </div>
+            <div class="tags">
+              <span class="tag ai">AI / RAG</span>
+              <span class="tag fin">Fintech</span>
+            </div>
+          </div>
+          <div class="p-body">
+            <h3 class="p-title">FireGenerators — AI 주식 · ETF 맞춤 추천 시스템</h3>
+            <div class="p-outcome">
+              <span class="stat">RAG 파이프라인 <b>엔드투엔드</b></span>
+              <span class="stat">S&amp;P500 · ETF <b>멀티 인덱스</b></span>
+              <span class="stat">FAISS → Pinecone <b>프로덕션 전환</b></span>
+            </div>
+            <p class="p-desc">
+              사용자 투자 성향 → OpenAI 임베딩 → Pinecone 벡터 검색(S&amp;P500 / ETF 멀티 인덱스) → GPT-4o 리랭킹으로 이어지는
+              추천 파이프라인 전체를 설계·구현했습니다. Supabase로 사용자 프로필을 관리하고, yfinance로 실시간 가격·수익률을 보강했습니다.
+            </p>
+            <div class="challenge">
+              <h4>Technical Challenge</h4>
+              <p>
+                <strong>LLM 응답 파싱 불안정</strong> — GPT가 순수 JSON을 반환하지 않아 추천 결과가 깨지는 문제를
+                코드펜스 추출 → 원시 배열 추출 → 테이블 직접 파싱의 <strong>3단계 fallback</strong>으로 해결해 서비스 무중단을 확보했습니다.
+                프로토타입(FAISS 로컬) → 프로덕션(Pinecone 클라우드) 전환까지 직접 수행했습니다.
+              </p>
+            </div>
+            <div class="stack">
+              <span>GPT-4o</span><span>text-embedding-3-small</span><span>Pinecone</span><span>FAISS</span>
+              <span>LangChain</span><span>Supabase</span><span>Streamlit</span><span>Plotly</span><span>yfinance</span>
+            </div>
+            <div class="p-links">
+              <a class="plink" href="https://github.com/GigaGaGaGagigo/FireGenerators" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+              <a class="plink" href="https://noiseless-cress-ffd.notion.site/FireGenerators-AI-ETF-325fd79b3afd81eb8098e6fb675faca3?source=copy_link" target="_blank" rel="noopener noreferrer">기술 문서 ↗</a>
+              <button class="plink play" data-video="1rvskLBZN11L3wtBukZaWJILo1JjA7RwA" data-video-title="FireGenerators — AI 주식·ETF 추천 시스템 데모">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>데모 영상
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <!-- 03 주식 자동매매 -->
+        <article class="project" data-cat="fintech infra" data-reveal>
+          <div class="p-side">
+            <div class="p-no">03</div>
+            <div class="p-meta">
+              <b>2025.12 — 2026.03</b>
+              개인 프로젝트 · 엔드투엔드
+            </div>
+            <div class="tags">
+              <span class="tag fin">Fintech</span>
+              <span class="tag infra">Infra</span>
+            </div>
+          </div>
+          <div class="p-body">
+            <h3 class="p-title">주식 자동매매 시스템</h3>
+            <div class="p-outcome">
+              <span class="stat">대시보드 경로 <b>88.0% 절감</b></span>
+              <span class="stat">트레이딩 루프 <b>59.5% 절감</b></span>
+              <span class="stat">손절 판단 지연 <b>0초</b></span>
+            </div>
+            <p class="p-desc">
+              KOSPI · KOSDAQ · 미국주식(NASDAQ / NYSE)을 대상으로 KIS Open API를 연동하고,
+              8가지 기술적 분석 지표를 자동 계산해 매수·매도 신호를 생성·실행합니다.
+              GCP e2-micro VM에서 24/7 무중단 운영하며 Telegram Bot으로 체결·오류를 실시간 알림합니다.
+              포지션 사이징 3종 + 손절/익절 3종 + 연속 손실 자동 중단으로 리스크 관리 체계를 구성했습니다.
+              캐싱 레이어와 측정 코드는 <strong>별도 레포로 공개</strong>해 위 수치를 명령 한 번으로 재현할 수 있습니다.
+            </p>
+            <div class="challenge">
+              <h4>Technical Challenge</h4>
+              <p>
+                <strong>캐시가 동작하지 않던 원인</strong> — TTL 캐시를 넣었는데도 호출이 줄지 않았습니다.
+                측정해보니 현재가 TTL(5초)이 루프 주기(60초)보다 짧아 <strong>매 틱마다 이미 만료</strong>돼 있었습니다.
+                TTL을 5→15→30초로 올려도 감소율이 51.2%에서 미동도 하지 않다가, 주기를 넘기는 60초에서 69.0%로 꺾이는 것을 확인했습니다.
+                TTL은 절대 시간이 아니라 <strong>폴링 주기 대비</strong>로 정해야 한다는 결론입니다.
+              </p>
+              <p style="margin-top:10px">
+                다만 TTL을 늘리면 손절·익절이 최대 60초 묵은 가격으로 판단하게 됩니다.
+                그래서 호출량과 신선도를 한 다이얼로 묶지 않고, <strong>보유 종목의 리스크 판단 경로만 캐시를 우회</strong>하도록 분리했습니다.
+                감소율 9.5%p를 내주는 대신 손절 지연을 0초로 유지합니다.
+              </p>
+            </div>
+            <div class="stack">
+              <span>Python</span><span>KIS Open API</span><span>FastAPI</span><span>GCP</span>
+              <span>Docker</span><span>GitHub Actions</span><span>Telegram Bot</span><span>Streamlit</span><span>yfinance</span>
+            </div>
+            <div class="p-links">
+              <!-- kis-api-cache 푸시 후 아래 주석을 해제할 것. 푸시 전에는 404가 되므로 그대로 둔다.
+              <a class="plink" href="https://github.com/mh9013/kis-api-cache" target="_blank" rel="noopener noreferrer">캐싱 레이어 GitHub ↗</a>
+              -->
+              <a class="plink" href="https://noiseless-cress-ffd.notion.site/325fd79b3afd810299f8eb10c86e7acb?source=copy_link" target="_blank" rel="noopener noreferrer">기술 문서 ↗</a>
+              <span class="plink locked" title="매매 전략과 주문 실행부는 비공개입니다. 캐싱 레이어와 벤치마크는 별도 레포로 공개했습니다.">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>전략 코드 비공개
+              </span>
+              <button class="plink play" data-video="16MtRCqC8qNZRmS4MuAh-HzL2Y08fp7G7" data-video-title="주식 자동매매 시스템 데모">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>데모 영상
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <!-- 04 암호화폐 자동매매 -->
+        <article class="project" data-cat="fintech infra" data-reveal>
+          <div class="p-side">
+            <div class="p-no">04</div>
+            <div class="p-meta">
+              <b>2026.01 — 2026.03</b>
+              개인 프로젝트 · 엔드투엔드
+            </div>
+            <div class="tags">
+              <span class="tag fin">Fintech</span>
+              <span class="tag infra">Infra</span>
+            </div>
+          </div>
+          <div class="p-body">
+            <h3 class="p-title">암호화폐 자동매매 시스템</h3>
+            <div class="p-outcome">
+              <span class="stat">신호 필터 <b>5단계 체인</b></span>
+              <span class="stat">멀티 거래소 <b>ABC 설계</b></span>
+              <span class="stat">WebSocket <b>실시간 감시</b></span>
+            </div>
+            <p class="p-desc">
+              업비트 · 바이낸스 멀티 거래소를 지원합니다. 추상 클래스(ABC) 기반 인터페이스로 거래소를 코드 변경 없이 교체할 수 있게 설계했고,
+              WebSocket 실시간 스트리밍으로 수백 개 심볼을 동시에 감시합니다. FastAPI 웹 대시보드(8개 API 라우터)와 Docker 배포를 함께 구성했습니다.
+            </p>
+            <div class="challenge">
+              <h4>Technical Challenge</h4>
+              <p>
+                <strong>거래소 종속 코드 제거</strong> — ABC 추상 클래스로 인터페이스를 통일하고 팩토리 패턴으로 런타임 전환을 구현했습니다.
+                <strong>5단계 신호 필터 체인</strong>(연속손실 → 주말 → 펀딩비 → 상위 TF → 전략)으로 오진입을 막고,
+                Binance API 장애 시에도 거래가 차단되지 않는 <strong>Fail-open 설계</strong>를 적용했습니다.
+              </p>
+            </div>
+            <div class="stack">
+              <span>Python</span><span>업비트 API</span><span>바이낸스 API</span><span>WebSocket</span>
+              <span>FastAPI</span><span>Docker</span><span>GCP</span><span>Telegram Bot</span>
+            </div>
+            <div class="p-links">
+              <a class="plink" href="https://noiseless-cress-ffd.notion.site/325fd79b3afd81108334e6487ad5ea3a?source=copy_link" target="_blank" rel="noopener noreferrer">기술 문서 ↗</a>
+              <span class="plink locked" title="매매 전략과 API 키 보호를 위해 저장소는 비공개입니다. 구조와 구현은 기술 문서를 참고해 주세요.">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>코드 비공개
+              </span>
+              <button class="plink play" data-video="1OjqMcvj1ZOVKR4JZ3vDuvqhCGCPoa9PP" data-video-title="암호화폐 자동매매 시스템 데모">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>데모 영상
+              </button>
+            </div>
+          </div>
+        </article>
+
+      </div>
+      <p class="mono" id="filterStatus" style="margin-top:20px" role="status" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <!-- ══ CREDENTIALS ══ -->
+  <section id="credentials">
+    <div class="wrap">
+      <div class="sec-head" data-reveal>
+        <span class="idx">03</span>
+        <h2>Credentials</h2>
+      </div>
+      <div class="cred-grid">
+        <div data-reveal>
+          <h3>Education</h3>
+          <ul class="cred-list">
+            <li>
+              <div class="cred-row">
+                <span class="cred-n">구름 AI 부트캠프 수료</span>
+                <span class="cred-d">2025.03 — 2025.09</span>
+              </div>
+              <p class="cred-m">Python · AI/ML · LLM 활용 개발 · 팀 프로젝트(FireGenerators RAG 추천 시스템)</p>
+            </li>
+            <li>
+              <div class="cred-row">
+                <span class="cred-n">신안산대학교 전기과 · 전문학사</span>
+                <span class="cred-d">2017.02 — 2021.02</span>
+              </div>
+              <p class="cred-m">회로 설계 · 신호 처리 기반 사고를 소프트웨어 안정성과 성능 최적화에 활용</p>
+            </li>
+          </ul>
+          <div class="lang-row">
+            <span><b>한국어</b>모국어</span>
+            <span><b>영어</b>기술 · 공식 문서 독해</span>
+          </div>
+        </div>
+        <div data-reveal style="--d:110ms">
+          <h3>Certifications</h3>
+          <ul class="cred-list">
+            <li>
+              <div class="cred-row"><span class="cred-n">네트워크관리사 2급</span><span class="cred-d">2019.06</span></div>
+              <p class="cred-m">한국정보통신자격협회</p>
+            </li>
+            <li>
+              <div class="cred-row"><span class="cred-n">PC정비사 2급</span><span class="cred-d">2019.07</span></div>
+              <p class="cred-m">한국정보통신자격협회</p>
+            </li>
+            <li>
+              <div class="cred-row"><span class="cred-n">ATC.CAD</span><span class="cred-d">2017.03</span></div>
+              <p class="cred-m">한국ATC센터</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ CONTACT ══ -->
+  <section id="contact">
+    <div class="wrap">
+      <div class="sec-head" data-reveal>
+        <span class="idx">04</span>
+        <h2>Contact</h2>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-copy" data-reveal>
+          <h3>함께 일해요.</h3>
+          <p>
+            AI Engineer 포지션 제안이나 프로젝트 협업 문의를 환영합니다.
+            프로젝트 코드·기술 문서는 모두 공개되어 있으니 편하게 확인해 주세요. 이메일로 가장 빠르게 답신드립니다.
+          </p>
+          <a class="mail" href="mailto:minhyung9013@gmail.com">minhyung9013@gmail.com</a>
+        </div>
+        <div class="links" data-reveal style="--d:110ms">
+          <a class="link-row" href="mailto:minhyung9013@gmail.com">
+            <span class="n">01</span>
+            <span class="info"><span class="lbl">Email</span><span class="val">minhyung9013@gmail.com</span></span>
+            <span class="arw">→</span>
+          </a>
+          <a class="link-row" href="https://github.com/mh9013" target="_blank" rel="noopener noreferrer">
+            <span class="n">02</span>
+            <span class="info"><span class="lbl">GitHub</span><span class="val">github.com/mh9013</span></span>
+            <span class="arw">↗</span>
+          </a>
+          <a class="link-row" href="https://www.linkedin.com/in/minhyung-kim-1877b83aa" target="_blank" rel="noopener noreferrer">
+            <span class="n">03</span>
+            <span class="info"><span class="lbl">LinkedIn</span><span class="val">linkedin.com/in/minhyung-kim</span></span>
+            <span class="arw">↗</span>
+          </a>
+          <a class="link-row" href="https://social.wanted.co.kr/community/profile/QPhqBAupxKkqPuNjxBZqvb" target="_blank" rel="noopener noreferrer">
+            <span class="n">04</span>
+            <span class="info"><span class="lbl">Wanted</span><span class="val">김민형 프로필</span></span>
+            <span class="arw">↗</span>
+          </a>
+          <a class="link-row" href="resume.html">
+            <span class="n">05</span>
+            <span class="info"><span class="lbl">Resume</span><span class="val">이력서 · PDF 저장 가능</span></span>
+            <span class="arw">→</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ══ MODAL ══ -->
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h4 id="modalTitle"></h4>
+      <button class="modal-close" id="modalClose" aria-label="영상 닫기">✕</button>
+    </div>
+    <div class="modal-video">
+      <iframe id="modalFrame" title="프로젝트 데모 영상" allow="autoplay; fullscreen" allowfullscreen></iframe>
     </div>
   </div>
 </div>
 
-<!-- FOOTER -->
 <footer>
-  <span>Copyright © 2026 MH — Built &amp; deployed via GitHub Pages</span>
+  <span>© 2026 Kim Minhyung · Built &amp; deployed on GitHub Pages</span>
+  <a class="to-top" href="#home">TOP ↑</a>
 </footer>
 
 <script>
-  // ── Scroll fade-in ──
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('visible');
-        observer.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.12 });
-  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+(function () {
+  'use strict';
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // ── Active nav link ──
-  const sections = document.querySelectorAll('section[id]');
-  const navLinks = document.querySelectorAll('.nav-links a');
-  window.addEventListener('scroll', () => {
-    let cur = '';
-    sections.forEach(s => {
-      if (window.scrollY >= s.offsetTop - 100) cur = s.getAttribute('id');
-    });
-    navLinks.forEach(a => {
-      a.classList.toggle('active', a.getAttribute('href') === '#' + cur);
-    });
+  /* ── 테마 ── */
+  var themeBtn = document.getElementById('themeBtn');
+  var themeLabel = document.getElementById('themeLabel');
+  function syncLabel() {
+    var dark = document.documentElement.getAttribute('data-theme') === 'dark';
+    themeLabel.textContent = dark ? 'LIGHT' : 'DARK';
+    themeBtn.setAttribute('aria-label', dark ? '라이트 모드 전환' : '다크 모드 전환');
+  }
+  syncLabel();
+  themeBtn.addEventListener('click', function () {
+    var dark = document.documentElement.getAttribute('data-theme') === 'dark';
+    document.documentElement.setAttribute('data-theme', dark ? 'light' : 'dark');
+    try { localStorage.setItem('theme', dark ? 'light' : 'dark'); } catch (e) {}
+    syncLabel();
   });
 
-  // ── Video Modal ──
-  const modal = document.getElementById('videoModal');
-  const modalIframe = document.getElementById('modalIframe');
-  const modalTitle = document.getElementById('modalTitle');
+  /* ── 스크롤: 진행바 · 네비 상태 · 활성 링크 ── */
+  var nav = document.getElementById('nav');
+  var bar = document.getElementById('progress');
+  var links = Array.prototype.slice.call(document.querySelectorAll('.nav-links a'));
+  var targets = links.map(function (a) { return document.querySelector(a.getAttribute('href')); });
+  var ticking = false;
 
-  function openModal(fileId, title) {
-    modalIframe.src = `https://drive.google.com/file/d/${fileId}/preview`;
-    modalTitle.textContent = title;
-    modal.classList.add('open');
-    document.body.style.overflow = 'hidden';
+  function onScroll() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function () {
+      var y = window.scrollY;
+      var max = document.documentElement.scrollHeight - window.innerHeight;
+      bar.style.width = (max > 0 ? (y / max) * 100 : 0) + '%';
+      nav.classList.toggle('scrolled', y > 8);
+
+      var cur = -1;
+      targets.forEach(function (s, i) {
+        if (s && y >= s.offsetTop - 140) cur = i;
+      });
+      links.forEach(function (a, i) { a.classList.toggle('active', i === cur); });
+      ticking = false;
+    });
   }
-  function closeModal() {
-    modal.classList.remove('open');
-    modalIframe.src = '';
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll, { passive: true });
+  onScroll();
+
+  /* ── 모바일 메뉴 ── */
+  var menuBtn = document.getElementById('menuBtn');
+  var menu = document.getElementById('mobileMenu');
+  function closeMenu() {
+    menu.classList.remove('open');
+    menuBtn.setAttribute('aria-expanded', 'false');
+    menuBtn.textContent = 'MENU';
     document.body.style.overflow = '';
   }
-
-  document.querySelectorAll('.project-card[data-video]').forEach(card => {
-    card.addEventListener('click', (e) => {
-      if (e.target.closest('.card-links')) return; // 링크 클릭은 모달 안 열기
-      openModal(card.dataset.video, card.dataset.videoTitle);
-    });
+  menuBtn.addEventListener('click', function () {
+    var open = menu.classList.toggle('open');
+    menuBtn.setAttribute('aria-expanded', String(open));
+    menuBtn.textContent = open ? 'CLOSE' : 'MENU';
+    document.body.style.overflow = open ? 'hidden' : '';
   });
-  document.getElementById('modalClose').addEventListener('click', closeModal);
-  modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+  menu.addEventListener('click', function (e) { if (e.target.closest('a')) closeMenu(); });
 
-  // ── Theme Toggle ──
-  const themeToggle = document.getElementById('themeToggle');
-  const themeLabel = themeToggle.querySelector('.label');
-
-  function setTheme(dark) {
-    document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
-    themeLabel.textContent = dark ? 'NIGHT' : 'DAY';
-    localStorage.setItem('theme', dark ? 'dark' : 'light');
+  /* ── 등장 애니메이션 ── */
+  var revealables = document.querySelectorAll('[data-reveal]');
+  if (reduce || !('IntersectionObserver' in window)) {
+    revealables.forEach(function (el) { el.classList.add('in'); });
+  } else {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    revealables.forEach(function (el) { io.observe(el); });
   }
 
-  // 저장된 테마 불러오기
-  const savedTheme = localStorage.getItem('theme');
-  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  setTheme(savedTheme ? savedTheme === 'dark' : prefersDark);
-
-  themeToggle.addEventListener('click', () => {
-    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-    setTheme(!isDark);
+  /* ── 스택 칩 접기 (10개 초과 시) ── */
+  document.querySelectorAll('.stack').forEach(function (stack) {
+    var items = Array.prototype.slice.call(stack.children);
+    if (items.length <= 11) return;
+    var hidden = items.slice(10);
+    hidden.forEach(function (el) { el.classList.add('extra', 'hide'); });
+    var more = document.createElement('button');
+    more.className = 'more';
+    more.type = 'button';
+    more.textContent = '+' + hidden.length + ' more';
+    more.addEventListener('click', function () {
+      var opened = hidden[0].classList.contains('hide');
+      hidden.forEach(function (el) { el.classList.toggle('hide', !opened); });
+      more.textContent = opened ? '− 접기' : '+' + hidden.length + ' more';
+    });
+    stack.appendChild(more);
   });
 
-  // ── Project filter ──
-  const filterBtns = document.querySelectorAll('.filter-btn');
-  const cards = document.querySelectorAll('.project-card');
-  filterBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      filterBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      const f = btn.dataset.filter;
-      cards.forEach(c => {
-        const cats = c.dataset.category.split(' ');
-        const match = f === 'all' || cats.includes(f);
-        c.classList.toggle('hidden', !match);
+  /* ── 프로젝트 필터 ── */
+  var filters = document.querySelectorAll('.filter');
+  var projects = document.querySelectorAll('.project');
+  var status = document.getElementById('filterStatus');
+  filters.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var f = btn.dataset.filter;
+      filters.forEach(function (b) { b.setAttribute('aria-pressed', String(b === btn)); });
+      var shown = 0;
+      projects.forEach(function (p) {
+        var match = f === 'all' || p.dataset.cat.split(' ').indexOf(f) !== -1;
+        p.classList.toggle('hide', !match);
+        if (match) shown++;
       });
+      status.textContent = shown + ' / ' + projects.length + ' projects shown';
     });
   });
+
+  /* ── 데모 영상 모달 ── */
+  var modal = document.getElementById('modal');
+  var frame = document.getElementById('modalFrame');
+  var mTitle = document.getElementById('modalTitle');
+  var lastFocus = null;
+
+  /* 붙여넣은 값이 파일 ID든 전체 URL이든(드라이브 / 유튜브) 임베드 주소로 변환한다 */
+  function youtubeId(s) {
+    var m = s.match(/(?:v=|youtu\.be\/|embed\/|shorts\/|live\/)([\w-]{11})/);
+    return m ? m[1] : s;
+  }
+  function driveId(s) {
+    var m = s.match(/\/d\/([\w-]+)/) || s.match(/[?&]id=([\w-]+)/);
+    return m ? m[1] : s;
+  }
+  function embedSrc(btn) {
+    var yt = (btn.dataset.youtube || '').trim();
+    var raw = (btn.dataset.video || '').trim();
+    if (yt) return 'https://www.youtube-nocookie.com/embed/' + youtubeId(yt) + '?autoplay=1&rel=0';
+    if (/youtu\.?be/.test(raw)) return 'https://www.youtube-nocookie.com/embed/' + youtubeId(raw) + '?autoplay=1&rel=0';
+    return 'https://drive.google.com/file/d/' + driveId(raw) + '/preview';
+  }
+
+  function openModal(btn) {
+    lastFocus = btn;
+    frame.src = embedSrc(btn);
+    mTitle.textContent = btn.dataset.videoTitle || '데모 영상';
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    document.getElementById('modalClose').focus();
+  }
+  function closeModal() {
+    if (!modal.classList.contains('open')) return;
+    modal.classList.remove('open');
+    frame.src = 'about:blank';
+    document.body.style.overflow = '';
+    if (lastFocus) lastFocus.focus();
+  }
+  document.querySelectorAll('.plink.play').forEach(function (btn) {
+    /* 영상 링크가 비어 있으면 버튼을 노출하지 않는다 */
+    if (!(btn.dataset.video || btn.dataset.youtube || '').trim()) { btn.remove(); return; }
+    btn.addEventListener('click', function () { openModal(btn); });
+  });
+  document.getElementById('modalClose').addEventListener('click', closeModal);
+  modal.addEventListener('click', function (e) { if (e.target === modal) closeModal(); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape') return;
+    closeModal();
+    if (menu.classList.contains('open')) closeMenu();
+  });
+
+  /* 모달 포커스 트랩 */
+  modal.addEventListener('keydown', function (e) {
+    if (e.key !== 'Tab') return;
+    var f = modal.querySelectorAll('button, iframe, [href]');
+    if (!f.length) return;
+    var first = f[0], last = f[f.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  });
+})();
 </script>
 </body>
 </html>
