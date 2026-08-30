@@ -560,14 +560,14 @@
         <!-- Metrics -->
         <section class="metrics">
             <div class="metric">
-                <div class="metric-value">99.89%</div>
+                <div class="metric-value">88.0%</div>
                 <div class="metric-label">외부 API 호출 절감</div>
-                <div class="metric-sub">주식 자동매매 · KIS Open API · 2025.12–2026.03 적용 전·후 비교</div>
+                <div class="metric-sub">주식 자동매매 대시보드 경로 · 분당 72.0 → 8.7회 · 벤치마크로 재현 가능</div>
             </div>
             <div class="metric">
-                <div class="metric-value">10s → 0.05s</div>
-                <div class="metric-label">평균 응답 시간 단축</div>
-                <div class="metric-sub">주식 자동매매 조회 경로 · TTL 다층 캐싱 적용 후</div>
+                <div class="metric-value">59.5%</div>
+                <div class="metric-label">트레이딩 루프 호출 절감</div>
+                <div class="metric-sub">손절 판단 지연 0초 유지 · 호출 지점별 TTL 분리</div>
             </div>
             <div class="metric">
                 <div class="metric-value">79.3%</div>
@@ -581,7 +581,7 @@
             <div class="section-title">About</div>
             <p class="summary">
                 <strong>전기공학 전공으로 쌓은 회로·신호 처리 사고를 소프트웨어 안정성과 성능 최적화에 적용해 왔습니다.</strong>
-                RAG 파이프라인을 단독으로 설계·구현했고, TTL 다층 캐싱으로 외부 API 호출을 크게 줄였으며,
+                RAG 파이프라인을 단독으로 설계·구현했고, 데이터 종류별 TTL 캐시으로 외부 API 호출을 크게 줄였으며,
                 Kubernetes + ArgoCD 기반 배포 파이프라인과 멀티 프로바이더 폴백 구조로 외부 의존성 장애에도
                 서비스가 이어지도록 구성해 왔습니다. 개발 종료 이후의 운영·장애 대응까지 설계 범위에 포함시키는 편입니다.
             </p>
@@ -594,9 +594,9 @@
                 <div class="comp-item">
                     <div class="comp-label">비용 · 성능 최적화</div>
                     <div class="comp-body">
-                        외부 API 의존도가 높은 서비스에서 TTL 다층 캐싱·배치 호출 재설계로 호출량과 지연을 함께 낮춥니다.
-                        <span class="num">주식 자동매매에서 호출 99.89% 절감, 응답 10s → 0.05s.</span>
-                        인프라 증설보다 호출 경로 자체를 줄이는 방향을 먼저 검토합니다.
+                        외부 API 의존도가 높은 서비스에서 데이터 종류별 TTL 캐시로 호출량을 낮춥니다.
+                        <span class="num">주식 자동매매 대시보드 경로 88.0% 절감, 트레이딩 루프 59.5% 절감(손절 판단 지연 0초).</span>
+                        인프라 증설보다 호출 경로 자체를 줄이는 방향을 먼저 검토하고, 개선 수치는 재현 가능한 벤치마크로 검증합니다.
                     </div>
                 </div>
                 <div class="comp-item">
@@ -761,7 +761,7 @@
                 <div class="subhead">해결</div>
 
                 <div class="decision">
-                    <strong>TTL 다층 캐싱 + 조회 경로 배치화 (주식)</strong>
+                    <strong>데이터 종류별 TTL 캐시 + 조회 경로 배치화 (주식)</strong>
                     동일 데이터 재호출을 캐시 계층에서 제거하고, 종목별 개별 호출을 배치로 묶어 라운드트립을 줄였습니다.
                 </div>
 
@@ -777,8 +777,9 @@
                     <div class="secondary-item">
                         <h5>주식 자동매매 (KOSPI / NASDAQ)</h5>
                         <ul>
-                            <li>외부 API <strong>호출 99.89% 절감</strong> (적용 전·후 비교)</li>
-                            <li>평균 응답 <strong>10s → 0.05s</strong> 단축</li>
+                            <li>외부 API <strong>호출 88.0% 절감</strong> (대시보드 경로, 분당 72.0 → 8.7회)</li>
+                            <li>트레이딩 루프 <strong>59.5% 절감</strong> — 손절 판단 지연 0초 유지</li>
+                            <li>캐싱 레이어·벤치마크를 <strong>별도 레포로 공개</strong>해 수치 재현 가능</li>
                             <li>KIS Open API + 8종 기술적 지표 자동 계산</li>
                             <li>GCP e2-micro 상시 운영, 장애 시 Telegram 알림</li>
                             <li>백테스팅 파이프라인 구축 — 기간·전략별 성과 반복 검증 (2025.12–2026.03)</li>
@@ -848,7 +849,7 @@
                         <li>PostgreSQL, pgvector, Redis, MongoDB</li>
                         <li>Prisma ORM</li>
                         <li>WebSocket 실시간 처리</li>
-                        <li>TTL 다층 캐싱 설계</li>
+                        <li>데이터 종류별 TTL 캐시 설계</li>
                     </ul>
                 </div>
                 <div class="skill-category">
@@ -896,7 +897,7 @@
         </section>
 
         <div class="footer">
-            Last updated 2026.06<span class="print-hint"> · 인쇄 시 Ctrl + P 로 PDF 저장</span>
+            Last updated 2026.08<span class="print-hint"> · 인쇄 시 Ctrl + P 로 PDF 저장</span>
         </div>
     </div>
 </body>
