@@ -1611,7 +1611,6 @@ footer a:hover { color: var(--ink); }
 
         <!-- ── 목록 ── -->
         <div data-reveal style="--d:110ms">
-          <div class="fb-local-badge" id="fbLocalBadge" hidden>미리보기 모드 · 이 브라우저에만 저장됨</div>
           <div class="fb-board-head">
             <span class="t">남겨진 메모</span>
             <span class="mono num" id="fbTotal">0</span>
@@ -1987,6 +1986,8 @@ footer a:hover { color: var(--ink); }
       .then(function (r) { return r.json(); })
       .then(function (res) {
         if (!res || res.ok !== true) throw new Error((res && res.error) || 'save failed');
+        /* 사람이 낸 요청이 트랩에 걸릴 일은 없다 — 걸렸다면 서버 쪽이 잘못된 것이니 성공으로 보이면 안 된다 */
+        if (res.trap) throw new Error('server dropped it as a bot');
       });
   }
 
