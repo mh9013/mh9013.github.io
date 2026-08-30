@@ -695,7 +695,156 @@ header.nav.scrolled { border-bottom-color: var(--line); }
 .link-row:hover .arw { transform: translateX(5px); color: var(--ink); }
 
 /* ═══════════════════════════════════════════════
-   10. FOOTER
+   10. FEEDBACK BOARD
+   ═══════════════════════════════════════════════ */
+#feedback { background: var(--paper-2); }
+
+.fb-grid {
+  display: grid; grid-template-columns: minmax(0, .92fr) minmax(0, 1.08fr);
+  gap: clamp(36px, 6vw, 72px); align-items: start;
+}
+
+/* ── 왼쪽: 안내 + 작성 폼 ── */
+.fb-intro h3 {
+  font-size: clamp(1.4rem, 2.6vw, 1.9rem); font-weight: 700;
+  letter-spacing: -.04em; line-height: 1.35; margin-bottom: 14px; word-break: keep-all;
+}
+.fb-intro p { font-size: .93rem; line-height: 1.85; color: var(--ink-2); word-break: keep-all; }
+
+/* 빈 화면 앞에서 멈추지 않도록 질문을 미리 깔아 둔다 */
+.fb-prompts { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0 26px; }
+.fb-prompt {
+  font-family: var(--font-sans); font-size: .75rem; line-height: 1.4;
+  padding: 7px 13px; border: 1px dashed var(--line); border-radius: 999px;
+  background: transparent; color: var(--ink-3); cursor: pointer;
+  transition: color .2s var(--ease), border-color .2s var(--ease);
+}
+.fb-prompt:hover { color: var(--accent); border-color: var(--accent); border-style: solid; }
+
+.fb-form { display: flex; flex-direction: column; gap: 14px; }
+[data-theme="dark"] .fb-form { color-scheme: dark; }
+.fb-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.fb-field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.fb-field label {
+  font-family: var(--font-mono); font-size: .62rem; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--ink-3);
+}
+.fb-form input[type="text"], .fb-form select, .fb-form textarea {
+  width: 100%; font-family: var(--font-sans); font-size: .9rem; color: var(--ink);
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 11px 13px;
+  transition: border-color .2s var(--ease), box-shadow .2s var(--ease);
+}
+.fb-form textarea { min-height: 130px; resize: vertical; line-height: 1.75; }
+.fb-form select { cursor: pointer; }
+.fb-form input[type="text"]:focus, .fb-form select:focus, .fb-form textarea:focus {
+  outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft);
+}
+.fb-form input[type="text"]::placeholder, .fb-form textarea::placeholder { color: var(--ink-3); }
+
+/* ── 공개 / 비공개 고르기 ── */
+.fb-vis { display: flex; flex-direction: column; gap: 8px; border: 0; padding: 0; margin: 0; min-width: 0; }
+.fb-vis legend {
+  float: left; width: 100%; padding: 0; margin-bottom: 8px;
+  font-family: var(--font-mono); font-size: .62rem; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--ink-3);
+}
+.fb-seg { display: flex; gap: 8px; flex-wrap: wrap; clear: both; }
+.fb-opt { position: relative; display: inline-flex; cursor: pointer; }
+.fb-opt input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.fb-opt-in {
+  display: inline-flex; align-items: center; gap: 9px;
+  padding: 9px 15px; border: 1px solid var(--line); border-radius: 999px;
+  background: var(--surface); font-size: .82rem; color: var(--ink-2);
+  transition: border-color .2s var(--ease), color .2s var(--ease), background .2s var(--ease);
+}
+.fb-opt:hover .fb-opt-in { border-color: var(--ink-3); color: var(--ink); }
+.fb-radio {
+  flex: none; width: 13px; height: 13px; border-radius: 50%;
+  border: 1px solid var(--ink-3);
+  transition: border-color .2s var(--ease), background .2s var(--ease), box-shadow .2s var(--ease);
+}
+.fb-opt input:checked + .fb-opt-in {
+  border-color: var(--accent); color: var(--ink); background: var(--accent-soft);
+}
+.fb-opt input:checked + .fb-opt-in .fb-radio {
+  border-color: var(--accent); background: var(--accent);
+  box-shadow: inset 0 0 0 3px var(--surface);
+}
+.fb-opt input:focus-visible + .fb-opt-in { outline: 2px solid var(--accent); outline-offset: 2px; }
+.fb-vis-hint { font-size: .76rem; line-height: 1.65; color: var(--ink-3); word-break: keep-all; }
+
+/* 봇 트랩 — 사람에게는 보이지 않는다 */
+.fb-trap {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap;
+}
+
+.fb-actions { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.fb-count {
+  font-family: var(--font-mono); font-size: .64rem; letter-spacing: .08em; color: var(--ink-3);
+}
+.fb-count.over { color: var(--accent-2); }
+.fb-status {
+  flex: 1; min-width: 0; font-size: .78rem; line-height: 1.5; color: var(--ink-3);
+  word-break: keep-all;
+}
+.fb-status.err { color: var(--accent-2); }
+.fb-status.ok { color: var(--accent); }
+.fb-submit[disabled] { opacity: .5; cursor: not-allowed; transform: none; }
+
+/* ── 오른쪽: 남겨진 메모 ── */
+.fb-board-head {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 12px;
+  padding-bottom: 12px; margin-bottom: 4px; border-bottom: 1px solid var(--line);
+}
+.fb-board-head .t { font-size: .95rem; font-weight: 600; letter-spacing: -.02em; }
+
+.fb-list { display: flex; flex-direction: column; }
+.fb-note {
+  padding: 20px 4px; border-bottom: 1px solid var(--line);
+  animation: fbIn .45s var(--ease) both;
+}
+@keyframes fbIn { from { opacity: 0; transform: translateY(10px); } }
+.fb-note-head {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 9px;
+}
+.fb-who { font-size: .88rem; font-weight: 600; letter-spacing: -.02em; }
+.fb-tag {
+  font-family: var(--font-mono); font-size: .58rem; letter-spacing: .1em; text-transform: uppercase;
+  padding: 3px 8px; border-radius: 999px;
+  background: var(--accent-soft); color: var(--accent);
+}
+.fb-when {
+  margin-left: auto; font-family: var(--font-mono); font-size: .62rem;
+  letter-spacing: .06em; color: var(--ink-3);
+}
+.fb-body {
+  font-size: .91rem; line-height: 1.8; color: var(--ink-2);
+  white-space: pre-wrap; word-break: break-word; overflow-wrap: anywhere;
+}
+
+.fb-empty {
+  padding: 40px 4px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+  font-size: .88rem; line-height: 1.8; color: var(--ink-3); word-break: keep-all;
+}
+.fb-more {
+  align-self: flex-start; margin-top: 16px;
+  font-family: var(--font-mono); font-size: .64rem; letter-spacing: .1em; text-transform: uppercase;
+  padding: 8px 14px; border: 1px solid var(--line); border-radius: 999px;
+  background: transparent; color: var(--ink-3); cursor: pointer;
+  transition: color .2s var(--ease), border-color .2s var(--ease);
+}
+.fb-more:hover { color: var(--ink); border-color: var(--ink-3); }
+
+.fb-local-badge {
+  display: inline-flex; align-items: center; gap: 7px; margin-bottom: 18px;
+  font-family: var(--font-mono); font-size: .6rem; letter-spacing: .1em; text-transform: uppercase;
+  padding: 6px 11px; border: 1px dashed var(--accent-2); border-radius: 999px; color: var(--accent-2);
+}
+
+/* ═══════════════════════════════════════════════
+   11. FOOTER
    ═══════════════════════════════════════════════ */
 footer {
   position: relative; z-index: 1;
@@ -711,7 +860,7 @@ footer a:hover { color: var(--ink); }
 .to-top { display: inline-flex; align-items: center; gap: 7px; }
 
 /* ═══════════════════════════════════════════════
-   11. MODAL
+   12. MODAL
    ═══════════════════════════════════════════════ */
 .modal {
   position: fixed; inset: 0; z-index: 200;
@@ -745,7 +894,7 @@ footer a:hover { color: var(--ink); }
 .modal-video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
 
 /* ═══════════════════════════════════════════════
-   12. REVEAL / MOTION
+   13. REVEAL / MOTION
    ═══════════════════════════════════════════════ */
 [data-reveal] {
   opacity: 0; transform: translateY(18px);
@@ -765,7 +914,7 @@ footer a:hover { color: var(--ink); }
 }
 
 /* ═══════════════════════════════════════════════
-   13. RESPONSIVE
+   14. RESPONSIVE
    ═══════════════════════════════════════════════ */
 @media (max-width: 1080px) {
   .hero-grid { grid-template-columns: 1fr; gap: 44px; }
@@ -782,7 +931,7 @@ footer a:hover { color: var(--ink); }
   .p-meta { margin-bottom: 0; }
   .metrics { grid-template-columns: 1fr; border-bottom: none; }
   .metric { border-right: none; border-bottom: 1px solid var(--line); padding-right: 0; }
-  .contact-grid, .cred-grid { grid-template-columns: 1fr; }
+  .contact-grid, .cred-grid, .fb-grid { grid-template-columns: 1fr; }
   .sec-head { flex-wrap: wrap; }
   .sec-head .sub { margin-left: 0; text-align: left; max-width: none; flex-basis: 100%; }
 }
@@ -795,10 +944,11 @@ footer a:hover { color: var(--ink); }
   .scroll-cue { display: none; }
   .cred-row { flex-direction: column; gap: 3px; }
   .hero h1 .accent { white-space: normal; }
+  .fb-row { grid-template-columns: 1fr; }
 }
 
 @media print {
-  header.nav, .modal, .scroll-cue, .filters, footer .to-top, .mobile-menu { display: none !important; }
+  header.nav, .modal, .scroll-cue, .filters, footer .to-top, .mobile-menu, #feedback { display: none !important; }
   body { background: #fff; }
   body::before { display: none; }
   section { padding: 24px 0; }
@@ -820,6 +970,7 @@ footer a:hover { color: var(--ink); }
       <li><a href="#work">Work</a></li>
       <li><a href="#credentials">Credentials</a></li>
       <li><a href="#contact">Contact</a></li>
+      <li><a href="#feedback">Feedback</a></li>
     </ul>
   </nav>
   <div class="nav-actions">
@@ -839,6 +990,7 @@ footer a:hover { color: var(--ink); }
   <a href="#work"><span>02</span>Work</a>
   <a href="#credentials"><span>03</span>Credentials</a>
   <a href="#contact"><span>04</span>Contact</a>
+  <a href="#feedback"><span>05</span>Feedback</a>
   <a href="resume.html"><span>↗</span>Resume</a>
 </div>
 
@@ -1371,6 +1523,106 @@ footer a:hover { color: var(--ink); }
     </div>
   </section>
 
+
+  <!-- ══ FEEDBACK ══ -->
+  <section id="feedback">
+    <div class="wrap">
+      <div class="sec-head" data-reveal>
+        <span class="idx">05</span>
+        <h2>Feedback</h2>
+        <span class="sub">로그인 없이 익명으로, 공개든 비공개든 남길 수 있습니다. 짧은 한 줄도 큰 도움이 됩니다.</span>
+      </div>
+
+      <div class="fb-grid">
+        <!-- ── 작성 ── -->
+        <div class="fb-intro" data-reveal>
+          <h3>솔직한 피드백을 구합니다.</h3>
+          <p>
+            서류에서 자주 떨어지는데 이유를 알려주는 곳이 없습니다.
+            이 포트폴리오·이력서를 보시고 <strong>탈락시킬 만한 지점</strong>이 무엇인지 알려주시면
+            그대로 고치겠습니다. 칭찬보다 지적이 훨씬 도움이 됩니다.
+            남의 포트폴리오에 공개로 적기 부담스러운 말이라면 <strong>비공개</strong>로 남겨 주세요.
+            사이트에는 표시되지 않고 저에게만 전달됩니다.
+          </p>
+
+          <div class="fb-prompts" id="fbPrompts">
+            <button class="fb-prompt" type="button">가장 약해 보이는 부분은?</button>
+            <button class="fb-prompt" type="button">이 이력서를 서류에서 거른다면 이유는?</button>
+            <button class="fb-prompt" type="button">프로젝트 중 가장 안 와닿는 건?</button>
+            <button class="fb-prompt" type="button">뭘 더 어디서 어떻게 배워야 할까요?</button>
+            <button class="fb-prompt" type="button">추천해주고 싶은 도서는?</button>
+          </div>
+
+          <form class="fb-form" id="fbForm" novalidate>
+            <div class="fb-row">
+              <div class="fb-field">
+                <label for="fbName">이름 / 회사명 /닉네임 (선택)</label>
+                <input type="text" id="fbName" name="name" maxlength="24" placeholder="익명" autocomplete="off"/>
+              </div>
+              <div class="fb-field">
+                <label for="fbRole">어떤 분이신가요</label>
+                <select id="fbRole" name="role">
+                  <option value="">밝히지 않음</option>
+                  <option value="채용담당자">채용담당자 · 헤드헌터</option>
+                  <option value="현직 개발자">현직 개발자</option>
+                  <option value="취준 동료">취준 동료</option>
+                  <option value="지인">지인</option>
+                  <option value="기타">기타</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="fb-field">
+              <label for="fbMsg">메모</label>
+              <textarea id="fbMsg" name="message" maxlength="1000"
+                        placeholder="예) 프로젝트 3개가 다 비슷해 보여서 차별점이 안 보입니다. 하나를 깊게 파는 편이…"></textarea>
+            </div>
+
+            <fieldset class="fb-vis">
+              <legend>어떻게 남길까요</legend>
+              <div class="fb-seg">
+                <label class="fb-opt">
+                  <input type="radio" name="visibility" value="public" checked/>
+                  <span class="fb-opt-in"><span class="fb-radio"></span>공개</span>
+                </label>
+                <label class="fb-opt">
+                  <input type="radio" name="visibility" value="private"/>
+                  <span class="fb-opt-in"><span class="fb-radio"></span>비공개</span>
+                </label>
+              </div>
+              <p class="fb-vis-hint" id="fbVisHint">아래 목록에 함께 표시됩니다.</p>
+            </fieldset>
+
+            <!-- 봇 트랩: 사람은 보지 못하는 칸 -->
+            <div class="fb-trap" aria-hidden="true">
+              <label for="fbSite">이 칸은 비워 두세요</label>
+              <input type="text" id="fbSite" name="website" tabindex="-1" autocomplete="off"/>
+            </div>
+
+            <div class="fb-actions">
+              <button class="btn btn-solid fb-submit" type="submit" id="fbSubmit">
+                남기기 <span class="arw">→</span>
+              </button>
+              <span class="fb-count" id="fbCount">0 / 1000</span>
+              <span class="fb-status" id="fbStatus" role="status" aria-live="polite"></span>
+            </div>
+          </form>
+        </div>
+
+        <!-- ── 목록 ── -->
+        <div data-reveal style="--d:110ms">
+          <div class="fb-local-badge" id="fbLocalBadge" hidden>미리보기 모드 · 이 브라우저에만 저장됨</div>
+          <div class="fb-board-head">
+            <span class="t">남겨진 메모</span>
+            <span class="mono num" id="fbTotal">0</span>
+          </div>
+          <div class="fb-list" id="fbList"></div>
+          <button class="fb-more" id="fbMore" hidden>더 보기</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
 </main>
 
 <!-- ══ MODAL ══ -->
@@ -1570,5 +1822,275 @@ footer a:hover { color: var(--ink); }
   });
 })();
 </script>
+
+<!-- ══ FEEDBACK BOARD ══ -->
+<script>
+(function () {
+  'use strict';
+
+  /* ═══════════════════════════════════════════════════════════════
+     설정 — 여기 한 줄만 바꾸면 된다.
+
+     ''(빈 값) : 미리보기 모드. 글이 이 브라우저에만 저장되고 남에게 안 보인다.
+     Apps Script 웹앱 주소(https://script.google.com/macros/s/…/exec)를 넣으면
+     모든 방문자가 같은 목록을 보고, 내용은 내 구글 시트에 쌓인다.
+     발급 방법은 FEEDBACK_SETUP.md 참고.
+     ═══════════════════════════════════════════════════════════════ */
+  var FEEDBACK_API = 'https://script.google.com/macros/s/AKfycbx99zmCZCMv7CmAWULz6_n9oLL4K2opQi_ablUvNlIsJwygXeZ_mXrpoHfGSNXyiNz-yA/exec';
+
+  var PAGE     = 5;      /* 한 번에 보여줄 메모 수 */
+  var COOLDOWN = 30000;  /* 연속 작성 제한 (ms) */
+  var LS_ITEMS = 'fb:items';
+  var LS_LAST  = 'fb:last';
+
+  var form = document.getElementById('fbForm');
+  if (!form) return;
+  var elName  = document.getElementById('fbName');
+  var elRole  = document.getElementById('fbRole');
+  var elMsg   = document.getElementById('fbMsg');
+  var elTrap  = document.getElementById('fbSite');
+  var elBtn   = document.getElementById('fbSubmit');
+  var elCnt   = document.getElementById('fbCount');
+  var elSt    = document.getElementById('fbStatus');
+  var elList  = document.getElementById('fbList');
+  var elTot   = document.getElementById('fbTotal');
+  var elMore  = document.getElementById('fbMore');
+  var elBadge = document.getElementById('fbLocalBadge');
+  var elHint  = document.getElementById('fbVisHint');
+
+  var remote = /^https?:/.test(FEEDBACK_API);
+  var items  = [];
+  var shown  = PAGE;
+
+  /* ── 유틸 ── */
+  function status(msg, kind) {
+    elSt.textContent = msg || '';
+    elSt.className = 'fb-status' + (kind ? ' ' + kind : '');
+  }
+  function ls(key, fallback) {
+    try { return JSON.parse(localStorage.getItem(key)) || fallback; }
+    catch (e) { return fallback; }
+  }
+  function lsSet(key, val) {
+    try { localStorage.setItem(key, JSON.stringify(val)); } catch (e) {}
+  }
+  function pad(n) { return n < 10 ? '0' + n : '' + n; }
+
+  function when(v) {
+    var t = typeof v === 'number' ? v : Date.parse(v);
+    if (!t || isNaN(t)) return '';
+    var d = Math.max(0, Date.now() - t);
+    var m = Math.floor(d / 60000);
+    if (m < 1)     return '방금 전';
+    if (m < 60)    return m + '분 전';
+    if (m < 1440)  return Math.floor(m / 60) + '시간 전';
+    if (m < 10080) return Math.floor(m / 1440) + '일 전';
+    var dt = new Date(t);
+    return dt.getFullYear() + '.' + pad(dt.getMonth() + 1) + '.' + pad(dt.getDate());
+  }
+  function stamp(x) { return Date.parse(x.at) || Number(x.at) || 0; }
+  function sortDesc(list) {
+    return list.slice().sort(function (a, b) { return stamp(b) - stamp(a); });
+  }
+  /* 비공개로 남긴 글은 목록에 절대 올리지 않는다 */
+  function publicOnly(list) {
+    return list.filter(function (x) { return !x.private; });
+  }
+
+  /* ── 렌더 ── */
+  function render() {
+    elList.textContent = '';
+    elTot.textContent = String(items.length);
+
+    if (!items.length) {
+      var empty = document.createElement('div');
+      empty.className = 'fb-empty';
+      empty.textContent = '아직 남겨진 메모가 없습니다. 첫 번째로 한마디 남겨 주세요 — 익명도 환영합니다.';
+      elList.appendChild(empty);
+      elMore.hidden = true;
+      return;
+    }
+
+    items.slice(0, shown).forEach(function (it) {
+      var note = document.createElement('article');
+      note.className = 'fb-note';
+
+      var head = document.createElement('div');
+      head.className = 'fb-note-head';
+
+      var who = document.createElement('span');
+      who.className = 'fb-who';
+      who.textContent = String(it.name || '').trim() || '익명';
+      head.appendChild(who);
+
+      if (String(it.role || '').trim()) {
+        var tag = document.createElement('span');
+        tag.className = 'fb-tag';
+        tag.textContent = it.role;
+        head.appendChild(tag);
+      }
+
+      var ago = document.createElement('span');
+      ago.className = 'fb-when';
+      ago.textContent = when(it.at);
+      head.appendChild(ago);
+
+      var body = document.createElement('p');
+      body.className = 'fb-body';
+      body.textContent = String(it.message || '');  /* textContent — HTML 주입 차단 */
+
+      note.appendChild(head);
+      note.appendChild(body);
+      elList.appendChild(note);
+    });
+
+    elMore.hidden = items.length <= shown;
+    elMore.textContent = '더 보기 (' + Math.max(0, items.length - shown) + ')';
+  }
+
+  /* ── 불러오기 ── */
+  function load() {
+    if (!remote) {
+      elBadge.hidden = false;
+      items = sortDesc(publicOnly(ls(LS_ITEMS, [])));
+      render();
+      return;
+    }
+    fetch(FEEDBACK_API + '?action=list', { method: 'GET' })
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        items = sortDesc((data && data.items) || []);
+        render();
+      })
+      .catch(function () {
+        /* 백엔드가 응답하지 않으면 이 브라우저 기록만이라도 보여준다 */
+        items = sortDesc(publicOnly(ls(LS_ITEMS, [])));
+        render();
+        status('메모를 불러오지 못했습니다. 새로고침 후 다시 시도해 주세요.', 'err');
+      });
+  }
+
+  /* ── 저장 ── */
+  function save(entry) {
+    var mine = ls(LS_ITEMS, []);
+    mine.unshift(entry);
+    lsSet(LS_ITEMS, mine.slice(0, 200));
+
+    if (!remote) return Promise.resolve();
+
+    /* text/plain 이라야 preflight 없이 Apps Script 로 바로 간다 */
+    return fetch(FEEDBACK_API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(entry)
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (res) {
+        if (!res || res.ok !== true) throw new Error((res && res.error) || 'save failed');
+      });
+  }
+
+  /* ── 글자 수 ── */
+  function count() {
+    var n = elMsg.value.length;
+    elCnt.textContent = n + ' / 1000';
+    elCnt.classList.toggle('over', n > 950);
+  }
+  elMsg.addEventListener('input', count);
+  count();
+
+  /* ── 공개 / 비공개 — 고른 값이 무슨 뜻인지 그 자리에서 알려 준다 ── */
+  var HINTS = {
+    public:  '아래 목록에 함께 표시됩니다.',
+    private: '사이트에는 보이지 않습니다. 김민형에게만 메일로 갑니다.'
+  };
+  function picked() {
+    var r = form.querySelector('input[name="visibility"]:checked');
+    return (r && r.value) === 'private';
+  }
+  function syncHint() { elHint.textContent = HINTS[picked() ? 'private' : 'public']; }
+  form.querySelectorAll('input[name="visibility"]').forEach(function (r) {
+    r.addEventListener('change', syncHint);
+  });
+  syncHint();
+
+  function doneMsg(priv) {
+    if (priv) {
+      return remote ? '비공개로 전달했습니다. 사이트에는 표시되지 않습니다.'
+                    : '비공개로 저장했습니다 — 미리보기 모드라 아직 전달되지는 않습니다.';
+    }
+    return remote ? '고맙습니다. 잘 받았습니다.'
+                  : '저장했습니다 — 미리보기 모드라 이 브라우저에만 보입니다.';
+  }
+
+  /* ── 질문 칩을 누르면 본문에 질문이 깔린다 (빈 화면 앞에서 멈추지 않도록) ── */
+  document.querySelectorAll('#fbPrompts .fb-prompt').forEach(function (chip) {
+    chip.addEventListener('click', function () {
+      var q = 'Q. ' + chip.textContent.trim() + '\n';
+      var cur = elMsg.value.trim();
+      elMsg.value = cur ? cur + '\n\n' + q : q;
+      elMsg.focus();
+      elMsg.setSelectionRange(elMsg.value.length, elMsg.value.length);
+      count();
+    });
+  });
+
+  elMore.addEventListener('click', function () { shown += PAGE; render(); });
+
+  /* Ctrl / ⌘ + Enter 로 제출 */
+  elMsg.addEventListener('keydown', function (e) {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') form.requestSubmit();
+  });
+
+  /* ── 제출 ── */
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (elTrap.value) return;  /* 봇 트랩에 걸린 요청은 조용히 버린다 */
+
+    var msg = elMsg.value.trim();
+    if (msg.length < 5) {
+      status('메모를 5자 이상 적어 주세요.', 'err');
+      elMsg.focus();
+      return;
+    }
+
+    var last = Number(ls(LS_LAST, 0)) || 0;
+    var wait = COOLDOWN - (Date.now() - last);
+    if (wait > 0) {
+      status('조금 전에 남기셨습니다. ' + Math.ceil(wait / 1000) + '초 후 다시 시도해 주세요.', 'err');
+      return;
+    }
+
+    var priv  = picked();
+    var entry = {
+      name:    elName.value.trim().slice(0, 24),
+      role:    elRole.value,
+      message: msg.slice(0, 1000),
+      at:      new Date().toISOString(),
+      private: priv
+    };
+
+    elBtn.disabled = true;
+    status('보내는 중…');
+
+    save(entry)
+      .then(function () {
+        lsSet(LS_LAST, Date.now());
+        if (!priv) { items = sortDesc([entry].concat(items)); render(); }
+        form.reset();
+        count();
+        syncHint();
+        status(doneMsg(priv), 'ok');
+      })
+      .catch(function () {
+        status('전송에 실패했습니다. 잠시 후 다시 시도하시거나 minhyung9013@gmail.com 으로 보내 주세요.', 'err');
+      })
+      .then(function () { elBtn.disabled = false; });
+  });
+
+  load();
+})();
+</script>
+
 </body>
 </html>
